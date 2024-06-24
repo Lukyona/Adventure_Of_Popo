@@ -133,7 +133,6 @@ public class ThirdPlayerMovement : MonoBehaviour
                 foxAnimator.SetBool("WalkBack", true);
             }
             else if (jumping == false && PlayerInfoManager.instance.sp > 0 && ((Input.GetKey(KeyCode.W)) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))//뛰기
-            
             {
                 running = true;
                 speed = 5.5f;//속도 증가
@@ -160,7 +159,8 @@ public class ThirdPlayerMovement : MonoBehaviour
                 DontMove();
             }
         }
-        else if ((Input.GetKey(KeyCode.W)) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        else if ((Input.GetKey(KeyCode.W)) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)
+                    || (Input.GetKey(KeyCode.UpArrow)) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {// 쉬프트키 없이 이동조작키 누르면 그냥 걷기
             foxAnimator.SetBool("WalkBack", false);
             foxAnimator.SetBool("Run", false);

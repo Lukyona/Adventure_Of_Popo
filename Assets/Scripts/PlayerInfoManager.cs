@@ -35,7 +35,15 @@ public class PlayerInfoManager : MonoBehaviour
 
     public void HPCheat()
     {
-        hp += 50;
+        if(hp >= 1)
+        {
+            hp += 100;
+            if (hp >= hpMax)
+            {
+                hp = hpMax;
+            }
+            HP_Update();
+        }
     }
 
     public int sp = 12; // 스태미나 포인트, 초기값 12
@@ -85,6 +93,7 @@ public class PlayerInfoManager : MonoBehaviour
     }
 
     bool recSp = false; //스태미나 회복중
+
     private void Update()
     {
         if(sp < spMax && !recSp && !ThirdPlayerMovement.instance.running && !death)
@@ -513,11 +522,15 @@ public class PlayerInfoManager : MonoBehaviour
         if (monster.name.Contains("Mushroom"))
         {
             exp += 33;
-            Invoke(nameof(Check_All_Died), 1f);
         }
         if (monster.name.Contains("Dog"))
         {
             exp += 48;
+        }
+
+        if(GameDirector.instance.mainCount == 7)
+        {
+            Invoke(nameof(Check_All_Died), 1f);
         }
 
         if (exp >= expMax && level != 5)//레벨업, 5레벨 아닐 때만 가능
@@ -796,10 +809,12 @@ public class PlayerInfoManager : MonoBehaviour
             }
             else if(GameDirector.instance.mainCount == 9)//문지기 발견 후
             {
+                Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 GameDirector.instance.BgmPlay3();//배경음악 변경
             }
             else if(GameDirector.instance.mainCount > 9 && GameDirector.instance.mainCount <= 10)//문지기 쓰러뜨린 후
             {
+                Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
                 Destroy(MonsterHPBar.instance.dog);//문지기 파괴
                 Destroy(GameDirector.instance.gkDiscover);
@@ -808,6 +823,7 @@ public class PlayerInfoManager : MonoBehaviour
             }
             else if(GameDirector.instance.mainCount >= 13)//모든 게 끝난 뒤
             {
+                Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
                 Destroy(MonsterHPBar.instance.dog);//문지기 파괴
                 Destroy(GameDirector.instance.gkDiscover);

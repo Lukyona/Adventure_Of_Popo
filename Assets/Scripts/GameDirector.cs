@@ -203,6 +203,7 @@ public class GameDirector : MonoBehaviour
 
 
     public Animator GameCloseAnimator;//게임 종료 메세지 보드 애니메이터
+
     bool closeBoard = false;
     private void Update()
     {
@@ -213,6 +214,16 @@ public class GameDirector : MonoBehaviour
                 closeBoard = true;
                 GameCloseAnimator.SetTrigger("Down");//게임 종료 메세지 보드 다운
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0)) //체력 치트
+        {
+            PlayerInfoManager.instance.HPCheat();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKeyDown(KeyCode.T))
+        {
+            PlayerInfoManager.instance.ResetData();
         }
     }
 
@@ -426,5 +437,23 @@ public class GameDirector : MonoBehaviour
     public void Destroy_Fence()//펜스 파괴
     {
         Destroy(fenceObject);
+    }
+
+    public AudioSource attack1;
+    public void Attack1_Sound()
+    {
+        attack1.Play();
+    }
+
+    public AudioSource attack2;
+    public void Attack2_Sound()
+    {
+        attack2.Play();
+    }
+
+    public AudioSource attack3;
+    public void Attack3_Sound()
+    {
+        attack3.Play();
     }
 }

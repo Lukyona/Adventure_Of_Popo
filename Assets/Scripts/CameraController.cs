@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        float distance = Input.GetAxis("Mouse ScrollWheel") * -1 * zoomSpeed;//마우스 휠로 카메라 확대/축소
+        float distance = Input.GetAxis("Mouse ScrollWheel") * -1 * zoomSpeed;
 
         if (thisCamera.m_Lens.FieldOfView < 20f)
         {

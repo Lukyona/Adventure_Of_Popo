@@ -129,6 +129,12 @@ public class FriendController : MonoBehaviour
                     npcMove(direction, 3.7f);//비교적 가까울 때
  
                 }
+
+                if(distance > 40) //너무 멀면 근처로 순간이동 
+                {
+                    float random = Random.Range(-5.0f, 5.0f);
+                    transform.position = new Vector3(player.position.x + random, player.position.y, player.position.z + random);
+                }
             }
         }
         else
@@ -168,8 +174,8 @@ public class FriendController : MonoBehaviour
                 PlayerAttack.instance.target = null;
             }
             else if((GameDirector.instance.mainCount == 9 && PlayerAttack.instance.target.GetComponent<MonsterController>().health <= 0) 
-                || (GameDirector.instance.mainCount == 10 && MonsterHPBar.instance.boss.GetComponent<MonsterController>().health <= 0))
-            {
+                || (GameDirector.instance.mainCount == 10 && (MonsterHPBar.instance.boss.GetComponent<MonsterController>().health <= 0) || PlayerInfoManager.instance.death))
+            {//보스전이어도 플레이어 죽으면 전투 해제
                 battle = false;//동료 전투 상태 해제
                 PlayerAttack.instance.target = null;
             }

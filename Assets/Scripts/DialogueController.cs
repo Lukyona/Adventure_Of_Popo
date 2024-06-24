@@ -270,6 +270,9 @@ public class DialogueController : MonoBehaviour
     {
         switch(d_num)
         {
+            case 1:
+                NameTag.gameObject.SetActive(false);
+                break;
             case 2://울타리 부술 때
                 switch(Index)
                 {
@@ -396,7 +399,7 @@ public class DialogueController : MonoBehaviour
                         NameTag.gameObject.SetActive(true);//포포 
                         Name.text = "포포";
                         NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
-                        if(Index == 6)
+                        if(Index == 5)
                         {
                             GameDirector.instance.BgmPlay4();//보스 음악 재생
                         }
