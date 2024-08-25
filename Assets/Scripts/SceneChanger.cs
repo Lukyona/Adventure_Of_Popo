@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    public Animator animator;
-    public GameObject black;
+    [SerializeField] Animator animator;
+    [SerializeField] GameObject black;
+
     bool start = false; //게임 시작 버튼 누르면 true
 
     private void Start()
@@ -14,12 +15,11 @@ public class SceneChanger : MonoBehaviour
         Invoke(nameof(Black_Off), 2.2f);
     }
 
-    public AudioSource click;
     public void FadeToScene()
     {
         if(!start)
         {
-            click.Play();
+            SoundManager.instance.PlayClickSound();
             start = true;
             black.SetActive(true);
             animator.SetTrigger("BlackOn");

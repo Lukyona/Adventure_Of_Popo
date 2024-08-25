@@ -11,7 +11,7 @@ public class GameDirector : MonoBehaviour
     public GameObject Player;
     public GameObject Camera;
     public GameObject ThirdPersonCamera; //3인칭 카메라
-    public Animator TextWindowAnimator; //대화창 애니메이터
+    [SerializeField] Animator TextWindowAnimator; //대화창 애니메이터
     public bool firstStart = false;
     public int mainCount = 0;
     public GameObject Warning;

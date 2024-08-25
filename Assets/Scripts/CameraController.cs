@@ -22,5 +22,4 @@ public class CameraController : MonoBehaviour
         }
         thisCamera.m_Lens.FieldOfView += distance;
     }
-
 }

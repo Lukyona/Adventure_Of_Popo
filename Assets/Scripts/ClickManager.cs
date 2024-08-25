@@ -108,6 +108,7 @@ public class ClickManager : MonoBehaviour
             }
         }
     }
+    
     void CanGetElixir()
     {
         GameDirector.instance.treasureBox.tag = "Elixir";//태그 변경
