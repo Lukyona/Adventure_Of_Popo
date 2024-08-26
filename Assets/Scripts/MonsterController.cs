@@ -203,7 +203,7 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
         {
             if(gameObject.name.Contains("Dragon"))//보스 죽음
             {
-                GameDirector.instance.DragonSound2();//효과음 재생
+                SoundManager.instance.PlayDragonDieSound();//효과음 재생
                 GameDirector.instance.Invoke(nameof(GameDirector.instance.AfterDragonDead),0.5f);//대화 준비
             }
             else

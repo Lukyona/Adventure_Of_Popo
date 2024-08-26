@@ -210,7 +210,6 @@ public class ThirdPlayerMovement : MonoBehaviour
                 GameDirector.instance.Start_Talk();
                 GameDirector.instance.ThirdPersonCamera.SetActive(true);
                 GameDirector.instance.Camera.GetComponent<CameraController>().enabled = true;//카메라 확대축소 가능
-                GameDirector.instance.bgm2.Stop();
             }
         }
 

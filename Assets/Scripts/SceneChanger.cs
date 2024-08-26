@@ -15,7 +15,7 @@ public class SceneChanger : MonoBehaviour
         Invoke(nameof(Black_Off), 2.2f);
     }
 
-    public void FadeToScene()
+    public void FadeToScene() // 게임 시작 버튼 클릭 시 실행
     {
         if(!start)
         {

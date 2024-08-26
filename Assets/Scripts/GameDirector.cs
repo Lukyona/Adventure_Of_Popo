@@ -47,7 +47,7 @@ public class GameDirector : MonoBehaviour
         switch(mainCount)
         {
             case 0://처음 시작, 주인공 소개 부분
-                BgmPlay();
+                SoundManager.instance.PlayFirstBgm();
                 firstStart = true;
                 Invoke("Fox_Sit", 1.7f);
                 DialogueController.instance.DialogueSentences(0);
@@ -66,8 +66,7 @@ public class GameDirector : MonoBehaviour
                 Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
                 if(mainCount == 5)
                 {
-                    bgm1.Stop();//기존 음악 중지
-                    BgmPlay2();// 음악 변경
+                    SoundManager.instance.PlaySecondBgm();// 음악 변경
                 }
                 break;
             case 4: //슬라임 등장 후     
@@ -85,12 +84,13 @@ public class GameDirector : MonoBehaviour
                 break;
             case 8://문지기 발견 후
                 Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
-                BgmPlay3();
+                SoundManager.instance.PlayThirdBgm();
+                Destroy(gkDiscover);//문지기 감지 오브젝트 파괴, 콜라이더가 있어서 통행에 방해될 수 있음
                 break;
             case 9://문지기 쓰러뜨림
                 Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
                 MonsterHPBar.instance.boss.GetComponent<MonsterController>().animator.SetTrigger("Scream");//드래곤 포효
-                Invoke(nameof(DragonSound), 0.5f);
+                SoundManager.instance.Invoke(("PlayDragonRoarSound"), 0.5f);
                 break;
             case 11://엘릭서 획득 후
                 PlayerInfoManager.instance.BlackScreen.SetActive(true);
@@ -174,7 +174,7 @@ public class GameDirector : MonoBehaviour
 
     public void ClickGuideButton()//가이드버튼 눌렀을 때
     {
-        ClickSound();
+        SoundManager.instance.PlayClickSound();
         if (GuideContent.IsActive())//가이드 내용이 활성화된 상태면
         {
             GuideContent.gameObject.SetActive(false); //내용 비활성화
@@ -229,7 +229,7 @@ public class GameDirector : MonoBehaviour
 
     public void CancelGameClose()//게임 종료 취소 버튼 누르면
     {
-        ClickSound();
+        SoundManager.instance.PlayClickSound();
         GameCloseAnimator.SetTrigger("Up");//보드 다시 위로
         closeBoard = false;
     }
@@ -244,7 +244,7 @@ public class GameDirector : MonoBehaviour
         {
             ThirdPlayerMovement.instance.DontMove();
             fence = true;
-            ClickSound();
+            SoundManager.instance.PlayClickSound();
             if (PlayerInfoManager.instance.level >= 2)//레벨2 이상이면
             {
                 if(can_hit)
@@ -366,94 +366,16 @@ public class GameDirector : MonoBehaviour
         fence = false;
     }
 
-    public AudioSource click;
-    public void ClickSound()
+    public void HitWoodenFence()
     {
-        click.Play();
-    }
-
-    public AudioSource levelUp;
-    public void LevelUpSound()
-    {
-        levelUp.Play();
-    }
-
-    public AudioSource wood;
-    public void WoodSound()
-    {
-        wood.Play();
+        SoundManager.instance.PlayWoodSound();
         DialogueController.instance.DialogueSentences(8);
         Invoke(nameof(Start_Talk),0.6f);
     }
 
-    public AudioSource bgm1;
-    public void BgmPlay()//게임 시작 ~ 울타리 부수기 전까지 이 배경음악 사용
-    {
-        bgm1.Play();
-    }
-
-    public AudioSource bgm2;
-    public void BgmPlay2()//울타리 부수고 난 뒤 이 배경음악 사용
-    {
-        bgm2.Play();
-    }
-
-    public AudioSource gkBgm;//문지기 배경음악
-    public AudioSource bird;//새소리
-    public void BgmPlay3()//문지기 전투 음악
-    {
-        bird.Stop();
-        bgm2.Stop();
-        gkBgm.Play();
-        Destroy(gkDiscover);//문지기 감지 오브젝트 파괴, 콜라이더가 있어서 통행에 방해될 수 있음
-    }
-
-    public AudioSource bossBgm;
-    public void BgmPlay4()//보스 음악
-    {
-        bird.Stop();
-        bossBgm.Play();
-    }
-
-    public AudioSource dragonSound;//드래곤 울음소리
-    void DragonSound()
-    {
-        dragonSound.Play();
-    }
-
-    public AudioSource dragon_die;//드래곤 죽을 때 소리
-    public void DragonSound2()
-    {
-        bossBgm.Stop();
-        dragon_die.Play();
-    }
-
-    public AudioSource EndBgm;
-    public void BgmPlay5()//마지막 음악
-    {
-        EndBgm.Play();
-    }
 
     public void Destroy_Fence()//펜스 파괴
     {
         Destroy(fenceObject);
-    }
-
-    public AudioSource attack1;
-    public void Attack1_Sound()
-    {
-        attack1.Play();
-    }
-
-    public AudioSource attack2;
-    public void Attack2_Sound()
-    {
-        attack2.Play();
-    }
-
-    public AudioSource attack3;
-    public void Attack3_Sound()
-    {
-        attack3.Play();
     }
 }

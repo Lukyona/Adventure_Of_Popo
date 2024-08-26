@@ -42,11 +42,11 @@ public class PlayerAttack : MonoBehaviour
                     if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, whatIsFence) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
                     {
                         fence_hit++;
-                        GameDirector.instance.Attack1_Sound();
+                        SoundManager.instance.PlayAttack1Sound();
                         if (fence_hit == 5)//공격횟수가 5일 때 한번만 발생
                         {
                             GameDirector.instance.Invoke(nameof(GameDirector.instance.Destroy_Fence), 0.3f);
-                            GameDirector.instance.WoodSound();
+                            GameDirector.instance.HitWoodenFence();
                         }
                     }
                 }
@@ -120,7 +120,7 @@ public class PlayerAttack : MonoBehaviour
                             target.GetComponent<MonsterController>().TakeDamage(15);//15데미지
                         }
                     }
-                    GameDirector.instance.Attack1_Sound();
+                    SoundManager.instance.PlayAttack1Sound();
                     break;
                 case 2: //데미지 20
                     if(GameDirector.instance.mainCount < 9)
@@ -132,12 +132,12 @@ public class PlayerAttack : MonoBehaviour
                         target.GetComponent<MonsterController>().TakeDamage(20);//20데미지
                     }
                     Invoke(nameof(Can_Attack2), 2f);//2초 쿨타임
-                    GameDirector.instance.Attack2_Sound();
+                    SoundManager.instance.PlayAttack2Sound();
                     break;
                 case 3://데미지 25
                     target.GetComponent<MonsterController>().TakeDamage(25);
                     Invoke(nameof(Can_Attack3), 5f);//5초 쿨타임
-                    GameDirector.instance.Attack3_Sound();
+                    SoundManager.instance.PlayAttack3Sound();
                     break;
             }
             if (alreadyAttacked1)

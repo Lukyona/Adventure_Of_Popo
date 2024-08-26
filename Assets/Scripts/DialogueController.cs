@@ -391,7 +391,7 @@ public class DialogueController : MonoBehaviour
                 switch (Index)
                 {
                     case 0:
-                        GameDirector.instance.gkBgm.Stop();//문지기 bgm 중지
+                        //GameDirector.instance.gkBgm.Stop();//문지기 bgm 중지
                         break;
                     case 3:
                     case 5:
@@ -401,7 +401,7 @@ public class DialogueController : MonoBehaviour
                         NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
                         if(Index == 5)
                         {
-                            GameDirector.instance.BgmPlay4();//보스 음악 재생
+                            SoundManager.instance.PlayBossBgm();//보스 음악 재생
                         }
                         break;
                     case 4:
@@ -426,7 +426,7 @@ public class DialogueController : MonoBehaviour
                     case 6:
                         if(Index == 0)
                         {
-                            GameDirector.instance.BgmPlay5();//음악 변경
+                            SoundManager.instance.PlayEndingBgm();//음악 변경
                             NameTag.gameObject.SetActive(true);
                             GameDirector.instance.ThirdPersonCamera.SetActive(true);
                             GameDirector.instance.Camera.GetComponent<CameraController>().enabled = true;//카메라 확대축소 가능

@@ -101,7 +101,7 @@ public class ClickManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.gameObject.tag == "Elixir")//엘릭서 클릭
             {
                 GameDirector.instance.treasureBox.tag = "Untagged";//태그 변경
-                GameDirector.instance.ClickSound();
+                SoundManager.instance.PlayClickSound();
                 Destroy(GameDirector.instance.elixir);//오브젝트 파괴
                 DialogueController.instance.DialogueSentences(14);
                 GameDirector.instance.Start_Talk();

@@ -536,7 +536,6 @@ public class PlayerInfoManager : MonoBehaviour
         if (exp >= expMax && level != 5)//레벨업, 5레벨 아닐 때만 가능
         {
             LevelUp();
-            GameDirector.instance.LevelUpSound();
             levelBoard_Animator.SetTrigger("Down");
         }
         else
@@ -590,6 +589,8 @@ public class PlayerInfoManager : MonoBehaviour
 
     void LevelUp()
     {
+        SoundManager.instance.PlayLevelUpSound();
+        
         exp = exp - expMax; //현재 경험치 
         EXP_Update();
         level++;
@@ -664,7 +665,7 @@ public class PlayerInfoManager : MonoBehaviour
 
     public void Close_LevelUpBoard()
     {
-        GameDirector.instance.ClickSound();
+        SoundManager.instance.PlayClickSound();
         levelBoard_Animator.SetTrigger("Up");
         if(level == 3)//3렙, 새로운 기술 안내
         {
@@ -680,7 +681,7 @@ public class PlayerInfoManager : MonoBehaviour
 
     public void Eat_Food(int f)
     {
-        GameDirector.instance.ClickSound();
+        SoundManager.instance.PlayClickSound();
         switch (f)
         {
             case 0://토마토
@@ -722,7 +723,7 @@ public class PlayerInfoManager : MonoBehaviour
 
     public void SavePlayerData()//플레이어 진행 데이터 저장, 게임 종료 시 실행
     {
-        GameDirector.instance.ClickSound();
+        SoundManager.instance.PlayClickSound();
         PlayerPrefs.SetInt("Level", level);//레벨 저장
         PlayerPrefs.SetInt("EXP", exp);
         PlayerPrefs.SetInt("HP", hp);
@@ -801,16 +802,18 @@ public class PlayerInfoManager : MonoBehaviour
             if (GameDirector.instance.mainCount >= 6 && GameDirector.instance.mainCount <= 8)//펜스 부수고 난 이후, 문지기 발견 전
             {
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
-                GameDirector.instance.BgmPlay2();//배경음악 변경
+                SoundManager.instance.PlaySecondBgm();//배경음악 변경
             }
             else if(GameDirector.instance.mainCount <= 5)//펜스 부수기 전
             {
-                GameDirector.instance.BgmPlay();
+                SoundManager.instance.PlayFirstBgm();
             }
             else if(GameDirector.instance.mainCount == 9)//문지기 발견 후
             {
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
-                GameDirector.instance.BgmPlay3();//배경음악 변경
+                SoundManager.instance.PlayThirdBgm();//배경음악 변경
+                Destroy(GameDirector.instance.gkDiscover);//문지기 감지 오브젝트 파괴, 콜라이더가 있어서 통행에 방해될 수 있음
+
             }
             else if(GameDirector.instance.mainCount > 9 && GameDirector.instance.mainCount <= 10)//문지기 쓰러뜨린 후
             {
@@ -819,7 +822,7 @@ public class PlayerInfoManager : MonoBehaviour
                 Destroy(MonsterHPBar.instance.dog);//문지기 파괴
                 Destroy(GameDirector.instance.gkDiscover);
                 GameDirector.instance.bossGate.SetTrigger("Open");
-                GameDirector.instance.BgmPlay4();//배경음악 변경
+                SoundManager.instance.PlayBossBgm();//배경음악 변경
             }
             else if(GameDirector.instance.mainCount >= 13)//모든 게 끝난 뒤
             {
@@ -829,7 +832,7 @@ public class PlayerInfoManager : MonoBehaviour
                 Destroy(GameDirector.instance.gkDiscover);
                 GameDirector.instance.bossGate.SetTrigger("Open");
                 Destroy(MonsterHPBar.instance.boss);//보스 파괴
-                GameDirector.instance.BgmPlay5();//배경음악 변경
+                SoundManager.instance.PlayEndingBgm();//배경음악 변경
                 GameDirector.instance.resetButton.SetActive(true);//리셋버튼 활성화
             }
             GameDirector.instance.ThirdPersonCamera.SetActive(true);
