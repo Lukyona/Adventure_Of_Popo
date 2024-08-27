@@ -191,7 +191,7 @@ public class MonsterHPBar : MonoBehaviour
     public void ShowDamage(int damage)
     {
         GameObject dText = Instantiate(damageText, hpBarList[num].transform.position, Quaternion.identity, transform);
-        dText.GetComponent<DamageText>().damage = damage;
+        dText.GetComponent<DamageText>().SetDamage(damage);
         dText.transform.position = cam.WorldToScreenPoint(transformtList[num].transform.position + new Vector3(2f, 1f, 0));
     }
 

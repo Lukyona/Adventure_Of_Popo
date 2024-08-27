@@ -8,11 +8,21 @@ public class DialogueController : MonoBehaviour
 {
     public static DialogueController instance;
 
-    public TextMeshProUGUI DialogueText;
+    [SerializeField] TextMeshProUGUI DialogueText;
+    [SerializeField] Image NameTag;//캐릭터 이름칸, 캐릭터에 따라 색상 달라질 것
+    [SerializeField] Text Name;//캐릭터의 이름
+
+    int dialogueNum = 0;
+    int index = 0;
+    float speed = 0.02f;
+
     string[] sentences = null;
-    private int Index = 0;
-    public float DialogueSpeed;
-    bool endSentence = true;
+    bool isLineComplete = true; // 대사 출력 완료 상태면 true
+    bool wait = false; //대사 넘어가기 방지
+    bool goMainProgress = false; //메인 진행함수로 넘어가야할 때는 true
+
+    Color slimeColor = new Color(255 / 255f, 50 / 255f, 80 / 255f);
+    Color mushroomColor = new Color(40 / 255f, 200 / 255f, 0 / 255f);
 
     private void Awake()
     {
@@ -24,57 +34,62 @@ public class DialogueController : MonoBehaviour
 
     private void Update()
     {
-        if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && endSentence && GameDirector.instance.talking && !stop)
+        if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isLineComplete && GameDirector.instance.talking && !wait)
         {//대화 시작한 상태에서 스페이스키 혹은 마우스 왼쪽 클릭을 했을 때
-          NextSentence();       
+            ShowDialogue();       
         }
     }
 
-    public void NextSentence()
+    public void ShowDialogue()
     {
-        endSentence = false;
-        if (Index <= sentences.Length - 1) //인덱스는 0부터 시작, 대사 배열 길이보다 작으면 대사 출력 코루틴 시작
+        isLineComplete = false;
+        if (index <= sentences.Length - 1) //인덱스는 0부터 시작, 대사 배열 길이보다 작으면 대사 출력 코루틴 시작
         {
-            StartCoroutine(WriteSentence());
+            StartCoroutine(PrintDialogue());
         }
         else
         {
             GameDirector.instance.End_Talk();//대화 종료
             if (PlayerInfoManager.instance.death)//플레이어 죽음 상태면
             {
-                PlayerInfoManager.instance.Invoke(nameof(PlayerInfoManager.instance.BlackOut_Off),2f);//화면 밝아지기
+                PlayerInfoManager.instance.Invoke("BlackOut_Off",2f);//화면 밝아지기
             }
             else
             {
-                if(go_main)//메인 진행 함수로 가야할 때만
+                if(goMainProgress)//메인 진행 함수로 가야할 때는
                 {
-                    go_main = false;
+                    goMainProgress = false;
                     GameDirector.instance.MainProgress();
                 }               
             }
         }
     }
-    IEnumerator WriteSentence()
+
+    IEnumerator PrintDialogue()
     {
+        DialogueText.text = "";
+
         if(PlayerInfoManager.instance.level >= 2)//레벨이 2이상이면
         {
-            NameTag_Change();//대화에 다른 캐릭터 등장
+            CheckDialogueEvent();
         }
-        DialogueText.text = "";
-        foreach (char Character in sentences[Index].ToCharArray())
+
+        foreach (char Character in sentences[index].ToCharArray())
         {
             DialogueText.text += Character; //문자 추가
-            yield return new WaitForSeconds(DialogueSpeed); // 지정한 속도로 나오기
+            yield return new WaitForSeconds(speed); // 지정한 속도로 나오기
         }
-        Index++;//대사 하나 끝나면 인덱스 증가
-        endSentence = true;
+        
+        index++;//대사 하나 끝나면 인덱스 증가
+        isLineComplete = true;
     }
 
-    public bool stop = false;//특정 행동을 해야할 때는 true, 대사 넘어가기 방지
-    bool go_main = false; //메인 진행함수로 넘어가야할 때는 true
-    public void DialogueSentences(int n)
+    public void SetDialogue(int dNum)
     {
-        switch(n)
+        dialogueNum = dNum;
+        index = 0;//인덱스는 대화시작 전 0으로 초기화
+
+        switch(dialogueNum)
         {
             case 0://주인공 소개
                 sentences = new string[] {
@@ -83,7 +98,7 @@ public class DialogueController : MonoBehaviour
                     "그 엘릭서라는 걸 마시면 우리 엄마도\n다시 건강해질 거야!",
                     "음.. 일단 주변부터 둘러볼까?",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 1://플레이어 죽음
                 sentences = new string[] {
@@ -108,7 +123,7 @@ public class DialogueController : MonoBehaviour
                     "그래 꼬맹이, 그럼 이제 이 울타리 좀\n어떻게 해봐.",
                     "울타리가 부서질 때까지 숫자키 1번을\n눌러보자!",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 3://플레이어 울타리 부수기 불가
                 NameTag.gameObject.SetActive(false);
@@ -123,7 +138,7 @@ public class DialogueController : MonoBehaviour
                     "몬스터에게 다가가서 클릭하면\n타겟을 지정할 수 있어.",
                     "타겟을 지정한 뒤 숫자키 1을 눌러\n공격하자!",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 5://첫 음식
                 NameTag.gameObject.SetActive(false);
@@ -132,7 +147,7 @@ public class DialogueController : MonoBehaviour
                     "이 근처에 먹을 수 있는 게 없을까?",
                     "음식을 발견하면 클릭해보자!",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 6:
                 NameTag.gameObject.SetActive(false);
@@ -154,7 +169,7 @@ public class DialogueController : MonoBehaviour
                     "네가 앞으로 가면 따라갈게.",
                     "좋아, 가자~!",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 9://3렙에서 새 기술 습득
                 NameTag.gameObject.SetActive(false);
@@ -163,7 +178,7 @@ public class DialogueController : MonoBehaviour
                     "이제부터 숫자키 2번으로\n새로운 공격을 할 수 있어!",
                     "이 기술은 한 번 쓰면 2초 후에\n다시 쓸 수 있다는 것도 명심해!",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 10://버섯몬스터까지 다 해치움
                 sentences = new string[] {
@@ -184,7 +199,7 @@ public class DialogueController : MonoBehaviour
                     "내 이름은 포포야!\n여기 빨간 친구는 라임이고!",//14
                     "고마워! 도움이 되도록 노력할게!",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 11://문지기 발견
                 sentences = new string[] {
@@ -196,7 +211,7 @@ public class DialogueController : MonoBehaviour
                     "그렇다면 쟤를 쓰러뜨리고 문을\n여는 수 밖에 없겠네!",
                     "만만한 상대가 아니니 각오하는 게\n좋을 거야.",//머시
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 12://문지기 해치우고 5렙에서 새 기술 습득 + 캐릭터 간 대화
                 NameTag.gameObject.SetActive(false);
@@ -211,7 +226,7 @@ public class DialogueController : MonoBehaviour
                     "우리 셋이 함께라면 할 수 있어!",//포포 6
                     "가자~!!",
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 13://보스 쓰러뜨림
                 sentences = new string[] {
@@ -223,14 +238,14 @@ public class DialogueController : MonoBehaviour
                     "혹시 저 안에 엘릭서가..?",//머시
                     "어서 열어보라구.",//라임
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 14://엘릭서 획득
                 NameTag.gameObject.SetActive(false);
                 sentences = new string[] {
                     "엘릭서를 획득했다!",                  
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 15://엘릭서 획득 후
                 sentences = new string[] {
@@ -245,7 +260,7 @@ public class DialogueController : MonoBehaviour
                     "그래, 그럼 또 만날 수 있길\n기대하마, 꼬맹이.",//라임 8
                     "나중에 놀러오게 되면 내가 제대로\n대접할게! 그 때까지 잘 지내!",//머시
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
             case 16://동료들 간 뒤
                 sentences = new string[] {
@@ -256,62 +271,54 @@ public class DialogueController : MonoBehaviour
                     "..그럼 안녕! 나중에 또 보자!",
                     "게임 진행상황을 초기화하고 싶다면\n오른쪽 상단의 리셋버튼을 눌러주세요!\n초기화 시 게임이 자동으로 종료됩니다.",//5
                 };
-                go_main = true;
+                goMainProgress = true;
                 break;
         }
-        Index = 0;//인덱스는 대화시작 전 0으로 초기화
-        d_num = n;
     }
 
-    int d_num;
-    public Image NameTag;//캐릭터 이름칸, 캐릭터에 따라 색상 달라질 것
-    public Text Name;//캐릭터의 이름
-    void NameTag_Change()
+    void CheckDialogueEvent()
     {
-        switch(d_num)
+        switch(dialogueNum)
         {
             case 1:
                 NameTag.gameObject.SetActive(false);
                 break;
             case 2://울타리 부술 때
-                switch(Index)
+                switch(index)
                 {
                     case 1:
-                        stop = true;
+                        wait = true;
                         NameTag.gameObject.SetActive(true);//슬라임 등장
                         Name.text = "??";
-                        NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);
-                        Invoke(nameof(Can_Next), 2f);
+                        NameTag.color = slimeColor;
+                        Invoke(nameof(CanPrintNextDialogue), 2f);
                         break;
                     case 2:
-                        stop = true;
+                        wait = true;
                         ////GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
                         CameraController.instance.SetFixedState(false);
                         PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
                         PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = -15f;
                         GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_slime.transform);//슬라임 쳐다보기
-                        Name.text = "포포";
-                        NameTag.color = new Color(255/ 255f, 121 / 255f, 0 / 255f);
-                        Invoke(nameof(Can_Next), 1f);
+                        ChangeToFoxNameTag();
+                        Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
                     case 4:
                     case 6:
                     case 8:
                     case 11:
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
+                        ChangeToFoxNameTag();
                         break;
                     case 3:
                     case 5:
                     case 7:
                     case 9:
                         Name.text = "??";
-                        NameTag.color = new Color(255/255f, 50/255f, 80/255f);
+                        NameTag.color = slimeColor;
                         break;
                     case 10:
                     case 12:
-                        Name.text = "라임";
-                        NameTag.color = new Color(255/255f, 50/2555f, 80/255f);
+                        ChangeToSlimeNameTag();
                         break;
                     case 13:
                         NameTag.gameObject.SetActive(false);
@@ -319,137 +326,123 @@ public class DialogueController : MonoBehaviour
                 }
                 break;
             case 8://울타리 부순 뒤 대화
-                switch (Index)
+                switch (index)
                 {
                     case 1:
                         NameTag.gameObject.SetActive(true);//슬라임 
-                        Name.text = "라임";
-                        NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);
+                        ChangeToSlimeNameTag();
                         break;
                     case 3:  
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
+                        ChangeToFoxNameTag();
                         break;         
                 }
                 break;
             case 10://두 번째 동료 영입
-                switch (Index)
+                switch (index)
                 {
                     case 0:
-                        stop = true;
+                        wait = true;
                         NameTag.gameObject.SetActive(true);//버섯 등장
                         Name.text = "??";
-                        NameTag.color = new Color(40 / 255f, 200 / 255f, 0 / 255f);
-                        Invoke(nameof(Can_Next), 2f);
+                        NameTag.color = mushroomColor;
+                        Invoke(nameof(CanPrintNextDialogue), 2f);
                         break;
                     case 1:
-                        stop = true;
+                        wait = true;
                         CameraController.instance.SetFixedState(false);
                         ////GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
                         PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
                         PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = -15f;
                         GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_mushroom.transform);//버섯 쳐다보기
                         GameDirector.instance.friend_slime.transform.LookAt(GameDirector.instance.friend_mushroom.transform);
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
-                        Invoke(nameof(Can_Next), 1f);
+                        ChangeToFoxNameTag();
+                        Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
                     case 3:
                     case 6:
                     case 13:
                     case 15:
-                        Name.text = "머시";
-                        NameTag.color = new Color(40 / 255f, 200 / 255f, 0 / 255f);
+                        ChangeToMushroomNameTag();
                         break;
                     case 5:
                     case 11:
                     case 14:
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
+                        ChangeToFoxNameTag();
                         break;
                 }
                 break;
             case 11://문지기 발견
-                switch (Index)
+                switch (index)
                 {
                     case 0:
                     case 4:
                         NameTag.gameObject.SetActive(true);//포포 
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
+                        ChangeToFoxNameTag();
                         break;
                     case 1:
-                        Name.text = "라임";
-                        NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);
+                        ChangeToSlimeNameTag();
                         break;
                     case 2:
                     case 6:
-                        Name.text = "머시";
-                        NameTag.color = new Color(40 / 255f, 200 / 255f, 0 / 255f);
+                        ChangeToMushroomNameTag();
                         break;
                 }
                 break;
             case 12://새 기술 습득 + 문 열림
-                switch (Index)
+                switch (index)
                 {
                     case 0:
-                        //GameDirector.instance.gkBgm.Stop();//문지기 bgm 중지
+                        //GameDirector.instance.gkBgm.wait();//문지기 bgm 중지
                         break;
                     case 3:
                     case 5:
                     case 7:
                         NameTag.gameObject.SetActive(true);//포포 
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
-                        if(Index == 5)
+                        ChangeToFoxNameTag();
+                        if(index == 5)
                         {
                             SoundManager.instance.PlayBossBgm();//보스 음악 재생
                         }
                         break;
                     case 4:
-                        stop = true;
+                        wait = true;
                         CameraController.instance.SetFixedState(false);
                         ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
                         CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
-                        Name.text = "라임";
-                        NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);
+                        ChangeToSlimeNameTag();
                         GameDirector.instance.bossGate.SetTrigger("Open");//문 열리는 애니메이션
-                        Invoke(nameof(Can_Next), 0.8f);
+                        Invoke(nameof(CanPrintNextDialogue), 0.8f);
                         break;
                     case 6:
-                        Name.text = "머시";
-                        NameTag.color = new Color(40 / 255f, 200 / 255f, 0 / 255f);
+                        ChangeToMushroomNameTag();
                         break;
                 }
                 break;
             case 13://보스 해치움
-                switch (Index)
+                switch (index)
                 {
                     case 0:
                     case 6:
-                        if(Index == 0)
+                        if(index == 0)
                         {
                             SoundManager.instance.PlayEndingBgm();//음악 변경
                             NameTag.gameObject.SetActive(true);
                             ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
                             CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
                         }
-                        Name.text = "라임";
-                        NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);
+                        ChangeToSlimeNameTag();
                         break;
                     case 1:
                     case 5:
-                        Name.text = "머시";
-                        NameTag.color = new Color(40 / 255f, 200 / 255f, 0 / 255f);
+                        ChangeToMushroomNameTag();
                         break;
                     case 3:
-                        stop = true;
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
+                        wait = true;
+                        ChangeToFoxNameTag();
                         GameDirector.instance.treasureBox.SetActive(true);
                         GameDirector.instance.treasureBox.GetComponent<Animator>().SetTrigger("Down");//보물상자 떨어짐
                         GameDirector.instance.treasureBox.GetComponent<BoxCollider>().enabled = true; //(동료 캐릭터 움직임에 방해될까봐)꺼둔 콜라이더 활성화
-                        Invoke(nameof(Can_Next), 1f);
+                        Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
                     case 4:
                         GameDirector.instance.Player.transform.LookAt(GameDirector.instance.treasureBox.transform);//보물상자 쳐다보기
@@ -459,33 +452,29 @@ public class DialogueController : MonoBehaviour
                 }
                 break;
             case 15://엘릭서 획득 후
-                switch (Index)
+                switch (index)
                 {
                     case 6:
                         NameTag.gameObject.SetActive(true);//포포 
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
+                        ChangeToFoxNameTag();
                         break;
                     case 0:
                     case 4:
                     case 8:
                         NameTag.gameObject.SetActive(true);//포포 
-                        Name.text = "라임";
-                        NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);
+                        ChangeToSlimeNameTag();
                         break;
                     case 1:
                     case 9:
-                        Name.text = "머시";
-                        NameTag.color = new Color(40 / 255f, 200 / 255f, 0 / 255f);
+                        ChangeToMushroomNameTag();
                         break;
                 }
                 break;
             case 16://동료들과 헤어진 후
-                switch (Index)
+                switch (index)
                 {
                     case 0:
-                        Name.text = "포포";
-                        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
+                        ChangeToFoxNameTag();
                         break;
                     case 5:
                         NameTag.gameObject.SetActive(false);
@@ -496,8 +485,26 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    void Can_Next()
+    void ChangeToFoxNameTag()
     {
-        stop = false;
-    }//다음 대사로 넘어갈 수 있음
+        Name.text = "포포";
+        NameTag.color = new Color(255/ 255f, 121 / 255f, 0 / 255f);
+    }
+
+    void ChangeToSlimeNameTag()
+    {
+        Name.text = "라임";
+        NameTag.color = slimeColor;
+    }
+
+    void ChangeToMushroomNameTag()
+    {
+        Name.text = "머시";
+        NameTag.color = mushroomColor;
+    }
+
+    void CanPrintNextDialogue() //다음 대사로 넘어갈 수 있음
+    {
+        wait = false;
+    }
 }

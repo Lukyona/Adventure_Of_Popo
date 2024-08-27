@@ -51,7 +51,7 @@ public class GameDirector : MonoBehaviour
                 SoundManager.instance.PlayFirstBgm();
                 firstStart = true;
                 Invoke("Fox_Sit", 1.7f);
-                DialogueController.instance.DialogueSentences(0);
+                DialogueController.instance.SetDialogue(0);
                 break;
             case 1://소개 끝, 주변 둘러보기
                 Fox_StandUp();//여우 일어나기
@@ -98,14 +98,14 @@ public class GameDirector : MonoBehaviour
                 PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
                 Fox_Cant_Move();
                 Invoke(nameof(Ready_To_Talk), 2.2f);
-                DialogueController.instance.DialogueSentences(15);
+                DialogueController.instance.SetDialogue(15);
                 break;
             case 12://동료들 떠난 뒤
                 PlayerInfoManager.instance.BlackScreen.SetActive(true);
                 PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
                 Fox_Cant_Move();
                 Invoke(nameof(Ready_To_Talk), 2.2f);
-                DialogueController.instance.DialogueSentences(16);
+                DialogueController.instance.SetDialogue(16);
                 break;
         }
         mainCount++;
@@ -147,7 +147,7 @@ public class GameDirector : MonoBehaviour
             Fox_Cant_Move();
         }
         TextWindowAnimator.SetTrigger("Talk_On");//대화창 등장
-        DialogueController.instance.NextSentence();//첫 대사는 스페이스바를 누르지 않고도 바로 나오도록
+        DialogueController.instance.ShowDialogue();//첫 대사는 스페이스바를 누르지 않고도 바로 나오도록
     }
 
     public void End_Talk()
@@ -239,7 +239,7 @@ public class GameDirector : MonoBehaviour
     public GameObject friend_slime; //슬라임 동료
     public bool can_hit = false;//부술 수 있는 울타리를 클릭했을 때
     public GameObject right_Fence;
-    public void Fence_Level2()//레벨2 울타리 클릭했을 때
+    public void ClickFence()//레벨2 울타리 클릭했을 때
     {
         if(!fence)
         {
@@ -256,24 +256,24 @@ public class GameDirector : MonoBehaviour
                         PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
                         Fox_Cant_Move();
                         Invoke(nameof(Ready_To_Talk), 2.2f);
-                        DialogueController.instance.DialogueSentences(2);//울타리 부수기 가능
+                        DialogueController.instance.SetDialogue(2);//울타리 부수기 가능
                     }
                     else
                     {
-                        DialogueController.instance.DialogueSentences(7);//울타리 부수기 안내
+                        DialogueController.instance.SetDialogue(7);//울타리 부수기 안내
                         Start_Talk();
                         can_hit = false;
                     }
                 }
                 else
                 {
-                    DialogueController.instance.DialogueSentences(6);//올바르지 않은 울타리
+                    DialogueController.instance.SetDialogue(6);//올바르지 않은 울타리
                     Start_Talk();
                 }               
             }
             else
             {
-                DialogueController.instance.DialogueSentences(3);//울타리 못 부숨
+                DialogueController.instance.SetDialogue(3);//울타리 못 부숨
                 Start_Talk();
             }
         }
@@ -362,7 +362,7 @@ public class GameDirector : MonoBehaviour
         PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
         Fox_Cant_Move();
         Invoke(nameof(Ready_To_Talk), 2.2f);
-        DialogueController.instance.DialogueSentences(13);
+        DialogueController.instance.SetDialogue(13);
     }
 
     void FenceClickOn()//다시 펜스 클릭 가능
@@ -373,7 +373,7 @@ public class GameDirector : MonoBehaviour
     public void HitWoodenFence()
     {
         SoundManager.instance.PlayWoodSound();
-        DialogueController.instance.DialogueSentences(8);
+        DialogueController.instance.SetDialogue(8);
         Invoke(nameof(Start_Talk),0.6f);
     }
 
@@ -381,5 +381,10 @@ public class GameDirector : MonoBehaviour
     public void Destroy_Fence()//펜스 파괴
     {
         Destroy(fenceObject);
+    }
+
+    void CanGetElixir()
+    {
+        treasureBox.tag = "Elixir";//태그 변경
     }
 }

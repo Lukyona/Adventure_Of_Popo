@@ -186,7 +186,7 @@ public class ThirdPlayerMovement : MonoBehaviour
             //Debug.Log("시야에 몬스터");
             if(GameDirector.instance.mainCount == 2 && !GameDirector.instance.talking)//소개 후 첫 몬스터 발견
             {
-                DialogueController.instance.DialogueSentences(4);//몬스터 첫 발견
+                DialogueController.instance.SetDialogue(4);//몬스터 첫 발견
                 DontMove();
                 GameDirector.instance.Start_Talk();
             }      
@@ -206,7 +206,7 @@ public class ThirdPlayerMovement : MonoBehaviour
             bool gateKeeperInRange = Physics.CheckSphere(gameObject.transform.position, sightRange, gk);//gk가 시야범위에 있으면 true
             if(gateKeeperInRange && !GameDirector.instance.talking)
             {
-                DialogueController.instance.DialogueSentences(11);
+                DialogueController.instance.SetDialogue(11);
                 GameDirector.instance.Start_Talk();
                 ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
                 CameraController.instance.SetFixedState(false);//카메라 확대축소 가능

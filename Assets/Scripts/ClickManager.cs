@@ -28,13 +28,10 @@ public class ClickManager : MonoBehaviour
             if(Physics.Raycast(ray, out hit, 11f))//범위 11
             {
                 string objectName = hit.transform.gameObject.name;
-                if(objectName.Contains("Fence"))//펜스를 클릭하면
+                if(objectName == "Fence_Destroyable")//펜스를 클릭하면
                 {
-                    if(objectName.Contains("(1)"))
-                    {
-                        GameDirector.instance.can_hit = true;
-                    }
-                    GameDirector.instance.Fence_Level2();
+                    GameDirector.instance.can_hit = true;
+                    GameDirector.instance.ClickFence();
                 }
                 if (objectName.Contains("food"))//음식을 클릭하면
                 {
@@ -66,22 +63,17 @@ public class ClickManager : MonoBehaviour
             {
                 GameDirector.instance.treasureBox.tag = "Untagged";//태그 변경
                 GameDirector.instance.treasureBox.GetComponent<Animator>().SetTrigger("Open");
-                Invoke(nameof(CanGetElixir), 2f);//2초 후 엘리서 획득 가능
+                GameDirector.instance.Invoke("CanGetElixir", 2f);//2초 후 엘리서 획득 가능
             }
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.gameObject.tag == "Elixir")//엘릭서 클릭
             {
                 GameDirector.instance.treasureBox.tag = "Untagged";//태그 변경
                 SoundManager.instance.PlayClickSound();
                 Destroy(GameDirector.instance.elixir);//오브젝트 파괴
-                DialogueController.instance.DialogueSentences(14);
+                DialogueController.instance.SetDialogue(14);
                 GameDirector.instance.Start_Talk();
             }
         }
-    }
-    
-    void CanGetElixir()
-    {
-        GameDirector.instance.treasureBox.tag = "Elixir";//태그 변경
     }
 }
 

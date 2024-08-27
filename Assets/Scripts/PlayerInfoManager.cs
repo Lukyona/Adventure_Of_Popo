@@ -344,7 +344,7 @@ public class PlayerInfoManager : MonoBehaviour
         }
 
         GameObject dText = Instantiate(damageText, canvas.transform.position + new Vector3(-250f, 20f, 0), Quaternion.identity, canvas.transform);
-        dText.GetComponent<DamageText>().damage = damage;
+        dText.GetComponent<DamageText>().SetDamage(damage);
 
         if (hp <= 0)//생명력이 0이하일 땐
         {
@@ -381,7 +381,7 @@ public class PlayerInfoManager : MonoBehaviour
                         Invoke(nameof(RecoverHP), 2f);
                         if (!ThirdPlayerMovement.instance.monsterInTargetRange && GameDirector.instance.mainCount == 3 && !GameDirector.instance.talking)//생명력 깎인 뒤 과일에 대한 설명
                         {
-                            DialogueController.instance.DialogueSentences(5);
+                            DialogueController.instance.SetDialogue(5);
                             GameDirector.instance.Fox_Cant_Move(); //플레이어 이동, 카메라 회전 금지
                             ThirdPlayerMovement.instance.DontMove();
                             GameDirector.instance.Start_Talk();
@@ -448,7 +448,7 @@ public class PlayerInfoManager : MonoBehaviour
     {
         BlackScreen.SetActive(true);
         blackAnimator.SetTrigger("BlackOn");
-        DialogueController.instance.DialogueSentences(1);
+        DialogueController.instance.SetDialogue(1);
         GameDirector.instance.Invoke(nameof(GameDirector.instance.Start_Talk), 3.5f);
         recHp = false;
         recSp = false;
@@ -668,12 +668,12 @@ public class PlayerInfoManager : MonoBehaviour
         levelBoard_Animator.SetTrigger("Up");
         if(level == 3)//3렙, 새로운 기술 안내
         {
-            DialogueController.instance.DialogueSentences(9);
+            DialogueController.instance.SetDialogue(9);
             GameDirector.instance.Start_Talk();
         }
         if (level == 5)//5렙, 새로운 기술 안내
         {
-            DialogueController.instance.DialogueSentences(12);
+            DialogueController.instance.SetDialogue(12);
             GameDirector.instance.Start_Talk();
         }
     }
@@ -909,7 +909,6 @@ public class PlayerInfoManager : MonoBehaviour
 
         for (int i = 0; i < dataArr.Length; i++)
         {
-            Debug.Log(dataArr[i]);
             foodNum[i] = System.Convert.ToInt32(dataArr[i]); // 문자열 형태로 저장된 값을 정수형으로 변환후 저장       
             if(foodNum[i] == 0)//이미 먹은 음식이면
             {
@@ -931,7 +930,7 @@ public class PlayerInfoManager : MonoBehaviour
             blackAnimator.SetTrigger("BlackOn");
             GameDirector.instance.Fox_Cant_Move();
             GameDirector.instance.Invoke(nameof(GameDirector.instance.Ready_To_Talk), 2.2f);
-            DialogueController.instance.DialogueSentences(10);
+            DialogueController.instance.SetDialogue(10);
 
         }
     }
