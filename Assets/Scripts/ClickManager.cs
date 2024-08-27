@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class ClickManager : MonoBehaviour
 {
+    int GetNumber(string name, int nameSize)
+    {
+        int lastIdx = nameSize - 1;
+        // 숫자가 두 자릿수인지 확인
+        int i = 0;
+        bool isTwoDigit = int.TryParse(name.Substring(lastIdx-1,1), out i); // int형에 속하는지 확인, 
+        //TryParse : 숫자가 아닌 문자를 포함하거나 지정한 형식에 비해 너무 크거나 작은 경우 false 반환, out 매개 변수를 0으로 설정
+        //그렇지 않으면 true 반환 out 매개 변수를 문자열의 숫자 값으로 설정
+        
+        if(isTwoDigit) 
+            return int.Parse(name.Substring(lastIdx-1,2)); // 두 자리 숫자 추출
+        else
+            return int.Parse(name.Substring(lastIdx,1)); // 한 자리 숫자만 추출
+    }
+
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -12,66 +27,21 @@ public class ClickManager : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit, 11f))//범위 11
             {
-                if(hit.transform.gameObject.name.Contains("Fence"))//펜스를 클릭하면
+                string objectName = hit.transform.gameObject.name;
+                if(objectName.Contains("Fence"))//펜스를 클릭하면
                 {
-                    if(hit.transform.gameObject.name.Contains("(1)"))
+                    if(objectName.Contains("(1)"))
                     {
                         GameDirector.instance.can_hit = true;
                     }
                     GameDirector.instance.Fence_Level2();
                 }
-                if (hit.transform.gameObject.name.Contains("food"))//음식을 클릭하면
+                if (objectName.Contains("food"))//음식을 클릭하면
                 {
-                    GameObject food = hit.transform.gameObject;//클릭한 음식 할당
-                    if(food.name.Contains("tomato"))//토마토면
-                    {
-                        PlayerInfoManager.instance.Eat_Food(0);
-                    }
-                    if(food.name.Contains("orange"))
-                    {
-                        PlayerInfoManager.instance.Eat_Food(1);
-                    }
-                    if (food.name == "kiwi_food")
-                    {
-                        PlayerInfoManager.instance.Eat_Food(2);
-                    }
-                    if (food.name == "kiwi1_food")
-                    {
-                        PlayerInfoManager.instance.Eat_Food(3);
-                    }
-                    if (food.name.Contains("carrot"))
-                    {
-                        PlayerInfoManager.instance.Eat_Food(4);
-                    }
-                    if (food.name.Contains("lemon"))
-                    {
-                        PlayerInfoManager.instance.Eat_Food(5);
-                    }
-                    if (food.name.Contains("cherry"))
-                    {
-                        PlayerInfoManager.instance.Eat_Food(6);
-                    }
-                    if (food.name.Contains("apple"))
-                    {
-                        PlayerInfoManager.instance.Eat_Food(7);
-                    }
-                    if (food.name.Contains("banana"))
-                    {
-                        PlayerInfoManager.instance.Eat_Food(8);
-                    }
-                    if (food.name == "acorn_food")
-                    {
-                        PlayerInfoManager.instance.Eat_Food(9);
-                    }
-                    if (food.name == "acorn1_food")
-                    {
-                        PlayerInfoManager.instance.Eat_Food(10);
-                    }
-                    if (food.name == "acorn2_food")
-                    {
-                        PlayerInfoManager.instance.Eat_Food(11);
-                    }
-                    Destroy(food);//먹은 음식 삭제                   
+                    int foodNum = GetNumber(objectName, objectName.Length);
+                    PlayerInfoManager.instance.Eat_Food(foodNum);
+                    
+                    Destroy(hit.transform.gameObject);//먹은 음식 삭제                   
                 }
             }
 

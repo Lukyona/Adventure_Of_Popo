@@ -7,11 +7,13 @@ public class SceneChanger : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] GameObject black;
+    [SerializeField] Texture2D cursorImg;
 
     bool start = false; //게임 시작 버튼 누르면 true
 
     private void Start()
     {
+        Cursor.SetCursor(cursorImg, Vector2.zero, CursorMode.ForceSoftware);
         Invoke(nameof(Black_Off), 2.2f);
     }
 
@@ -19,7 +21,6 @@ public class SceneChanger : MonoBehaviour
     {
         if(!start)
         {
-            SoundManager.instance.PlayClickSound();
             start = true;
             black.SetActive(true);
             animator.SetTrigger("BlackOn");

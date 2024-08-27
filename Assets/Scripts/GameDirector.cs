@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using Cinemachine;
 
 public class GameDirector : MonoBehaviour
 {
     public static GameDirector instance;
+    [SerializeField] Texture2D cursorImg;
 
     public GameObject Player;
-    public GameObject Camera;
-    public GameObject ThirdPersonCamera; //3인칭 카메라
     [SerializeField] Animator TextWindowAnimator; //대화창 애니메이터
     public bool firstStart = false;
     public int mainCount = 0;
@@ -33,13 +33,14 @@ public class GameDirector : MonoBehaviour
     }
     void Start()
     {
+        Cursor.SetCursor(cursorImg, Vector2.zero, CursorMode.ForceSoftware);
+
         //MainProgress();
         //DevelopCheat();
     }
 
     void DevelopCheat()
     {
-        ThirdPersonCamera.SetActive(true);
     }
 
     public void MainProgress()//메인 진행 상황
@@ -113,16 +114,16 @@ public class GameDirector : MonoBehaviour
     public void Fox_Can_Move()
     {
         Player.GetComponent<ThirdPlayerMovement>().enabled = true;//플레이어 이동 가능
-        ThirdPersonCamera.SetActive(true);
-        Camera.GetComponent<CameraController>().enabled = true;//카메라 확대축소 가능
+        //ThirdPersonCamera.SetActive(true);
+        CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
         Player.GetComponent<CharacterController>().enabled = true;//캐릭터 컨트롤러 켜기
     }
 
     public void Fox_Cant_Move()
     {
         Player.GetComponent<ThirdPlayerMovement>().enabled = false;//플레이어 이동 불가
-        ThirdPersonCamera.SetActive(false);
-        Camera.GetComponent<CameraController>().enabled = false;//카메라 회전 불가
+        //ThirdPersonCamera.SetActive(false);
+        CameraController.instance.SetFixedState(true); //카메라 회전 불가
         Player.GetComponent<CharacterController>().enabled = false;//캐릭터 컨트롤러 끄기
         ThirdPlayerMovement.instance.DontMove();
     }
@@ -280,7 +281,10 @@ public class GameDirector : MonoBehaviour
 
     public void Ready_To_Talk()//슬라임/버섯과 대화 준비, 플레이어 위치 지정
     {
-        ThirdPersonCamera.SetActive(true);
+        CameraController.instance.SetFixedState(false);
+
+        ////ThirdPersonCamera.SetActive(true);
+        
         if(mainCount == 13)//마지막 대화
         {
             PlayerInfoManager.instance.cameraSetting.m_Lens.FieldOfView = 35; //카메라 조정

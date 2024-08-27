@@ -285,7 +285,8 @@ public class DialogueController : MonoBehaviour
                         break;
                     case 2:
                         stop = true;
-                        GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
+                        ////GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
+                        CameraController.instance.SetFixedState(false);
                         PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
                         PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = -15f;
                         GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_slime.transform);//슬라임 쳐다보기
@@ -343,7 +344,8 @@ public class DialogueController : MonoBehaviour
                         break;
                     case 1:
                         stop = true;
-                        GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
+                        CameraController.instance.SetFixedState(false);
+                        ////GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
                         PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
                         PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = -15f;
                         GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_mushroom.transform);//버섯 쳐다보기
@@ -406,8 +408,9 @@ public class DialogueController : MonoBehaviour
                         break;
                     case 4:
                         stop = true;
-                        GameDirector.instance.ThirdPersonCamera.SetActive(true);
-                        GameDirector.instance.Camera.GetComponent<CameraController>().enabled = true;//카메라 확대축소 가능
+                        CameraController.instance.SetFixedState(false);
+                        ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
+                        CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
                         Name.text = "라임";
                         NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);
                         GameDirector.instance.bossGate.SetTrigger("Open");//문 열리는 애니메이션
@@ -428,8 +431,8 @@ public class DialogueController : MonoBehaviour
                         {
                             SoundManager.instance.PlayEndingBgm();//음악 변경
                             NameTag.gameObject.SetActive(true);
-                            GameDirector.instance.ThirdPersonCamera.SetActive(true);
-                            GameDirector.instance.Camera.GetComponent<CameraController>().enabled = true;//카메라 확대축소 가능
+                            ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
+                            CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
                         }
                         Name.text = "라임";
                         NameTag.color = new Color(255 / 255f, 50 / 255f, 80 / 255f);

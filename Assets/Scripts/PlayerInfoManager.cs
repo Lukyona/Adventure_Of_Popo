@@ -461,7 +461,6 @@ public class PlayerInfoManager : MonoBehaviour
     public void BlackOut_Off() //화면 다시 밝아지고 플레이어 처음 위치로 이동, 능력치 변화
     {
         GameDirector.instance.Fox_Cant_Move();
-        GameDirector.instance.ThirdPersonCamera.SetActive(true);
         cameraSetting.m_Lens.FieldOfView = 35; //카메라 조정
         cameraSetting.m_YAxis.Value = 0.6f;
         cameraSetting.m_XAxis.Value = 0f;
@@ -684,28 +683,28 @@ public class PlayerInfoManager : MonoBehaviour
         SoundManager.instance.PlayClickSound();
         switch (f)
         {
-            case 0://토마토
+            case 1://토마토
                 hp += 40;
                 break;
-            case 1://오렌지
+            case 2://오렌지
                 hp += 45;
                 break;
-            case 2://키위, 박쥐 구역
-            case 3:
-            case 5://레몬, 버섯 구역
-            case 6://체리, 버섯 구역
-            case 7://사과, 문지기 구역
-            case 8://바나나, 문지기 구역
+            case 3://키위, 박쥐 구역
+            case 4:
+            case 6://레몬, 버섯 구역
+            case 7://체리, 버섯 구역
+            case 8://사과, 문지기 구역
+            case 9://바나나, 문지기 구역
                 hp += 50;
                 break;
-            case 4://당근, 나무 구역
-            case 9://도토리, 보스구역
-            case 10:
+            case 5://당근, 나무 구역
+            case 10://도토리, 보스구역
             case 11:
+            case 12:
                 hp += 60;
                 break;
         }
-        foodNum[f] = 0;
+        foodNum[f-1] = 0;
         if(hp >= hpMax)
         {
             hp = hpMax;
@@ -835,17 +834,18 @@ public class PlayerInfoManager : MonoBehaviour
                 SoundManager.instance.PlayEndingBgm();//배경음악 변경
                 GameDirector.instance.resetButton.SetActive(true);//리셋버튼 활성화
             }
-            GameDirector.instance.ThirdPersonCamera.SetActive(true);
-
+            //GameDirector.instance.ThirdPersonCamera.SetActive(true);
+            CameraController.instance.SetFixedState(false);
             slime1 = PlayerPrefs.GetInt("Slime1");
             slime2 = PlayerPrefs.GetInt("Slime2");
             turtle = PlayerPrefs.GetInt("Turtle");
             tree = PlayerPrefs.GetInt("Tree");
             bat = PlayerPrefs.GetInt("Bat");
             mushroom = PlayerPrefs.GetInt("Mushroom");
+            Load_Remaining_Monsters();
+            Load_Food();
         }
-        Load_Remaining_Monsters();
-        Load_Food();
+
         load = false;
     }
 
@@ -909,6 +909,7 @@ public class PlayerInfoManager : MonoBehaviour
 
         for (int i = 0; i < dataArr.Length; i++)
         {
+            Debug.Log(dataArr[i]);
             foodNum[i] = System.Convert.ToInt32(dataArr[i]); // 문자열 형태로 저장된 값을 정수형으로 변환후 저장       
             if(foodNum[i] == 0)//이미 먹은 음식이면
             {
