@@ -364,9 +364,17 @@ public class EnemyAi : MonoBehaviour
         MonsterHPBar.instance.Get_Damage(damage);
         if (health <= 0)
         {
+            if(gameObject.name.Contains("Dragon"))//보스 죽음
+            {
+                SoundManager.instance.PlayDragonDieSound();//효과음 재생
+                GameDirector.instance.Invoke(nameof(GameDirector.instance.AfterDragonDead),0.5f);//대화 준비
+            }
+            else
+            {
+                PlayerInfoManager.instance.Invoke(nameof(PlayerInfoManager.instance.GetEXP), 1.5f);
+            }
             animator.SetTrigger("Die");
             Invoke(nameof(DestroyEnemy), 2f);
-            PlayerInfoManager.instance.Invoke(nameof(PlayerInfoManager.instance.GetEXP), 1.5f);
             MonsterHPBar.instance.DisappearMonsterInfo();
         }
     }

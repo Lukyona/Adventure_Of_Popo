@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttackComponent : MonoBehaviour
 {
-    public static PlayerAttack instance;
+    public static PlayerAttackComponent instance;
 
     public GameObject target;
-    public bool alreadyAttacked1 = false; //공격 텀을 위한 변수
-    public bool alreadyAttacked2 = false;
-    public bool alreadyAttacked3 = false;
-    public LayerMask whatIsFence;//부서질 펜스
-    int fence_hit = 0;//펜스 공격한 횟수
-
-    public int attackNum = 0;// 몇번 공격인지 구분
+    bool canAttack1 = false; //공격 텀을 위한 변수
+    bool canAttack2 = false;
+    bool canAttack3 = false;
+    int fenceHitCount = 0;//펜스 공격한 횟수
+    int attackNum = 0;// 몇번 공격인지 구분
     private void Awake()
     {
         if (instance == null)
@@ -26,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (ThirdPlayerMovement.instance.foxAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fox_Idle"))//현재 애니메이션이 idle이면
         {
-            if(!alreadyAttacked1)//공격 텀이 리셋되었을 때만
+            if(!canAttack1)//공격 텀이 리셋되었을 때만
             {              
                 if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))//숫자키 1을 눌렀을 때
                 {
@@ -34,16 +32,16 @@ public class PlayerAttack : MonoBehaviour
                     {
                         GameDirector.instance.Player.transform.LookAt(target.transform);//공격대상 쳐다보기
                     }
-                    alreadyAttacked1 = true;
+                    canAttack1 = true;
                     ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Attack1");//발공격 애니메이션 실행
                     Invoke(nameof(GiveDamage), 0.2f);
                     attackNum = 1;
 
-                    if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, whatIsFence) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
+                    if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, LayerMask.NameToLayer("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
                     {
-                        fence_hit++;
+                        fenceHitCount++;
                         SoundManager.instance.PlayAttack1Sound();
-                        if (fence_hit == 5)//공격횟수가 5일 때 한번만 발생
+                        if (fenceHitCount == 5)//공격횟수가 5일 때 한번만 발생
                         {
                             GameDirector.instance.Invoke(nameof(GameDirector.instance.Destroy_Fence), 0.3f);
                             GameDirector.instance.HitWoodenFence();
@@ -51,7 +49,7 @@ public class PlayerAttack : MonoBehaviour
                     }
                 }
             }
-            if (!alreadyAttacked2)
+            if (!canAttack2)
             {
                 if (PlayerInfoManager.instance.level >= 3 && (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)))//레벨 3이상, 숫자키 2을 눌렀을 때
                 {
@@ -59,13 +57,13 @@ public class PlayerAttack : MonoBehaviour
                     {
                         GameDirector.instance.Player.transform.LookAt(target.transform);//공격대상 쳐다보기
                     }
-                    alreadyAttacked2 = true;
+                    canAttack2 = true;
                     ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Attack2");//꼬리공격 애니메이션 실행
                     Invoke(nameof(GiveDamage), 0.24f);
                     attackNum = 2;
                 }
             }
-            if (!alreadyAttacked3)
+            if (!canAttack3)
             {
                 if (PlayerInfoManager.instance.level >= 5 && (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)))//레벨 5이상, 숫자키 3을 눌렀을 때
                 {
@@ -73,7 +71,7 @@ public class PlayerAttack : MonoBehaviour
                     {
                         GameDirector.instance.Player.transform.LookAt(target.transform);//공격대상 쳐다보기
                     }
-                    alreadyAttacked3 = true;
+                    canAttack3 = true;
                     ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Attack3");//구르기 공격 애니메이션 실행
                     Invoke(nameof(GiveDamage), 0.3f);
                     attackNum = 3;
@@ -131,18 +129,18 @@ public class PlayerAttack : MonoBehaviour
                     {
                         target.GetComponent<MonsterController>().TakeDamage(20);//20데미지
                     }
-                    Invoke(nameof(Can_Attack2), 2f);//2초 쿨타임
+                    Invoke(nameof(CanDoAttack2), 2f);//2초 쿨타임
                     SoundManager.instance.PlayAttack2Sound();
                     break;
                 case 3://데미지 25
                     target.GetComponent<MonsterController>().TakeDamage(25);
-                    Invoke(nameof(Can_Attack3), 5f);//5초 쿨타임
+                    Invoke(nameof(CanDoAttack3), 5f);//5초 쿨타임
                     SoundManager.instance.PlayAttack3Sound();
                     break;
             }
-            if (alreadyAttacked1)
+            if (canAttack1)
             {
-                alreadyAttacked1 = false;
+                canAttack1 = false;
             }
         }
         else
@@ -150,25 +148,25 @@ public class PlayerAttack : MonoBehaviour
             switch(attackNum)
             {
                 case 1:
-                    alreadyAttacked1 = false;
+                    canAttack1 = false;
                     break;
                 case 2:
-                    Invoke(nameof(Can_Attack2), 2f);//2초 쿨타임
+                    Invoke(nameof(CanDoAttack2), 2f);//2초 쿨타임
                     break;
                 case 3:
-                    Invoke(nameof(Can_Attack3), 5f);//5초 쿨타임
+                    Invoke(nameof(CanDoAttack3), 5f);//5초 쿨타임
                     break;
             }
         }      
     }
 
-    void Can_Attack2()
+    void CanDoAttack2()
     {
-        alreadyAttacked2 = false;
+        canAttack2 = false;
     }
 
-    void Can_Attack3()
+    void CanDoAttack3()
     {
-        alreadyAttacked3 = false;
+        canAttack3 = false;
     }
 }

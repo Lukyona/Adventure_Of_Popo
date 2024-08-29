@@ -198,7 +198,7 @@ public class ThirdPlayerMovement : MonoBehaviour
         }
         if(!monsterInTargetRange)//몬스터가 타겟범위에 없으면
         {
-            PlayerAttack.instance.target = null; //타겟 해제
+            PlayerAttackComponent.instance.target = null; //타겟 해제
         }
 
         if(GameDirector.instance.mainCount == 8)

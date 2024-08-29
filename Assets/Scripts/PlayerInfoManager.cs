@@ -353,9 +353,9 @@ public class PlayerInfoManager : MonoBehaviour
             ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Die");//쓰러짐 애니메이션
             death = true;
             Invoke(nameof(BlackOut_On), 2f);//검은 화면으로 전환
-            if(PlayerAttack.instance.target != null)
+            if(PlayerAttackComponent.instance.target != null)
             {
-                PlayerAttack.instance.target = null;
+                PlayerAttackComponent.instance.target = null;
             }
         }
         HP_Update();
@@ -542,7 +542,7 @@ public class PlayerInfoManager : MonoBehaviour
             EXP_Update();
         }
 
-        PlayerAttack.instance.target = null;
+        PlayerAttackComponent.instance.target = null;
         monster = null;
     }
 

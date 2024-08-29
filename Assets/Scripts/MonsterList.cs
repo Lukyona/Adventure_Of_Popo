@@ -17,4 +17,5 @@ public class MonsterList : MonoBehaviour
         }
     }
     public MList[] monsterList;//0슬라임 1슬라임 2거북이 3나무 4박쥐 5버섯
+
 }

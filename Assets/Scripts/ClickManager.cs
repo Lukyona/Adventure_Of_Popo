@@ -44,19 +44,19 @@ public class ClickManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 11f) && hit.collider.gameObject.tag == "Monster" && ThirdPlayerMovement.instance.monsterInTargetRange && !PlayerInfoManager.instance.death)
             {//범위 11, 클릭한 오브젝트 태그가 몬스터이고 몬스터가 플레이어 시야 내에 있을 때, 플레이어가 죽은 상태가 아닐 때
-                PlayerAttack.instance.target = null;
+                PlayerAttackComponent.instance.target = null;
                 GameObject targetObj = hit.collider.gameObject;//타겟에 클릭한 오브젝트 할당
                 if (MonsterHPBar.instance.targetIn)//타겟 범위 내에 기존 타겟이 있던 상태면
                 {
                     MonsterHPBar.instance.DisappearMonsterInfo();//기존 타겟 정보 안 보이게 하기
                 }
-                PlayerAttack.instance.target = targetObj;//타겟 할당
+                PlayerAttackComponent.instance.target = targetObj;//타겟 할당
                 PlayerInfoManager.instance.monster = targetObj;
             }
-            if(Physics.Raycast(ray, out hit, 20f) && !(hit.collider.gameObject.tag == "Monster") && PlayerAttack.instance.target != null)//타겟이 설정된 상태에서 클릭한 게 몬스터가 아니면
+            if(Physics.Raycast(ray, out hit, 20f) && !(hit.collider.gameObject.tag == "Monster") && PlayerAttackComponent.instance.target != null)//타겟이 설정된 상태에서 클릭한 게 몬스터가 아니면
             {
                 MonsterHPBar.instance.DisappearMonsterInfo();
-                PlayerAttack.instance.target = null;
+                PlayerAttackComponent.instance.target = null;
             }
 
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.gameObject.tag == "Treasure" && GameDirector.instance.mainCount == 11)//보물상자 클릭

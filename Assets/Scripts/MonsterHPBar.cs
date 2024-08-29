@@ -50,34 +50,34 @@ public class MonsterHPBar : MonoBehaviour
     GameObject arrow;
     void Update()
     {
-        if(PlayerAttack.instance.target != null && !targetIn)//몬스터가 타겟으로 지정됐을 때
+        if(PlayerAttackComponent.instance.target != null && !targetIn)//몬스터가 타겟으로 지정됐을 때
         {
             targetIn = true;
             for (int i = 0; i < transformtList.Count; i++)
             {
-                if(PlayerAttack.instance.target.transform == transformtList[i].transform)//타겟인 몬스터 찾고 일치하면
+                if(PlayerAttackComponent.instance.target.transform == transformtList[i].transform)//타겟인 몬스터 찾고 일치하면
                 {
                     color.a = 255f;
                     color1.a = 255f;
                     hpBarList[i].GetComponent<Image>().color = color; //hp바를 보이게 만듬
                     levelList[i].GetComponent<Image>().color = color1;//레벨 정보
-                    if (PlayerAttack.instance.target.name.Contains("Slime") || PlayerAttack.instance.target.name.Contains("Turtle"))
+                    if (PlayerAttackComponent.instance.target.name.Contains("Slime") || PlayerAttackComponent.instance.target.name.Contains("Turtle"))
                     {
                         levelList[i].transform.GetChild(0).GetComponent<Text>().text = 1.ToString();
                     }
-                    else if (PlayerAttack.instance.target.name.Contains("Log"))
+                    else if (PlayerAttackComponent.instance.target.name.Contains("Log"))
                     {
                         levelList[i].transform.GetChild(0).GetComponent<Text>().text = 2.ToString();
                     }
-                    else if (PlayerAttack.instance.target.name.Contains("Bat"))
+                    else if (PlayerAttackComponent.instance.target.name.Contains("Bat"))
                     {
                         levelList[i].transform.GetChild(0).GetComponent<Text>().text = 3.ToString();
                     }
-                    else if (PlayerAttack.instance.target.name.Contains("Mushroom") || PlayerAttack.instance.target.name.Contains("Dog"))
+                    else if (PlayerAttackComponent.instance.target.name.Contains("Mushroom") || PlayerAttackComponent.instance.target.name.Contains("Dog"))
                     {
                         levelList[i].transform.GetChild(0).GetComponent<Text>().text = 4.ToString();
                     }
-                    else if (PlayerAttack.instance.target.name.Contains("Dragon"))
+                    else if (PlayerAttackComponent.instance.target.name.Contains("Dragon"))
                     {
                         levelList[i].transform.GetChild(0).GetComponent<Text>().text = 5.ToString();
                     }
@@ -88,20 +88,20 @@ public class MonsterHPBar : MonoBehaviour
                 }
             }
         }
-        if(PlayerAttack.instance.target == null && targetIn)
+        if(PlayerAttackComponent.instance.target == null && targetIn)
         {
             DisappearMonsterInfo();
         }
 
-        if (PlayerAttack.instance.target != null)//타겟 있을 때만 화살표,hp바,레벨 정보가 몬스터 따라다니게
+        if (PlayerAttackComponent.instance.target != null)//타겟 있을 때만 화살표,hp바,레벨 정보가 몬스터 따라다니게
         {      
-            if (PlayerAttack.instance.target.name.Contains("Dog"))//문지기
+            if (PlayerAttackComponent.instance.target.name.Contains("Dog"))//문지기
             {
                 arrow.transform.position = cam.WorldToScreenPoint(transformtList[num].position + new Vector3(0, 4f, 0));
                 hpBarList[num].transform.position = cam.WorldToScreenPoint(transformtList[num].position + new Vector3(0, 3.2f, 0));//HP바가 몬스터 위치 따라 이동
                 levelList[num].transform.position = cam.WorldToScreenPoint(transformtList[num].position + new Vector3(0, 3.5f, 0));//레벨 정보가 몬스터 위치 따라 이동
             }
-            else if(PlayerAttack.instance.target.name.Contains("Dragon"))//보스
+            else if(PlayerAttackComponent.instance.target.name.Contains("Dragon"))//보스
             {
                 arrow.transform.position = cam.WorldToScreenPoint(transformtList[num].position + new Vector3(0, 5.2f, 0));
                 hpBarList[num].transform.position = cam.WorldToScreenPoint(transformtList[num].position + new Vector3(0, 4f, 0));//HP바가 몬스터 위치 따라 이동
@@ -126,13 +126,13 @@ public class MonsterHPBar : MonoBehaviour
 
     public void Get_Damage(int dam)//공격받았을 때 체력바 감소
     {
-        if(GameDirector.instance.mainCount == 10 && PlayerAttack.instance.target == null)//타겟 없지만 보스전일 때
+        if(GameDirector.instance.mainCount == 10 && PlayerAttackComponent.instance.target == null)//타겟 없지만 보스전일 때
         {
             hpBarList[0].GetComponent<Image>().fillAmount -= dam / MonsterHPBar.instance.boss.GetComponent<MonsterController>().health_info;
         }
         else//보스전 제외 모두
         {
-            if (PlayerAttack.instance.target.name.Contains("Turtle"))//거북이만 유일하게 입는 데미지 다름
+            if (PlayerAttackComponent.instance.target.name.Contains("Turtle"))//거북이만 유일하게 입는 데미지 다름
             {
                 hpBarList[num].GetComponent<Image>().fillAmount -= 0.133f;//12데미지
             }
@@ -140,11 +140,11 @@ public class MonsterHPBar : MonoBehaviour
             {
                 if (GameDirector.instance.mainCount < 9)//보스/문지기 제외
                 {
-                    hpBarList[num].GetComponent<Image>().fillAmount -= dam / PlayerAttack.instance.target.GetComponent<EnemyAi>().health_info;//몬스터의 본래 체력에 따라 체력바 각각 다르게 감소  
+                    hpBarList[num].GetComponent<Image>().fillAmount -= dam / PlayerAttackComponent.instance.target.GetComponent<EnemyAi>().health_info;//몬스터의 본래 체력에 따라 체력바 각각 다르게 감소  
                 }
                 else
                 {
-                    hpBarList[num].GetComponent<Image>().fillAmount -= dam / PlayerAttack.instance.target.GetComponent<MonsterController>().health_info;
+                    hpBarList[num].GetComponent<Image>().fillAmount -= dam / PlayerAttackComponent.instance.target.GetComponent<MonsterController>().health_info;
                 }
             }
         }           
@@ -173,17 +173,17 @@ public class MonsterHPBar : MonoBehaviour
         levelList[num].GetComponent<Image>().color = color;//몬스터 레벨 안 보이게 만듬
         levelList[num].transform.GetChild(0).GetComponent<Text>().color = color;
         hpBarList[num].GetComponent<Image>().color = color; //hp바를 안 보이게 만듬
-        if (PlayerAttack.instance.target != null)//타겟 죽었을 경우
+        if (PlayerAttackComponent.instance.target != null)//타겟 죽었을 경우
         {
-            if((GameDirector.instance.mainCount < 9 && PlayerAttack.instance.target.GetComponent<EnemyAi>().health <= 0)
-                || (GameDirector.instance.mainCount >= 9 && PlayerAttack.instance.target.GetComponent<MonsterController>().health <= 0))
+            if((GameDirector.instance.mainCount < 9 && PlayerAttackComponent.instance.target.GetComponent<EnemyAi>().health <= 0)
+                || (GameDirector.instance.mainCount >= 9 && PlayerAttackComponent.instance.target.GetComponent<MonsterController>().health <= 0))
             {
                 transformtList.Remove(transformtList[num]);
                 Destroy(hpBarList[num]);
                 hpBarList.Remove(hpBarList[num]);//hp바 리스트에서 소멸
                 Destroy(levelList[num]);
                 levelList.Remove(levelList[num]);//hp바 리스트에서 소멸
-                PlayerAttack.instance.target = null;
+                PlayerAttackComponent.instance.target = null;
             }          
         }
     }
