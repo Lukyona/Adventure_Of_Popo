@@ -375,6 +375,8 @@ public class GameDirector : MonoBehaviour
         SoundManager.instance.PlayWoodSound();
         DialogueController.instance.SetDialogue(8);
         Invoke(nameof(Start_Talk),0.6f);
+        Invoke(nameof(Destroy_Fence), 0.3f);
+
     }
 
 

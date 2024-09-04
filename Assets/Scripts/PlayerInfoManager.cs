@@ -189,159 +189,17 @@ public class PlayerInfoManager : MonoBehaviour
 
     [SerializeField] GameObject damageText = null;//플레이어 데미지 프리팹
     public Canvas canvas;
-    public int a = 0; //공격 종류
-    public void PlayerDamage()//플레이어가 입는 데미지
+    //public int a = 0; //공격 종류
+    public void PlayerDamage(int damage)//플레이어가 입는 데미지
     {
         if(GameDirector.instance.mainCount == 10)//보스전
         {
             GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
             GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
         }
-        int damage = 0;
-        switch (a)//공격에 따라 다른 데미지 입음
-        {
-            case 1://슬라임 1공격
-                hp -= 7;
-                damage = 7;
-                hpBar.fillAmount -= 0.07f;// 공식 : 데미지/플레이어 체력
-                break;
-            case 2://슬라임 2공격
-                hp -= 15;
-                damage = 15;
-                hpBar.fillAmount -= 0.15f;
-                break;
-            case 3://거북이 1공격
-                hp -= 10;
-                damage = 10;
-                hpBar.fillAmount -= 0.1f;
-                break;
-            case 4://거북이 2공격
-                hp -= 20;
-                damage = 20;
-                hpBar.fillAmount -= 0.2f;
-                break;
-            case 5://나무 1공격
-                hp -= 15;
-                damage = 15;
-                switch (level)
-                {
-                    case 2:
-                        hpBar.fillAmount -= 0.1f;
-                        break;
-                    case 3:
-                        hpBar.fillAmount -= 0.075f;
-                        break;
-                    case 4:
-                        hpBar.fillAmount -= 0.06f;
-                        break;
-                }
-                break;
-            case 6://나무 2공격
-                hp -= 25;
-                damage = 25;
-                switch (level)
-                {
-                    case 2:
-                        hpBar.fillAmount -= 0.166f;
-                        break;
-                    case 3:
-                        hpBar.fillAmount -= 0.125f;
-                        break;
-                    case 4:
-                        hpBar.fillAmount -= 0.1f;
-                        break;
-                }
-                break;
-            case 7://박쥐 1공격
-                hp -= 20;
-                damage = 20;
-                switch (level)
-                {
-                    case 2:
-                        hpBar.fillAmount -= 0.1333f;
-                        break;
-                    case 3:
-                        hpBar.fillAmount -= 0.0666f;
-                        break;
-                    case 4:
-                        hpBar.fillAmount -= 0.08f;
-                        break;
-                }
-                break;
-            case 8://박쥐 2공격
-                hp -= 27;
-                damage = 27;
-                switch (level)
-                {
-                    case 2:
-                        hpBar.fillAmount -= 0.18f;
-                        break;
-                    case 3:
-                        hpBar.fillAmount -= 0.135f;
-                        break;
-                    case 4:
-                        hpBar.fillAmount -= 0.108f;
-                        break;
-                }
-                break;
-            case 9://버섯 1공격
-                hp -= 23;
-                damage = 23;
-                switch (level)
-                {
-                    case 2:
-                        hpBar.fillAmount -= 0.1533f;
-                        break;
-                    case 3:
-                        hpBar.fillAmount -= 0.115f;
-                        break;
-                    case 4:
-                        hpBar.fillAmount -= 0.092f;
-                        break;
-                }
-                break;
-            case 10://버섯 2공격
-                hp -= 33;
-                damage = 33;
-                switch (level)
-                {
-                    case 2:
-                        hpBar.fillAmount -= 0.22f;
-                        break;
-                    case 3:
-                        hpBar.fillAmount -= 0.165f;
-                        break;
-                    case 4:
-                        hpBar.fillAmount -= 0.132f;
-                        break;
-                }
-                break;
-            case 11://문지기 1공격
-                hp -= 28;
-                damage = 28;
-                hpBar.fillAmount -= 0.112f;
-                break;
-            case 12://문지기 2공격
-                hp -= 35;
-                damage = 35;
-                hpBar.fillAmount -= 0.14f;
-                break;
-            case 13://보스 1공격
-                hp -= 35;
-                damage = 35;
-                hpBar.fillAmount -= 0.116f;
-                break;
-            case 14://보스 2공격
-                hp -= 45;
-                damage = 45;
-                hpBar.fillAmount -= 0.15f;
-                break;
-            case 15://보스 3공격
-                hp -= 55;
-                damage = 55;
-                hpBar.fillAmount -= 0.18f;
-                break;
-        }
+        
+        hp -= damage;
+        hpBar.fillAmount -= damage / hpMax;
 
         GameObject dText = Instantiate(damageText, canvas.transform.position + new Vector3(-250f, 20f, 0), Quaternion.identity, canvas.transform);
         dText.GetComponent<DamageText>().SetDamage(damage);

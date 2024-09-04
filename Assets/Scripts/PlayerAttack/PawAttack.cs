@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack1 : PlayerAttack
+public class PawAttack : PlayerAttack
 {
+    int fenceHitCount = 0;//펜스 공격한 횟수
+
     public override void Execute(GameObject target)
     {
         if (target.name.Contains("Turtle"))
@@ -15,73 +17,15 @@ public class Attack1 : PlayerAttack
             target.GetComponent<EnemyAi>().TakeDamage(15);
         }
         SoundManager.instance.PlayAttack1Sound();
-    }
-
-    public override float Cooldown => 0f; // 첫 번째 공격은 쿨타임이 없음
-}
-
-
-/*
-
-
-
-
-public class Attack3 : Attack
-{
-    
-}
-*/
-
-/*
-public class PlayerAttack : MonoBehaviour
-{
-    public static PlayerAttack instance;
-
-    public GameObject target;
-    private Attack[] attacks;
-    private float[] attackCooldowns;
-    private float[] lastAttackTimes;
-
-    private void Awake()
-    {
-        if (instance == null)
+        if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, LayerMask.NameToLayer("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
         {
-            instance = this;
-        }
-
-        // 공격 배열 초기화
-        attacks = new Attack[] { new Attack1(), new Attack2(), new Attack3() };
-        attackCooldowns = new float[attacks.Length];
-        lastAttackTimes = new float[attacks.Length];
-    }
-
-    private void Update()
-    {
-        if (ThirdPlayerMovement.instance.foxAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fox_Idle"))
-        {
-            for (int i = 0; i < attacks.Length; i++)
+            fenceHitCount++;
+            if (fenceHitCount == 5)//공격횟수가 5일 때 한번만 발생
             {
-                if (Input.GetKeyDown(KeyCode.Keypad1 + i) || Input.GetKeyDown(KeyCode.Alpha1 + i))
-                {
-                    if (Time.time - lastAttackTimes[i] >= attacks[i].Cooldown)
-                    {
-                        ExecuteAttack(i);
-                        lastAttackTimes[i] = Time.time;
-                    }
-                }
+                GameDirector.instance.HitWoodenFence();
             }
         }
     }
 
-    private void ExecuteAttack(int attackIndex)
-    {
-        if (target != null)
-        {
-            GameDirector.instance.Player.transform.LookAt(target.transform);
-            ThirdPlayerMovement.instance.foxAnimator.SetTrigger($"Attack{attackIndex + 1}");
-            Invoke(nameof(GiveDamage), 0.2f + 0.02f * attackIndex);
-            attacks[attackIndex].Execute(target);
-        }
-    }
+    public override float Cooldown => 0f; // 첫 번째 공격은 쿨타임이 없음, get하면 0f를 반환
 }
-*/

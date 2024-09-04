@@ -2,171 +2,71 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackComponent : MonoBehaviour
+public class PlayerCombatComponent : CombatComponent
 {
-    public static PlayerAttackComponent instance;
-
     public GameObject target;
-    bool canAttack1 = false; //공격 텀을 위한 변수
-    bool canAttack2 = false;
-    bool canAttack3 = false;
-    int fenceHitCount = 0;//펜스 공격한 횟수
-    int attackNum = 0;// 몇번 공격인지 구분
-    private void Awake()
+    private PlayerAttack[] attacks;
+    private float[] attackCooldowns;
+    private float[] lastAttackTimes; // 공격을 마지막으로 수행한 시간
+
+    private void Start() 
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+        attacks = new PlayerAttack[] { new PawAttack(), new TailWhipAttack(), new RollAttack() };
+        attackCooldowns = new float[attacks.Length];
+        lastAttackTimes = new float[attacks.Length];    
     }
 
     private void Update()
     {
-        if (ThirdPlayerMovement.instance.foxAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fox_Idle"))//현재 애니메이션이 idle이면
+        if (ThirdPlayerMovement.instance.foxAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fox_Idle"))
         {
-            if(!canAttack1)//공격 텀이 리셋되었을 때만
-            {              
-                if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))//숫자키 1을 눌렀을 때
-                {
-                    if(target != null)
-                    {
-                        GameDirector.instance.Player.transform.LookAt(target.transform);//공격대상 쳐다보기
-                    }
-                    canAttack1 = true;
-                    ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Attack1");//발공격 애니메이션 실행
-                    Invoke(nameof(GiveDamage), 0.2f);
-                    attackNum = 1;
-
-                    if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, LayerMask.NameToLayer("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
-                    {
-                        fenceHitCount++;
-                        SoundManager.instance.PlayAttack1Sound();
-                        if (fenceHitCount == 5)//공격횟수가 5일 때 한번만 발생
-                        {
-                            GameDirector.instance.Invoke(nameof(GameDirector.instance.Destroy_Fence), 0.3f);
-                            GameDirector.instance.HitWoodenFence();
-                        }
-                    }
-                }
-            }
-            if (!canAttack2)
+            for (int i = 0; i < attacks.Length; i++)
             {
-                if (PlayerInfoManager.instance.level >= 3 && (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)))//레벨 3이상, 숫자키 2을 눌렀을 때
+                if (Input.GetKeyDown(KeyCode.Keypad1 + i) || Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
-                    if (target != null)
+                    if((i == 1 && PlayerInfoManager.instance.level < 3) || (i == 2 && PlayerInfoManager.instance.level < 5)) break;
+                    
+                    if (Time.time - lastAttackTimes[i] >= attacks[i].Cooldown)
                     {
-                        GameDirector.instance.Player.transform.LookAt(target.transform);//공격대상 쳐다보기
+                        ExecuteAttack(i);
+                        lastAttackTimes[i] = Time.time;
                     }
-                    canAttack2 = true;
-                    ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Attack2");//꼬리공격 애니메이션 실행
-                    Invoke(nameof(GiveDamage), 0.24f);
-                    attackNum = 2;
-                }
-            }
-            if (!canAttack3)
-            {
-                if (PlayerInfoManager.instance.level >= 5 && (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3)))//레벨 5이상, 숫자키 3을 눌렀을 때
-                {
-                    if (target != null)
-                    {
-                        GameDirector.instance.Player.transform.LookAt(target.transform);//공격대상 쳐다보기
-                    }
-                    canAttack3 = true;
-                    ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Attack3");//구르기 공격 애니메이션 실행
-                    Invoke(nameof(GiveDamage), 0.3f);
-                    attackNum = 3;
                 }
             }
         }
     }
 
+    void ExecuteAttack(int attackIndex)
+    {
+        if (target != null)
+        {
+            GameDirector.instance.Player.transform.LookAt(target.transform);
+            Invoke(nameof(GiveDamage), 0.2f + 0.02f * attackIndex);
+            attacks[attackIndex].Execute(target);
+        }
+        ThirdPlayerMovement.instance.foxAnimator.SetTrigger($"Attack{attackIndex + 1}");
+    }
+
     void GiveDamage()//타겟에게 데미지 입히는 함수
     {
-        if (GameDirector.instance.mainCount < 9 && target != null && target.GetComponent<EnemyAi>().health <= 0)//타겟 죽었을 때, 문지기/보스 제외
+        if (GameDirector.instance.mainCount < 9 && target.GetComponent<EnemyAi>().health <= 0)//타겟 죽었을 때, 문지기/보스 제외
         {
             GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
             GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
         }
-        if(GameDirector.instance.mainCount >= 9 && target != null && target.GetComponent<MonsterController>().health <= 0)//문지기/보스 죽었을 때
+        if(GameDirector.instance.mainCount >= 9 && target.GetComponent<MonsterController>().health <= 0)//문지기/보스 죽었을 때
         {
             GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
             GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
         }
 
-        if (target != null && ThirdPlayerMovement.instance.monsterInAttackRange)//타겟이 있어야하며 공격범위 안에 있을 때
+        if (ThirdPlayerMovement.instance.monsterInAttackRange)//타겟이 있어야하며 공격범위 안에 있을 때
         {
             if(GameDirector.instance.mainCount >= 5)
             {
                 GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
                 GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
             }
-            switch (attackNum)//공격 종류에 따라 다른 데미지
-            {
-                case 1://1번 공격, 기본데미지 15
-                    if (target.name.Contains("Turtle"))//가시거북이면
-                    { 
-                        target.GetComponent<EnemyAi>().TakeDamage(12);//12데미지
-                    }
-                    else//거북이 제외 몬스터
-                    {
-                        if(GameDirector.instance.mainCount < 9)//보스/문지기 제외
-                        {
-                            target.GetComponent<EnemyAi>().TakeDamage(15);//15데미지
-                        }
-                        else
-                        {
-                            target.GetComponent<MonsterController>().TakeDamage(15);//15데미지
-                        }
-                    }
-                    SoundManager.instance.PlayAttack1Sound();
-                    break;
-                case 2: //데미지 20
-                    if(GameDirector.instance.mainCount < 9)
-                    {
-                        target.GetComponent<EnemyAi>().TakeDamage(20);
-                    }
-                    else
-                    {
-                        target.GetComponent<MonsterController>().TakeDamage(20);//20데미지
-                    }
-                    Invoke(nameof(CanDoAttack2), 2f);//2초 쿨타임
-                    SoundManager.instance.PlayAttack2Sound();
-                    break;
-                case 3://데미지 25
-                    target.GetComponent<MonsterController>().TakeDamage(25);
-                    Invoke(nameof(CanDoAttack3), 5f);//5초 쿨타임
-                    SoundManager.instance.PlayAttack3Sound();
-                    break;
-            }
-            if (canAttack1)
-            {
-                canAttack1 = false;
-            }
-        }
-        else
-        {
-            switch(attackNum)
-            {
-                case 1:
-                    canAttack1 = false;
-                    break;
-                case 2:
-                    Invoke(nameof(CanDoAttack2), 2f);//2초 쿨타임
-                    break;
-                case 3:
-                    Invoke(nameof(CanDoAttack3), 5f);//5초 쿨타임
-                    break;
-            }
-        }      
-    }
-
-    void CanDoAttack2()
-    {
-        canAttack2 = false;
-    }
-
-    void CanDoAttack3()
-    {
-        canAttack3 = false;
+        } 
     }
 }

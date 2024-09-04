@@ -10,10 +10,6 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
     public Animator animator;
     public LayerMask whatIsPlayer;
 
-    public Transform groundCheck;
-    public LayerMask groundMask;
-    public bool isGrounded;
-    Vector3 velocity;
 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
@@ -28,30 +24,8 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
     public Transform firstPos;//초기 위치
     bool goBack = false;
 
-    private void Awake()
-    {
-        player = GameObject.Find("Fox").transform;
-        animator = gameObject.GetComponent<Animator>();
-    }
-
-    void Start()
-    {
-        health_info = health;//초기 생명력 저장
-    }
-
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, ThirdPlayerMovement.instance.groundDistance, groundMask);
-        if (isGrounded == true && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-        velocity.y += ThirdPlayerMovement.instance.gravity * Time.deltaTime; //중력 적용
-        
-        //시야범위와 공격범위 체크
-        playerInSightRange = Physics.CheckSphere(gameObject.transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(gameObject.transform.position, attackRange, whatIsPlayer);
-
         if (health > 0) //체력이 0보다 클 때
         {
             if (!PlayerInfoManager.instance.death)//플레이어가 살아있으면
@@ -65,14 +39,7 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
                             GoBack();//초기 위치로 돌아감
                         }
                     }
-                    if (playerInSightRange && !playerInAttackRange)//플레이어가 시야범위에 있지만 공격범위에는 없으면
-                    {
-                        ChasePlayer();//플레이어 쫓기                      
-                    }
-                    if (playerInSightRange && playerInAttackRange)//시야범위, 공격범위에 플레이어가 있으면
-                    {
-                        AttackPlayer();//플레이어 공격하기
-                    }
+                   
                 }
                 else//초기 위치에서 일정 범위 밖이면 다시 초기 위치로 복귀
                 {
@@ -89,41 +56,7 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
 
     float distance;//플레이어와의 거리
     public Vector3 ctrlVelocity;
-    private void ChasePlayer()
-    {
-        if(!discover)
-        {
-            discover = true;
-            animator.SetBool("See", true);
-        }
-        gameObject.transform.LookAt(player);
-        Vector3 direction = player.position - gameObject.transform.position;
-        distance = Vector3.Distance(player.position, gameObject.transform.position);
-        direction.y = 0;
 
-        if (distance > 2)
-        {
-            gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
-            if (direction.magnitude > 1)
-            {
-                ctrlVelocity = direction.normalized * 3.5f;//3.5f 스피드
-                ctrlVelocity.y = Mathf.Clamp(gameObject.GetComponent<CharacterController>().velocity.y, -30, 2);
-                ctrlVelocity.y -= 30.5f * Time.deltaTime; //중력 적용
-                gameObject.GetComponent<CharacterController>().Move(ctrlVelocity * Time.deltaTime);//이동
-            }
-        }
-    }
-
-    private void AttackPlayer()
-    {
-        if(discover)
-        {
-            discover = false;
-            animator.SetBool("See", false);
-        }
-        gameObject.transform.LookAt(player);//플레이어를 바라보게
-        Invoke(nameof(Attack), 1f);
-    }
 
     void Attack()
     {
@@ -136,12 +69,12 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
                 if (n < 8) // 일반 공격, 확률 70% 
                 {
                     animator.SetTrigger("Attack1");
-                    PlayerInfoManager.instance.a = 11;//공격 종류 설정
+                    PlayerInfoManager.instance.PlayerDamage(28);//공격 종류 설정
                 }
                 else if (n > 7) //센 공격, 확률 30%
                 {
                     animator.SetTrigger("Attack2");
-                    PlayerInfoManager.instance.a = 12;
+                    PlayerInfoManager.instance.PlayerDamage(35);
                 }
             } 
             if(gameObject.name.Contains("Dragon"))
@@ -151,18 +84,18 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
                 if (n < 6) //1~5
                 {
                     animator.SetTrigger("Attack1");
-                    PlayerInfoManager.instance.a = 13;//공격 종류 설정
+                    PlayerInfoManager.instance.PlayerDamage(35);//공격 종류 설정
                 }
                 else if (n < 10) //6~9
                 {
                     animator.SetTrigger("Attack2");
-                    PlayerInfoManager.instance.a = 14;
+                    PlayerInfoManager.instance.PlayerDamage(45);
                 }
                 else if (n <= 12) //10~12
                 {
                     animator.SetTrigger("Attack3");
                     Invoke(nameof(FireballOn), 0.15f);
-                    PlayerInfoManager.instance.a = 15;
+                    PlayerInfoManager.instance.PlayerDamage(55);
                     Invoke(nameof(FireballOff), 1f);
                 }
             }
@@ -210,9 +143,7 @@ public class MonsterController : MonoBehaviour//보스와 문지기 컨트롤러
             {
                 PlayerInfoManager.instance.Invoke(nameof(PlayerInfoManager.instance.GetEXP), 1.5f);
             }
-            animator.SetTrigger("Die");
-            Invoke(nameof(DestroyEnemy), 2f);
-            MonsterHPBar.instance.DisappearMonsterInfo();
+
         }
     }
 

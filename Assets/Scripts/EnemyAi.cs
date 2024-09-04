@@ -25,46 +25,19 @@ public class EnemyAi : MonoBehaviour
     bool discover = false; //플레이어 발견했을 때 애니메이션이 한번만 실행되기 위함
     bool win = false; // 승리했을 때 true
 
-    private void Awake()
-    {
-        player = GameObject.Find("Fox").transform;
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-    }
 
-    public float health_info;//초기 생명력 정보
-    float firstPos_x;//초기 위치
-    float firstPos_z;
-    private void Start()
-    {
-        firstPos_x = gameObject.transform.position.x;//초기 위치 저장
-        firstPos_z = gameObject.transform.position.z;
-        InvokeRepeating(nameof(Check_Walk), 1f, 0.7f);
-        health_info = health;//초기 생명력 저장
-    }
 
     private void Update()
     {
         //몬스터 시야범위와 공격범위 체크
-        playerInSightRange = Physics.CheckSphere(gameObject.transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(gameObject.transform.position, attackRange, whatIsPlayer);
+
         if(health > 0) //체력이 0보다 클 때
         {
-            if (!playerInSightRange && !playerInAttackRange) //플레이어가 공격범위와 시야범위에 있지 않으면
-            {
-                Patroling(); //순찰하기
-            }
+          
             if (!PlayerInfoManager.instance.death)//플레이어가 살아있으면
             {
                 win = false;
-                if (playerInSightRange && !playerInAttackRange)//플레이어가 시야범위에 있지만 공격범위에는 없으면
-                {
-                    ChasePlayer();//플레이어 쫓기
-                }
-                if (playerInSightRange && playerInAttackRange)//시야범위, 공격범위에 플레이어가 있으면
-                {
-                    AttackPlayer();//플레이어 공격하기
-                }
+
             }
             else
             {
@@ -86,157 +59,7 @@ public class EnemyAi : MonoBehaviour
         }      
     }
 
-    void Patroling()
-    {
-        
-        if (!walkPointSet) //walkPoint가 지정되어 있지 않으면
-        {
-            SearchWalkPoint();//찾기
-        }
 
-        if (walkPointSet)
-        {
-            agent.SetDestination(walkPoint);
-        }
-
-        Vector3 distanceToWalkPoint = gameObject.transform.position - walkPoint;
-
-        if (gameObject.name.Contains("Slime") || gameObject.name.Contains("Turtle"))//거북이나 슬라임의 경우
-        {
-            agent.speed = 0.8f;
-            if (discover)//발견했었지만 시야범위 벗어났을 때
-            {
-                discover = false;
-                animator.SetBool("See", false);
-            }
-            if (battle)//배틀 중이었다가 시야범위 벗어났을 때
-            {
-                battle = false;
-                animator.SetBool("Battle", false);
-            }
-
-            //walkPoint에 도달했으면
-            if (distanceToWalkPoint.magnitude < 1f)
-            {
-                animator.SetBool("Walk", false);
-                animator.SetBool("Stop", true);
-                walkPointSet = false;
-            }
-            else
-            {
-                animator.SetBool("Stop", false);
-                animator.SetBool("Walk", true);
-            }
-        }
-        else if(gameObject.name.Contains("Mushroom"))
-        {
-            agent.speed = 1.3f;
-            if (distanceToWalkPoint.magnitude < 1f && walkPointSet)
-            {
-                walkPointSet = false;
-            }
-            if (discover)//발견했었지만 시야범위 벗어났을 때
-            {
-                discover = false;
-                animator.SetBool("See", false);
-            }
-            if (battle)
-            {
-                battle = false;
-            }
-        }
-        else
-        {
-            agent.speed = 2f;
-            if (distanceToWalkPoint.magnitude < 1f && walkPointSet)
-            {
-                walkPointSet = false;
-            }
-            if (battle)
-            {
-                battle = false;
-            }
-        }
-    }
-
-     float now;//현재 위치
-    private void SearchWalkPoint()
-    {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        //임의의 walkPoint 지정
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-        float dis_x = firstPos_x - gameObject.transform.position.x;//지정된 워크포인트와 초기 위치와의 거리 계산
-        float dis_z = firstPos_z - gameObject.transform.position.z;
-        if(dis_x < 10f && dis_x > -10f && dis_z < 10f && dis_z > -10f)//초기위치로부터 일정 범위 안이면 통과
-        {
-            walkPointSet = true;
-            now = gameObject.transform.position.x;//현재 위치 저장
-        }
-        else
-        {
-            walkPoint = new Vector3(firstPos_x, transform.position.y, firstPos_z);
-            walkPointSet = true;
-        }
-        now = gameObject.transform.position.x;//현재 위치 저장
-    }
-
-    void Check_Walk()//이동했는지 확인
-    {
-        if (!playerInSightRange && !playerInAttackRange && walkPointSet)
-        {
-            float distance = now - gameObject.transform.position.x;
-            if (distance < 0.5f && distance > -0.5f)//계속 같은 위치이면 워크 포인트 재설정하기
-            {
-              //  Debug.Log("재설정");
-                walkPointSet = false;
-            }
-        }
-    }
-
-    void ChasePlayer()
-    {
-        agent.SetDestination(player.position);
-        if (gameObject.name.Contains("Slime") || gameObject.name.Contains("Turtle"))//거북이나 슬라임의 경우
-        {
-            agent.speed = 2f;
-            animator.SetBool("Walk", false);
-            animator.SetBool("Stop", false);
-            if (!discover)//발견
-            {
-                animator.SetBool("See", true);
-                discover = true; //발견한 상태
-            }
-            if (battle)
-            {
-                battle = false;
-                animator.SetBool("Battle", false);
-            }
-        }
-        else if (gameObject.name.Contains("Mushroom"))
-        {
-            agent.speed = 2f;
-            if (!discover)//발견
-            {
-                animator.SetBool("See", true);
-                discover = true; //발견한 상태
-            }
-            if (battle)
-            {
-                battle = false;
-            }
-        }
-        else
-        {
-            agent.speed = 3f;
-            if (battle)
-            {
-                battle = false;
-            }
-        }
-    }
 
     public bool battle = false; //배틀 트리거도 한번씩만 실행되기 위함
     
@@ -287,27 +110,27 @@ public class EnemyAi : MonoBehaviour
                  if (gameObject.name.Contains("Slime"))
                  {
                     animator.SetTrigger("Attack1");
-                    PlayerInfoManager.instance.a = 1;//공격 종류 설정
+                    PlayerInfoManager.instance.PlayerDamage(7);
                  }
                 if (gameObject.name.Contains("Turtle"))
                 {
                     animator.SetTrigger("Attack1");
-                    PlayerInfoManager.instance.a = 3;//공격 종류 설정
+                    PlayerInfoManager.instance.PlayerDamage(10);
                 }
                 if(gameObject.name.Contains("Log"))
                 {
                     animator.SetTrigger("Attack");
-                    PlayerInfoManager.instance.a = 5;
+                    PlayerInfoManager.instance.PlayerDamage(15);
                 }
                 if (gameObject.name.Contains("Bat"))
                 {
                     animator.SetTrigger("Attack");
-                    PlayerInfoManager.instance.a = 7;
+                    PlayerInfoManager.instance.PlayerDamage(20);
                 }
                 if (gameObject.name.Contains("Mushroom"))
                 {
                     animator.SetTrigger("Attack");
-                    PlayerInfoManager.instance.a = 9;
+                    PlayerInfoManager.instance.PlayerDamage(23);
                 }
             }
             else if (n > 7) //센 공격, 확률 30%
@@ -315,27 +138,27 @@ public class EnemyAi : MonoBehaviour
                 if (gameObject.name.Contains("Slime"))
                 {
                     animator.SetTrigger("Attack2");
-                    PlayerInfoManager.instance.a = 2;
+                    PlayerInfoManager.instance.PlayerDamage(15);
                 }
                 if (gameObject.name.Contains("Turtle"))
                 {
                     animator.SetTrigger("Attack1");
-                    PlayerInfoManager.instance.a = 4;//공격 종류 설정
+                    PlayerInfoManager.instance.PlayerDamage(20);//공격 종류 설정
                 }
                 if (gameObject.name.Contains("Log"))
                 {
                     animator.SetTrigger("Attack2");
-                    PlayerInfoManager.instance.a = 6;
+                    PlayerInfoManager.instance.PlayerDamage(25);
                 }
                 if (gameObject.name.Contains("Bat"))
                 {
                     animator.SetTrigger("Attack");
-                    PlayerInfoManager.instance.a = 8;
+                    PlayerInfoManager.instance.PlayerDamage(27);
                 }
                 if (gameObject.name.Contains("Mushroom"))
                 {
                     animator.SetTrigger("Attack");
-                    PlayerInfoManager.instance.a = 10;
+                    PlayerInfoManager.instance.PlayerDamage(33);
                 }
             }
             alreadyAttacked = true;
@@ -373,9 +196,7 @@ public class EnemyAi : MonoBehaviour
             {
                 PlayerInfoManager.instance.Invoke(nameof(PlayerInfoManager.instance.GetEXP), 1.5f);
             }
-            animator.SetTrigger("Die");
-            Invoke(nameof(DestroyEnemy), 2f);
-            MonsterHPBar.instance.DisappearMonsterInfo();
+
         }
     }
 
