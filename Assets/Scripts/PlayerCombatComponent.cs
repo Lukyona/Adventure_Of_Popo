@@ -49,17 +49,12 @@ public class PlayerCombatComponent : CombatComponent
 
     void GiveDamage()//타겟에게 데미지 입히는 함수
     {
-        if (GameDirector.instance.mainCount < 9 && target.GetComponent<EnemyAi>().health <= 0)//타겟 죽었을 때, 문지기/보스 제외
+        if (target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때, 문지기/보스 제외
         {
             GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
             GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
         }
-        if(GameDirector.instance.mainCount >= 9 && target.GetComponent<MonsterController>().health <= 0)//문지기/보스 죽었을 때
-        {
-            GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
-            GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
-        }
-
+      
         if (ThirdPlayerMovement.instance.monsterInAttackRange)//타겟이 있어야하며 공격범위 안에 있을 때
         {
             if(GameDirector.instance.mainCount >= 5)

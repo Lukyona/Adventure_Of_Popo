@@ -10,11 +10,11 @@ public class PawAttack : PlayerAttack
     {
         if (target.name.Contains("Turtle"))
         {
-            target.GetComponent<EnemyAi>().TakeDamage(12);
+            target.GetComponent<IEnemyController>().TakeDamage(12);
         }
         else
         {
-            target.GetComponent<EnemyAi>().TakeDamage(15);
+            target.GetComponent<IEnemyController>().TakeDamage(15);
         }
         SoundManager.instance.PlayAttack1Sound();
         if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, LayerMask.NameToLayer("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때

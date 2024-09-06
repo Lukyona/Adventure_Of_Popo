@@ -13,8 +13,8 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
     public override void Start()
     {
         base.Start();
-        initialLocation = EnemyInfo.Transform.position;
-        initialRotation = EnemyInfo.Transform.rotation;
+        initialLocation = EnemyInfo.EnemyTransform.position;
+        initialRotation = EnemyInfo.EnemyTransform.rotation;
     }
 
     public override void ChasePlayer()
@@ -29,14 +29,14 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             target = playerTransform.position;
         }
 
-        EnemyInfo.Transform.LookAt(target);
-        Vector3 direction = target - EnemyInfo.Transform.position;
-        float distance = Vector3.Distance(target, EnemyInfo.Transform.position);
+        EnemyInfo.EnemyTransform.LookAt(target);
+        Vector3 direction = target - EnemyInfo.EnemyTransform.position;
+        float distance = Vector3.Distance(target, EnemyInfo.EnemyTransform.position);
         direction.y = 0;
 
         if (distance > 1f)
         {
-            EnemyInfo.Transform.rotation = Quaternion.Slerp(EnemyInfo.Transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+            EnemyInfo.EnemyTransform.rotation = Quaternion.Slerp(EnemyInfo.EnemyTransform.rotation, Quaternion.LookRotation(direction), 0.1f);
             if (direction.magnitude > 1f)
             {
                 Vector3 movementVelocity = direction.normalized * EnemyInfo.ChaseSpeed;
@@ -50,10 +50,10 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             currentHealth = EnemyInfo.MaxHealth;
             MonsterHPBar.instance.Recover_HP(EnemyInfo.MaxHealth);
             
-            EnemyInfo.Transform.rotation = initialRotation;
+            EnemyInfo.EnemyTransform.rotation = initialRotation;
             isReturning = false;
         }
-        if (Vector3.Distance(EnemyInfo.Transform.position, initialLocation) > EnemyInfo.MaxDistance) isReturning = true;
+        if (Vector3.Distance(EnemyInfo.EnemyTransform.position, initialLocation) > EnemyInfo.MaxDistance) isReturning = true;
 
         base.ChasePlayer(); // 부모 메서드 호출
     }
@@ -65,15 +65,17 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         if (EnemyInfo.EnemyObject.name.Contains("Boss"))
         {
             // 보스 전용 공격 로직
-            int n = UnityEngine.Random.Range(1, 12);
+            int n = Random.Range(1, 12);
             if (n < 6)
             {
                 animator.SetTrigger("Attack1");
+                PlayerInfoManager.instance.PlayerDamage(EnemyInfo.NormalAttackDamage);
                 // 보스 공격 타입 1
             }
             else if (n < 10)
             {
                 animator.SetTrigger("Attack2");
+                PlayerInfoManager.instance.PlayerDamage(EnemyInfo.NormalAttackDamage);
                 // 보스 공격 타입 2
             }
             else
@@ -104,6 +106,8 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
     public async void ActivateFireball()
     {
         Fireball.SetActive(true);
+        PlayerInfoManager.instance.PlayerDamage(55);
+
         await Task.Delay(1000); // 1초 기다리고 다음 실행
 
         DeactivateFireball();

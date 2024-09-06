@@ -90,7 +90,7 @@ public class GameDirector : MonoBehaviour
                 break;
             case 9://문지기 쓰러뜨림
                 Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
-                MonsterHPBar.instance.boss.GetComponent<MonsterController>().animator.SetTrigger("Scream");//드래곤 포효
+                //나중에 풀어 MonsterHPBar.instance.boss.GetComponent<IEnemyController>().animator.SetTrigger("Scream");//드래곤 포효
                 SoundManager.instance.Invoke(("PlayDragonRoarSound"), 0.5f);
                 break;
             case 11://엘릭서 획득 후

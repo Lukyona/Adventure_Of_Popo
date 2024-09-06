@@ -31,7 +31,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
     {
         base.AttackPlayer();
 
-        Agent.SetDestination(EnemyInfo.Transform.position); // 정지
+        Agent.SetDestination(EnemyInfo.EnemyTransform.position); // 정지
 
         int n = Random.Range(1, 10);
         if (n < 8)

@@ -17,7 +17,7 @@ public class EnemyCombatComponent
 
     [Header("Health Settings")]
     protected float currentHealth;
-    protected bool isDead { get; set;}
+    public bool IsDead { get; protected set;}
 
 
     [Header("Attack Settings")]
@@ -33,8 +33,8 @@ public class EnemyCombatComponent
     void Update()
     {
         // 시야 및 공격 범위 체크
-        PlayerInSightRange = Physics.CheckSphere(EnemyInfo.Transform.position, EnemyInfo.SightRange, LayerMask.NameToLayer("Player"));
-        PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.Transform.position, EnemyInfo.AttackRange, LayerMask.NameToLayer("Player"));
+        PlayerInSightRange = Physics.CheckSphere(EnemyInfo.EnemyTransform.position, EnemyInfo.SightRange, LayerMask.NameToLayer("Player"));
+        PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.EnemyTransform.position, EnemyInfo.AttackRange, LayerMask.NameToLayer("Player"));
 
         if (currentHealth > 0)
         {
@@ -48,7 +48,6 @@ public class EnemyCombatComponent
             Die();
         }
     }
-
 
     public virtual void ChasePlayer()
     {
@@ -68,7 +67,7 @@ public class EnemyCombatComponent
 
         isInCombat = true;
 
-        EnemyInfo.Transform.LookAt(playerTransform);
+        EnemyInfo.EnemyTransform.LookAt(playerTransform);
 
         if (canAttack)
         {
@@ -104,9 +103,9 @@ public class EnemyCombatComponent
 
     public virtual void Die()
     {
-        if(isDead) return;
+        if(IsDead) return;
 
-        isDead = true;
+        IsDead = true;
         animator.SetTrigger("Die");
         OwnerController.Invoke(nameof(OwnerController.Destroy), 2f);
     }

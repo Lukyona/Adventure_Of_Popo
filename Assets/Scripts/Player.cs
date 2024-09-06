@@ -5,6 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static Player instance;
+
+    public PlayerCombatComponent CombatComponent { get; private set;}
+
+
     #region 
     public GameObject target;
     bool canAttack1 = false; //공격 텀을 위한 변수

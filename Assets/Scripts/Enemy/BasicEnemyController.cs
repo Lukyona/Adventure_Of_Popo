@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class BasicEnemyController : MonoBehaviour
+public class BasicEnemyController : MonoBehaviour, IEnemyController
 {
     [SerializeField] EnemyInfo enemyInfo;
-
     Animator animator;
     EnemyCombatComponent combatComponent;
 
@@ -20,11 +19,14 @@ public class BasicEnemyController : MonoBehaviour
 
     [SerializeField] float patrolSpeed;
 
-    void Start()
+    public void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        enemyInfo.EnemyObject = gameObject;
+        enemyInfo.EnemyTransform = transform;
         combatComponent = new BasicEnemyCombatComponent()
         {
+            OwnerController = this,
             Agent = agent,
             EnemyInfo = enemyInfo
         };
@@ -102,5 +104,20 @@ public class BasicEnemyController : MonoBehaviour
             walkPointSet = false;
             Debug.Log("이동 지점 재설정");
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        combatComponent.TakeDamage(damage);
+    }
+
+    public bool IsDead()
+    {
+        return combatComponent.IsDead;
+    }
+
+    public float GetMaxHealth()
+    {
+        return enemyInfo.MaxHealth;
     }
 }

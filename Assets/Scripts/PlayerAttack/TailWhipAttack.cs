@@ -6,7 +6,7 @@ public class TailWhipAttack : PlayerAttack
 {
     public override void Execute(GameObject target)
     {
-        target.GetComponent<EnemyAi>().TakeDamage(20);
+        target.GetComponent<IEnemyController>().TakeDamage(20);
         SoundManager.instance.PlayAttack2Sound();
     }
 

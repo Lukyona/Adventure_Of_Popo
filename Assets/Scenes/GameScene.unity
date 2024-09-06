@@ -1608,6 +1608,7 @@ GameObject:
   - component: {fileID: 146605279}
   - component: {fileID: 146605278}
   - component: {fileID: 146605277}
+  - component: {fileID: 146605276}
   m_Layer: 9
   m_Name: Monster_Log
   m_TagString: Monster
@@ -1631,6 +1632,21 @@ Transform:
   m_Father: {fileID: 604080172}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -97.27801, z: 0}
+--- !u!114 &146605276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146605274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
+  walkPointRange: 4
+  patrolSpeed: 2
 --- !u!195 &146605277
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9530,6 +9546,7 @@ GameObject:
   - component: {fileID: 514816926}
   - component: {fileID: 514816925}
   - component: {fileID: 514816927}
+  - component: {fileID: 514816924}
   m_Layer: 9
   m_Name: Monster_Bat
   m_TagString: Monster
@@ -9553,6 +9570,21 @@ Transform:
   m_Father: {fileID: 715175986}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
+--- !u!114 &514816924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514816922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 2
 --- !u!195 &514816925
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12125,6 +12157,7 @@ GameObject:
   - component: {fileID: 804106997}
   - component: {fileID: 804106996}
   - component: {fileID: 804106999}
+  - component: {fileID: 804106995}
   m_Layer: 9
   m_Name: Monster_Mushroom
   m_TagString: Monster
@@ -12148,6 +12181,21 @@ Transform:
   m_Father: {fileID: 206598545}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 300.609, z: 0}
+--- !u!114 &804106995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804106993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
+  walkPointRange: 2.5
+  patrolSpeed: 1.3
 --- !u!195 &804106996
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18972,6 +19020,7 @@ GameObject:
   - component: {fileID: 1085631873}
   - component: {fileID: 1085631872}
   - component: {fileID: 1085631875}
+  - component: {fileID: 1085631871}
   m_Layer: 9
   m_Name: Monster_Mushroom
   m_TagString: Monster
@@ -18995,6 +19044,21 @@ Transform:
   m_Father: {fileID: 206598545}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 15.034, y: 199.58199, z: 5.2720003}
+--- !u!114 &1085631871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085631869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
+  walkPointRange: 2.5
+  patrolSpeed: 1.3
 --- !u!195 &1085631872
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19455,6 +19519,7 @@ GameObject:
   - component: {fileID: 1125722202}
   - component: {fileID: 1125722201}
   - component: {fileID: 1125722200}
+  - component: {fileID: 1125722199}
   m_Layer: 9
   m_Name: Monster_Log
   m_TagString: Monster
@@ -19478,6 +19543,21 @@ Transform:
   m_Father: {fileID: 604080172}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 3.038, y: -69.93301, z: 0.36200002}
+--- !u!114 &1125722199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125722197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
+  walkPointRange: 4
+  patrolSpeed: 2
 --- !u!195 &1125722200
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -21202,6 +21282,7 @@ GameObject:
   - component: {fileID: 1361072026}
   - component: {fileID: 1361072024}
   - component: {fileID: 1361072023}
+  - component: {fileID: 1361072022}
   m_Layer: 9
   m_Name: Monster_Bat
   m_TagString: Monster
@@ -21225,6 +21306,21 @@ Transform:
   m_Father: {fileID: 715175986}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
+--- !u!114 &1361072022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361072020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 2
 --- !u!195 &1361072023
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -22845,6 +22941,7 @@ GameObject:
   - component: {fileID: 1536369077}
   - component: {fileID: 1536369076}
   - component: {fileID: 1536369079}
+  - component: {fileID: 1536369075}
   m_Layer: 9
   m_Name: Monster_Mushroom
   m_TagString: Monster
@@ -22868,6 +22965,21 @@ Transform:
   m_Father: {fileID: 206598545}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 277.613, z: 0}
+--- !u!114 &1536369075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536369073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
+  walkPointRange: 2.5
+  patrolSpeed: 1.3
 --- !u!195 &1536369076
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -24284,7 +24396,6 @@ MonoBehaviour:
   damageText: {fileID: 6482107239833024665, guid: 89e9b03bbbfa91d48896b0ddb21bd489,
     type: 3}
   canvas: {fileID: 53547316}
-  a: 0
   recHp: 0
   exp: 0
   expText: {fileID: 721291122}
@@ -24298,12 +24409,6 @@ MonoBehaviour:
   whatCanDo: {fileID: 1277892962}
   level: 1
   levelText: {fileID: 113120854}
-  slime1: 3
-  turtle: 3
-  slime2: 1
-  tree: 4
-  bat: 4
-  mushroom: 4
   load: 0
   loadvalue: {fileID: 0}
   foodNum: 010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -27014,6 +27119,7 @@ GameObject:
   - component: {fileID: 2095105445}
   - component: {fileID: 2095105444}
   - component: {fileID: 2095105446}
+  - component: {fileID: 2095105443}
   m_Layer: 9
   m_Name: Monster_Bat
   m_TagString: Monster
@@ -27037,6 +27143,21 @@ Transform:
   m_Father: {fileID: 715175986}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
+--- !u!114 &2095105443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095105441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 2
 --- !u!195 &2095105444
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -28214,6 +28335,7 @@ GameObject:
   - component: {fileID: 1382258697082968}
   - component: {fileID: 1382258697082969}
   - component: {fileID: 1382258697082971}
+  - component: {fileID: 1382258697082970}
   m_Layer: 9
   m_Name: Monster_Mushroom
   m_TagString: Monster
@@ -28257,6 +28379,21 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1382258697082970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382258697082967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
+  walkPointRange: 2.5
+  patrolSpeed: 1.3
 --- !u!95 &1382258697082971
 Animator:
   serializedVersion: 3
@@ -28995,6 +29132,7 @@ GameObject:
   - component: {fileID: 1625219996298048}
   - component: {fileID: 1625219996298047}
   - component: {fileID: 1625219996298050}
+  - component: {fileID: 1625219996298049}
   m_Layer: 9
   m_Name: Monster_Bat
   m_TagString: Monster
@@ -29038,6 +29176,21 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.65, z: 0}
+--- !u!114 &1625219996298049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625219996298046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 2
 --- !u!95 &1625219996298050
 Animator:
   serializedVersion: 3
@@ -29556,6 +29709,7 @@ GameObject:
   - component: {fileID: 95237073684706328}
   - component: {fileID: 1118118354}
   - component: {fileID: 1774624963502876}
+  - component: {fileID: 1774624963502875}
   m_Layer: 9
   m_Name: Monster_Turtle
   m_TagString: Monster
@@ -29563,6 +29717,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1774624963502875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774624963502874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 48122214f6f9c4ba592847c00e10416b, type: 2}
+  walkPointRange: 2
+  patrolSpeed: 0.8
 --- !u!195 &1774624963502876
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -29597,6 +29766,7 @@ GameObject:
   - component: {fileID: 95237073696314531}
   - component: {fileID: 1199582202}
   - component: {fileID: 1774624987562915}
+  - component: {fileID: 1774624987562914}
   m_Layer: 9
   m_Name: Monster_Turtle
   m_TagString: Monster
@@ -29604,6 +29774,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1774624987562914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774624987562913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 48122214f6f9c4ba592847c00e10416b, type: 2}
+  walkPointRange: 2
+  patrolSpeed: 0.8
 --- !u!195 &1774624987562915
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -29638,6 +29823,7 @@ GameObject:
   - component: {fileID: 95237075034249837}
   - component: {fileID: 912601732}
   - component: {fileID: 1774625763528048}
+  - component: {fileID: 1774625763528049}
   m_Layer: 9
   m_Name: Monster_Turtle
   m_TagString: Monster
@@ -29667,6 +29853,21 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1774625763528049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774625763528047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 48122214f6f9c4ba592847c00e10416b, type: 2}
+  walkPointRange: 2
+  patrolSpeed: 0.8
 --- !u!1 &1790514462693893
 GameObject:
   m_ObjectHideFlags: 0
@@ -29999,6 +30200,7 @@ GameObject:
   - component: {fileID: 95161443344393049}
   - component: {fileID: 371700925}
   - component: {fileID: 371700924}
+  - component: {fileID: 1919010816184630}
   m_Layer: 9
   m_Name: Monster_Slime
   m_TagString: Monster
@@ -30006,6 +30208,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1919010816184630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919010816184629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 0.8
 --- !u!1 &1919010938444362
 GameObject:
   m_ObjectHideFlags: 0
@@ -30078,6 +30295,7 @@ GameObject:
   - component: {fileID: 95161443748382832}
   - component: {fileID: 71521970}
   - component: {fileID: 71521972}
+  - component: {fileID: 1919011490134557}
   m_Layer: 9
   m_Name: Monster_Slime
   m_TagString: Monster
@@ -30085,6 +30303,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1919011490134557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919011490134556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 0.8
 --- !u!1 &1919011543599854
 GameObject:
   m_ObjectHideFlags: 0
@@ -30097,6 +30330,7 @@ GameObject:
   - component: {fileID: 95161443661363330}
   - component: {fileID: 1522811913}
   - component: {fileID: 1522811915}
+  - component: {fileID: 1919011543599855}
   m_Layer: 9
   m_Name: Monster_Slime2
   m_TagString: Monster
@@ -30104,6 +30338,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1919011543599855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919011543599854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 0.8
 --- !u!1 &1919012020917148
 GameObject:
   m_ObjectHideFlags: 0
@@ -30116,6 +30365,7 @@ GameObject:
   - component: {fileID: 95161444253590000}
   - component: {fileID: 788526757}
   - component: {fileID: 788526759}
+  - component: {fileID: 1919012020917149}
   m_Layer: 9
   m_Name: Monster_Slime
   m_TagString: Monster
@@ -30123,6 +30373,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1919012020917149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919012020917148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
+  walkPointRange: 3
+  patrolSpeed: 0.8
 --- !u!1 &1933747459825371
 GameObject:
   m_ObjectHideFlags: 0
@@ -46437,6 +46702,7 @@ GameObject:
   - component: {fileID: 1905401176650985583}
   - component: {fileID: 4800839810382491400}
   - component: {fileID: 4800839810382491399}
+  - component: {fileID: 4800839810382491401}
   m_Layer: 9
   m_Name: Monster_Log
   m_TagString: Monster
@@ -46480,6 +46746,21 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4800839810382491401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800839810382491398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
+  walkPointRange: 4
+  patrolSpeed: 2
 --- !u!1 &4800839811808069541
 GameObject:
   m_ObjectHideFlags: 0
@@ -46492,6 +46773,7 @@ GameObject:
   - component: {fileID: 1905401175962671308}
   - component: {fileID: 4800839811808069544}
   - component: {fileID: 4800839811808069543}
+  - component: {fileID: 4800839811808069542}
   m_Layer: 9
   m_Name: Monster_Log
   m_TagString: Monster
@@ -46499,6 +46781,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4800839811808069542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800839811808069541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec4c6132f5194eb8984ddbdcb17e467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
+  walkPointRange: 4
+  patrolSpeed: 2
 --- !u!195 &4800839811808069543
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -46703,6 +47000,7 @@ GameObject:
   - component: {fileID: 6015536943364927890}
   - component: {fileID: 3836447961381102792}
   - component: {fileID: 5255722807079543227}
+  - component: {fileID: 5255722807079543226}
   m_Layer: 9
   m_Name: Dragon_Boss
   m_TagString: Monster
@@ -46710,6 +47008,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5255722807079543226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5255722807079543225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9069678a690c148bcb0f9f2915077010, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: cde1ef90517b349cc95f936da0b510fd, type: 2}
+  fireball: {fileID: 0}
 --- !u!143 &5255722807079543227
 CharacterController:
   m_ObjectHideFlags: 0
@@ -54279,6 +54591,7 @@ GameObject:
   - component: {fileID: 8422892626469847360}
   - component: {fileID: 8422892626460077742}
   - component: {fileID: 1343276530}
+  - component: {fileID: 8422892626469559649}
   m_Layer: 9
   m_Name: DogKnight_GateKeeper
   m_TagString: Monster
@@ -54286,6 +54599,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8422892626469559649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422892626469559648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9069678a690c148bcb0f9f2915077010, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyInfo: {fileID: 11400000, guid: 08b717ea9f69b46b5b51f65fa9dd1b3b, type: 2}
+  fireball: {fileID: 0}
 --- !u!1 &8422892626469559650
 GameObject:
   m_ObjectHideFlags: 0

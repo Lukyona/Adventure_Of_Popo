@@ -54,11 +54,11 @@ public class FriendController : MonoBehaviour
         }
         else//전투 상태, 플레이어와 가까움
         {
-            if(PlayerAttackComponent.instance.target != null)//타겟에게 이동
+            if(Player.instance.CombatComponent.target != null)//타겟에게 이동
             {
-                gameObject.transform.LookAt(PlayerAttackComponent.instance.target.transform);
-                Vector3 direction = PlayerAttackComponent.instance.target.transform.position - gameObject.transform.position;
-                distance = Vector3.Distance(PlayerAttackComponent.instance.target.transform.position, gameObject.transform.position);
+                gameObject.transform.LookAt(Player.instance.CombatComponent.target.transform);
+                Vector3 direction = Player.instance.CombatComponent.target.transform.position - gameObject.transform.position;
+                distance = Vector3.Distance(Player.instance.CombatComponent.target.transform.position, gameObject.transform.position);
                 direction.y = 0;
 
                 if (distance > 2)
@@ -166,18 +166,18 @@ public class FriendController : MonoBehaviour
 
     void Attack()
     {
-        if (battle && attack_start && ((PlayerAttackComponent.instance.target != null) || (GameDirector.instance.mainCount == 10)))//타겟이 있거나 없어도 보스전일 때
+        if (battle && attack_start && ((Player.instance.CombatComponent.target != null) || (GameDirector.instance.mainCount == 10)))//타겟이 있거나 없어도 보스전일 때
         {
-            if (GameDirector.instance.mainCount < 9 && PlayerAttackComponent.instance.target.GetComponent<EnemyAi>().health <= 0)//타겟 죽었을 때
+            if (GameDirector.instance.mainCount < 9 && Player.instance.CombatComponent.target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때
             {
                 battle = false;//동료 전투 상태 해제
-                PlayerAttackComponent.instance.target = null;
+                Player.instance.CombatComponent.target = null;
             }
-            else if((GameDirector.instance.mainCount == 9 && PlayerAttackComponent.instance.target.GetComponent<MonsterController>().health <= 0) 
-                || (GameDirector.instance.mainCount == 10 && (MonsterHPBar.instance.boss.GetComponent<MonsterController>().health <= 0) || PlayerInfoManager.instance.death))
+            else if((GameDirector.instance.mainCount == 9 && Player.instance.CombatComponent.target.GetComponent<IEnemyController>().IsDead()) 
+                || (GameDirector.instance.mainCount == 10 && (MonsterHPBar.instance.boss.GetComponent<IEnemyController>().IsDead()) || PlayerInfoManager.instance.death))
             {//보스전이어도 플레이어 죽으면 전투 해제
                 battle = false;//동료 전투 상태 해제
-                PlayerAttackComponent.instance.target = null;
+                Player.instance.CombatComponent.target = null;
             }
             else
             {
@@ -213,44 +213,44 @@ public class FriendController : MonoBehaviour
 
     void Slime_GiveDamage1()
     {
-        if (PlayerAttackComponent.instance.target != null)
+        if (Player.instance.CombatComponent.target != null)
         {
             if(GameDirector.instance.mainCount < 9)
             {
-                PlayerAttackComponent.instance.target.GetComponent<EnemyAi>().TakeDamage(5);
+                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(5);
             }
             else
             {
-                PlayerAttackComponent.instance.target.GetComponent<MonsterController>().TakeDamage(5);
+                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(5);
             }
         }
         else if (GameDirector.instance.mainCount == 10)//타겟 설정은 되지 않았지만 보스전일 때
         {
-            if (MonsterHPBar.instance.boss.GetComponent<MonsterController>().health > 0)//보스 살아있을 때
+            if (!MonsterHPBar.instance.boss.GetComponent<IEnemyController>().IsDead())//보스 살아있을 때
             {
-                MonsterHPBar.instance.boss.GetComponent<MonsterController>().TakeDamage(5);
+                MonsterHPBar.instance.boss.GetComponent<IEnemyController>().TakeDamage(5);
             }
         }
     }
 
     void Slime_GiveDamage2()
     {
-        if (PlayerAttackComponent.instance.target != null)
+        if (Player.instance.CombatComponent.target != null)
         {
             if (GameDirector.instance.mainCount < 9)
             {
-                PlayerAttackComponent.instance.target.GetComponent<EnemyAi>().TakeDamage(10);
+                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(10);
             }
             else
             {
-                PlayerAttackComponent.instance.target.GetComponent<MonsterController>().TakeDamage(10);
+                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(10);
             }
         }
         else if (GameDirector.instance.mainCount == 10)//타겟 설정은 되지 않았지만 보스전일 때
         {
-            if (MonsterHPBar.instance.boss.GetComponent<MonsterController>().health > 0)
+            if (!MonsterHPBar.instance.boss.GetComponent<IEnemyController>().IsDead())
             {
-                MonsterHPBar.instance.boss.GetComponent<MonsterController>().TakeDamage(10);
+                MonsterHPBar.instance.boss.GetComponent<IEnemyController>().TakeDamage(10);
             }
         }
     }
@@ -258,22 +258,22 @@ public class FriendController : MonoBehaviour
 
     void Mush_GiveDamage()
     {
-        if (PlayerAttackComponent.instance.target != null)
+        if (Player.instance.CombatComponent.target != null)
         {
             if (GameDirector.instance.mainCount < 9)
             {
-                PlayerAttackComponent.instance.target.GetComponent<EnemyAi>().TakeDamage(12);
+                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(12);
             }
             else
             {
-                PlayerAttackComponent.instance.target.GetComponent<MonsterController>().TakeDamage(12);
+                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(12);
             }
         }
         else if (GameDirector.instance.mainCount == 10)//타겟 설정은 되지 않았지만 보스전일 때
         {
-            if(MonsterHPBar.instance.boss.GetComponent<MonsterController>().health > 0)
+            if(!MonsterHPBar.instance.boss.GetComponent<IEnemyController>().IsDead())
             {
-                MonsterHPBar.instance.boss.GetComponent<MonsterController>().TakeDamage(12);
+                MonsterHPBar.instance.boss.GetComponent<IEnemyController>().TakeDamage(12);
             }
         }
     }

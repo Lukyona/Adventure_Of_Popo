@@ -6,7 +6,7 @@ public class RollAttack : PlayerAttack
 {
     public override void Execute(GameObject target)
     {
-        target.GetComponent<MonsterController>().TakeDamage(25);
+        target.GetComponent<IEnemyController>().TakeDamage(25);
         SoundManager.instance.PlayAttack3Sound();
     }
 

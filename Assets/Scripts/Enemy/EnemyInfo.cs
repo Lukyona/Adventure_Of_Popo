@@ -1,10 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewEnemyInfos", menuName = "ScriptableObjects/EnemyInfos", order = 1)]
+[CreateAssetMenu(fileName = "NewEnemyInfos", menuName = "Scriptable Objects/EnemyInfos", order = 1)]
 public class EnemyInfo : ScriptableObject
 {
-    [SerializeField] GameObject enemyObject;
-    [SerializeField] Transform transform;
+    public GameObject EnemyObject {get; set;}
+    public Transform EnemyTransform {get; set;}
     [SerializeField] float sightRange;
     [SerializeField] float attackRange;
     [SerializeField] float maxDistance; // 초기위치로부터 이동할 수 있는 최대 거리
@@ -18,8 +18,6 @@ public class EnemyInfo : ScriptableObject
     [SerializeField] float timeBetweenAttacks;
 
     // getter
-    public GameObject EnemyObject => enemyObject;
-    public Transform Transform => transform;
     public float SightRange => sightRange;
     public float AttackRange => attackRange;
     public float MaxDistance => maxDistance;
