@@ -1608,9 +1608,8 @@ GameObject:
   - component: {fileID: 146605279}
   - component: {fileID: 146605278}
   - component: {fileID: 146605277}
-  - component: {fileID: 146605276}
   m_Layer: 9
-  m_Name: AngryLog (1)
+  m_Name: Monster_Log
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1632,32 +1631,6 @@ Transform:
   m_Father: {fileID: 604080172}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -97.27801, z: 0}
---- !u!114 &146605276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146605274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 4
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 110
 --- !u!195 &146605277
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8656,32 +8629,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.45, z: 0}
---- !u!114 &371700926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919010816184629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.3
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 70
 --- !u!1001 &375198324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9582,10 +9529,9 @@ GameObject:
   - component: {fileID: 514816923}
   - component: {fileID: 514816926}
   - component: {fileID: 514816925}
-  - component: {fileID: 514816924}
   - component: {fileID: 514816927}
   m_Layer: 9
-  m_Name: Monster_Bat_Prefab (2)
+  m_Name: Monster_Bat
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9607,32 +9553,6 @@ Transform:
   m_Father: {fileID: 715175986}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
---- !u!114 &514816924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 514816922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 145
 --- !u!195 &514816925
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12204,10 +12124,9 @@ GameObject:
   - component: {fileID: 804106994}
   - component: {fileID: 804106997}
   - component: {fileID: 804106996}
-  - component: {fileID: 804106995}
   - component: {fileID: 804106999}
   m_Layer: 9
-  m_Name: MushroomMonster (5)
+  m_Name: Monster_Mushroom
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12229,32 +12148,6 @@ Transform:
   m_Father: {fileID: 206598545}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 300.609, z: 0}
---- !u!114 &804106995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 804106993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 2.5
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 180
 --- !u!195 &804106996
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18279,12 +18172,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 351206198}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &975929052 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100006, guid: 44dd4fdbb6f10429a844c51183a4c84e,
-    type: 3}
-  m_PrefabInstance: {fileID: 998690805}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &981498559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19084,10 +18971,9 @@ GameObject:
   - component: {fileID: 1085631870}
   - component: {fileID: 1085631873}
   - component: {fileID: 1085631872}
-  - component: {fileID: 1085631871}
   - component: {fileID: 1085631875}
   m_Layer: 9
-  m_Name: MushroomMonster (4)
+  m_Name: Monster_Mushroom
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19109,32 +18995,6 @@ Transform:
   m_Father: {fileID: 206598545}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 15.034, y: 199.58199, z: 5.2720003}
---- !u!114 &1085631871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1085631869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 2.5
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 160
 --- !u!195 &1085631872
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19595,9 +19455,8 @@ GameObject:
   - component: {fileID: 1125722202}
   - component: {fileID: 1125722201}
   - component: {fileID: 1125722200}
-  - component: {fileID: 1125722199}
   m_Layer: 9
-  m_Name: AngryLog (5)
+  m_Name: Monster_Log
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19619,32 +19478,6 @@ Transform:
   m_Father: {fileID: 604080172}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 3.038, y: -69.93301, z: 0.36200002}
---- !u!114 &1125722199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125722197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 4
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 110
 --- !u!195 &1125722200
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -20085,7 +19918,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190772476}
-  m_LocalRotation: {x: 0.0284893, y: -0.8642403, z: 0.049257904, w: 0.49985075}
+  m_LocalRotation: {x: 0.028489357, y: -0.8642403, z: 0.049258005, w: 0.49985075}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -21369,9 +21202,8 @@ GameObject:
   - component: {fileID: 1361072026}
   - component: {fileID: 1361072024}
   - component: {fileID: 1361072023}
-  - component: {fileID: 1361072022}
   m_Layer: 9
-  m_Name: Monster_Bat_Prefab (4)
+  m_Name: Monster_Bat
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21393,32 +21225,6 @@ Transform:
   m_Father: {fileID: 715175986}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
---- !u!114 &1361072022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361072020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 140
 --- !u!195 &1361072023
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -22793,32 +22599,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.45, z: 0}
---- !u!114 &1522811914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919011543599854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.3
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 70
 --- !u!195 &1522811915
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -23064,10 +22844,9 @@ GameObject:
   - component: {fileID: 1536369074}
   - component: {fileID: 1536369077}
   - component: {fileID: 1536369076}
-  - component: {fileID: 1536369075}
   - component: {fileID: 1536369079}
   m_Layer: 9
-  m_Name: MushroomMonster (6)
+  m_Name: Monster_Mushroom
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23089,32 +22868,6 @@ Transform:
   m_Father: {fileID: 206598545}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 277.613, z: 0}
---- !u!114 &1536369075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536369073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 2.5
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 170
 --- !u!195 &1536369076
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27260,10 +27013,9 @@ GameObject:
   - component: {fileID: 2095105442}
   - component: {fileID: 2095105445}
   - component: {fileID: 2095105444}
-  - component: {fileID: 2095105443}
   - component: {fileID: 2095105446}
   m_Layer: 9
-  m_Name: Monster_Bat_Prefab (5)
+  m_Name: Monster_Bat
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27285,32 +27037,6 @@ Transform:
   m_Father: {fileID: 715175986}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -180.00002, z: 0}
---- !u!114 &2095105443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095105441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 160
 --- !u!195 &2095105444
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -28487,10 +28213,9 @@ GameObject:
   - component: {fileID: 4162405658252479}
   - component: {fileID: 1382258697082968}
   - component: {fileID: 1382258697082969}
-  - component: {fileID: 1382258697082970}
   - component: {fileID: 1382258697082971}
   m_Layer: 9
-  m_Name: MushroomMonster
+  m_Name: Monster_Mushroom
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28532,32 +28257,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1382258697082970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1382258697082967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 2.5
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 160
 --- !u!95 &1382258697082971
 Animator:
   serializedVersion: 3
@@ -29295,10 +28994,9 @@ GameObject:
   - component: {fileID: 4085870193299910}
   - component: {fileID: 1625219996298048}
   - component: {fileID: 1625219996298047}
-  - component: {fileID: 1625219996298049}
   - component: {fileID: 1625219996298050}
   m_Layer: 9
-  m_Name: Monster_Bat_Prefab (1)
+  m_Name: Monster_Bat
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29340,32 +29038,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.65, z: 0}
---- !u!114 &1625219996298049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1625219996298046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 150
 --- !u!95 &1625219996298050
 Animator:
   serializedVersion: 3
@@ -29884,40 +29556,13 @@ GameObject:
   - component: {fileID: 95237073684706328}
   - component: {fileID: 1118118354}
   - component: {fileID: 1774624963502876}
-  - component: {fileID: 1774624963502875}
   m_Layer: 9
-  m_Name: TurtleShellPBR (1)
+  m_Name: Monster_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1774624963502875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774624963502874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 2
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 90
 --- !u!195 &1774624963502876
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -29952,40 +29597,13 @@ GameObject:
   - component: {fileID: 95237073696314531}
   - component: {fileID: 1199582202}
   - component: {fileID: 1774624987562915}
-  - component: {fileID: 1774624987562914}
   m_Layer: 9
-  m_Name: TurtleShellPBR (2)
+  m_Name: Monster_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1774624987562914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774624987562913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 2
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 90
 --- !u!195 &1774624987562915
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -30020,9 +29638,8 @@ GameObject:
   - component: {fileID: 95237075034249837}
   - component: {fileID: 912601732}
   - component: {fileID: 1774625763528048}
-  - component: {fileID: 1774625763528049}
   m_Layer: 9
-  m_Name: TurtleShellPBR
+  m_Name: Monster_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30050,32 +29667,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1774625763528049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774625763528047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 2
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 90
 --- !u!1 &1790514462693893
 GameObject:
   m_ObjectHideFlags: 0
@@ -30408,9 +29999,8 @@ GameObject:
   - component: {fileID: 95161443344393049}
   - component: {fileID: 371700925}
   - component: {fileID: 371700924}
-  - component: {fileID: 371700926}
   m_Layer: 9
-  m_Name: SlimePBR (1)
+  m_Name: Monster_Slime
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30488,40 +30078,13 @@ GameObject:
   - component: {fileID: 95161443748382832}
   - component: {fileID: 71521970}
   - component: {fileID: 71521972}
-  - component: {fileID: 1919011490134557}
   m_Layer: 9
-  m_Name: SlimePBR (2)
+  m_Name: Monster_Slime
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1919011490134557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919011490134556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.3
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 70
 --- !u!1 &1919011543599854
 GameObject:
   m_ObjectHideFlags: 0
@@ -30533,10 +30096,9 @@ GameObject:
   - component: {fileID: 4023214888644432}
   - component: {fileID: 95161443661363330}
   - component: {fileID: 1522811913}
-  - component: {fileID: 1522811914}
   - component: {fileID: 1522811915}
   m_Layer: 9
-  m_Name: SlimePBR (3)
+  m_Name: Monster_Slime2
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30554,40 +30116,13 @@ GameObject:
   - component: {fileID: 95161444253590000}
   - component: {fileID: 788526757}
   - component: {fileID: 788526759}
-  - component: {fileID: 1919012020917149}
   m_Layer: 9
-  m_Name: SlimePBR(4)
+  m_Name: Monster_Slime
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1919012020917149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919012020917148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 3
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.3
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 70
 --- !u!1 &1933747459825371
 GameObject:
   m_ObjectHideFlags: 0
@@ -46902,9 +46437,8 @@ GameObject:
   - component: {fileID: 1905401176650985583}
   - component: {fileID: 4800839810382491400}
   - component: {fileID: 4800839810382491399}
-  - component: {fileID: 4800839810382491401}
   m_Layer: 9
-  m_Name: AngryLog (2)
+  m_Name: Monster_Log
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46946,32 +46480,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4800839810382491401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4800839810382491398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 4
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 130
 --- !u!1 &4800839811808069541
 GameObject:
   m_ObjectHideFlags: 0
@@ -46984,40 +46492,13 @@ GameObject:
   - component: {fileID: 1905401175962671308}
   - component: {fileID: 4800839811808069544}
   - component: {fileID: 4800839811808069543}
-  - component: {fileID: 4800839811808069542}
   m_Layer: 9
-  m_Name: AngryLog
+  m_Name: Monster_Log
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4800839811808069542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4800839811808069541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3664a58a9b674c8d2984110bef085, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointSet: 0
-  walkPointRange: 4
-  timeBetweenAttacks: 2
-  sightRange: 6
-  attackRange: 2.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  battle: 0
-  health: 110
 --- !u!195 &4800839811808069543
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -47222,7 +46703,6 @@ GameObject:
   - component: {fileID: 6015536943364927890}
   - component: {fileID: 3836447961381102792}
   - component: {fileID: 5255722807079543227}
-  - component: {fileID: 5255722807079543226}
   m_Layer: 9
   m_Name: Dragon_Boss
   m_TagString: Monster
@@ -47230,37 +46710,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5255722807079543226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255722807079543225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 573ee7a515b1c994eacaca75ad0c6670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 3836447961381102792}
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  groundCheck: {fileID: 950860584}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  isGrounded: 0
-  timeBetweenAttacks: 2
-  sightRange: 20
-  attackRange: 5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  health: 400
-  firstPos: {fileID: 1091008687}
-  ctrlVelocity: {x: 0, y: 0, z: 0}
-  fireball: {fileID: 975929052}
 --- !u!143 &5255722807079543227
 CharacterController:
   m_ObjectHideFlags: 0
@@ -54830,7 +54279,6 @@ GameObject:
   - component: {fileID: 8422892626469847360}
   - component: {fileID: 8422892626460077742}
   - component: {fileID: 1343276530}
-  - component: {fileID: 8422892626469559649}
   m_Layer: 9
   m_Name: DogKnight_GateKeeper
   m_TagString: Monster
@@ -54838,37 +54286,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8422892626469559649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8422892626469559648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 573ee7a515b1c994eacaca75ad0c6670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 8422892626460077742}
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  groundCheck: {fileID: 2053224008}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  isGrounded: 0
-  timeBetweenAttacks: 1.5
-  sightRange: 15
-  attackRange: 4.5
-  playerInSightRange: 0
-  playerInAttackRange: 0
-  health_info: 0
-  health: 250
-  firstPos: {fileID: 1096615787}
-  ctrlVelocity: {x: 0, y: 0, z: 0}
-  fireball: {fileID: 0}
 --- !u!1 &8422892626469559650
 GameObject:
   m_ObjectHideFlags: 0

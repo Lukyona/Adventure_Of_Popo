@@ -570,14 +570,6 @@ public class PlayerInfoManager : MonoBehaviour
         HP_Update();
     }
 
-    //남은 몬스터 수, 초기값
-    public int slime1 = 3;
-    public int turtle = 3;
-    public int slime2 = 1;
-    public int tree = 4;
-    public int bat = 4;
-    public int mushroom = 4;
-
     public void SavePlayerData()//플레이어 진행 데이터 저장, 게임 종료 시 실행
     {
         SoundManager.instance.PlayClickSound();
@@ -592,12 +584,12 @@ public class PlayerInfoManager : MonoBehaviour
         PlayerPrefs.SetFloat("PosZ", GameDirector.instance.Player.transform.position.z);
         PlayerPrefs.SetFloat("RotY", GameDirector.instance.Player.transform.eulerAngles.y);
 
-        PlayerPrefs.SetInt("Slime1", slime1);//남은 몬스터 수 저장
-        PlayerPrefs.SetInt("Slime2", slime2);
-        PlayerPrefs.SetInt("Turtle", turtle);
-        PlayerPrefs.SetInt("Tree", tree);
-        PlayerPrefs.SetInt("Bat", bat);
-        PlayerPrefs.SetInt("Mushroom", mushroom);
+        PlayerPrefs.SetInt("Slime1", aliveMonsters["Slime"]);//남은 몬스터 수 저장
+        PlayerPrefs.SetInt("Slime2", aliveMonsters["Slime2"]);
+        PlayerPrefs.SetInt("Turtle", aliveMonsters["Turtle"]);
+        PlayerPrefs.SetInt("Log", aliveMonsters["Log"]);
+        PlayerPrefs.SetInt("Bat", aliveMonsters["Bat"]);
+        PlayerPrefs.SetInt("Mushroom", aliveMonsters["Mushroom"]);
 
         if(GameDirector.instance.mainCount != 10)//보스전에서 보스가 죽기 전에 게임 종료 시 보스를 물리치는 단계에서 먹은 음식은 저장X 
         {
@@ -638,6 +630,12 @@ public class PlayerInfoManager : MonoBehaviour
             GameDirector.instance.Player.transform.rotation = Quaternion.Euler(0, 180f, 0);
             GameDirector.instance.Fox_Cant_Move();
             GameDirector.instance.Invoke(nameof(GameDirector.instance.MainProgress), 2.3f);
+            aliveMonsters.Add("Slime", 3);
+            aliveMonsters.Add("Slime2", 1);
+            aliveMonsters.Add("Turtle", 3);
+            aliveMonsters.Add("Log", 4);
+            aliveMonsters.Add("Bat", 4);
+            aliveMonsters.Add("Mushroom", 4);
         }
         else
         {
@@ -694,12 +692,12 @@ public class PlayerInfoManager : MonoBehaviour
             }
             //GameDirector.instance.ThirdPersonCamera.SetActive(true);
             CameraController.instance.SetFixedState(false);
-            slime1 = PlayerPrefs.GetInt("Slime1");
-            slime2 = PlayerPrefs.GetInt("Slime2");
-            turtle = PlayerPrefs.GetInt("Turtle");
-            tree = PlayerPrefs.GetInt("Tree");
-            bat = PlayerPrefs.GetInt("Bat");
-            mushroom = PlayerPrefs.GetInt("Mushroom");
+            aliveMonsters["Slime"] = PlayerPrefs.GetInt("Slime");
+            aliveMonsters["Slime2"] = PlayerPrefs.GetInt("Slime2");
+            aliveMonsters["Turtle"] = PlayerPrefs.GetInt("Turtle");
+            aliveMonsters["Log"] = PlayerPrefs.GetInt("Log");
+            aliveMonsters["Bat"] = PlayerPrefs.GetInt("Bat");
+            aliveMonsters["Mushroom"] = PlayerPrefs.GetInt("Mushroom");
             Load_Remaining_Monsters();
             Load_Food();
         }
@@ -709,32 +707,32 @@ public class PlayerInfoManager : MonoBehaviour
 
     public void Load_Remaining_Monsters()//남은 몬스터 수만큼만 활성
     {
-        for (int i = 3; i > slime1; i--)//슬라임1
+        for (int i = 3; i > aliveMonsters["Slime"]; i--)//슬라임1
         {
             MonsterList.instance.monsterList[0].list[i - 1].tag = "Untagged";//태그 수정
             Destroy(MonsterList.instance.monsterList[0].list[i - 1]);
         }
-        for (int i = 3; i > turtle; i--)//거북이
+        for (int i = 3; i > aliveMonsters["Turtle"]; i--)//거북이
         {
             MonsterList.instance.monsterList[2].list[i - 1].tag = "Untagged";
             Destroy(MonsterList.instance.monsterList[2].list[i - 1]);
         }
-        if(slime2 == 0)//슬라임2
+        if(aliveMonsters["Slime2"] == 0)//슬라임2
         {
             MonsterList.instance.monsterList[1].list[0].tag = "Untagged";
             Destroy(MonsterList.instance.monsterList[1].list[0]);
         }
-        for (int i = 4; i > tree; i--)//나무
+        for (int i = 4; i > aliveMonsters["Log"]; i--)//나무
         {
             MonsterList.instance.monsterList[3].list[i - 1].tag = "Untagged";
             Destroy(MonsterList.instance.monsterList[3].list[i - 1]);
         }
-        for (int i = 4; i > bat; i--)//박쥐
+        for (int i = 4; i > aliveMonsters["Bat"]; i--)//박쥐
         {
             MonsterList.instance.monsterList[4].list[i - 1].tag = "Untagged";
             Destroy(MonsterList.instance.monsterList[4].list[i - 1]);
         }
-        for (int i = 4; i > mushroom; i--)//버섯
+        for (int i = 4; i > aliveMonsters["Mushroom"]; i--)//버섯
         {
             MonsterList.instance.monsterList[5].list[i - 1].tag = "Untagged";
             Destroy(MonsterList.instance.monsterList[5].list[i - 1]);
@@ -782,7 +780,7 @@ public class PlayerInfoManager : MonoBehaviour
 
     void Check_All_Died()//보스, 문지기 제외 몬스터 다 죽었는지 확인 후 두번째 동료 등장
     {
-        if (tree == 0 && bat == 0 && mushroom == 0 && GameDirector.instance.mainCount == 7)
+        if (aliveMonsters["Log"] == 0 && aliveMonsters["Bat"] == 0 && aliveMonsters["Mushroom"] == 0 && GameDirector.instance.mainCount == 7)
         {
             BlackScreen.SetActive(true);
             blackAnimator.SetTrigger("BlackOn");
@@ -792,4 +790,14 @@ public class PlayerInfoManager : MonoBehaviour
 
         }
     }
+
+    Dictionary<string, int> aliveMonsters = new Dictionary<string, int>();
+
+    public void UpdateMonsterCount(string monsterName, int changeValue)
+    {
+        aliveMonsters[monsterName] += changeValue;
+    }
+
+
+
 }

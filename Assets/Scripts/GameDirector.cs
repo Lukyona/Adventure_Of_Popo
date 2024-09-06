@@ -389,4 +389,10 @@ public class GameDirector : MonoBehaviour
     {
         treasureBox.tag = "Elixir";//태그 변경
     }
+
+    public string GetObjectName(string name)
+    {
+        int idx = name.IndexOf("_");
+        return name.Substring(idx+1, name.Length - 1);
+    }
 }
