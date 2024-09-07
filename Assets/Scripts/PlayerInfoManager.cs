@@ -211,9 +211,9 @@ public class PlayerInfoManager : MonoBehaviour
             ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Die");//쓰러짐 애니메이션
             death = true;
             Invoke(nameof(BlackOut_On), 2f);//검은 화면으로 전환
-            if(Player.instance.CombatComponent.target != null)
+            if(Player.instance.GetTarget() != null)
             {
-                Player.instance.CombatComponent.target = null;
+                Player.instance.SetTarget(null);
             }
         }
         HP_Update();
@@ -400,7 +400,7 @@ public class PlayerInfoManager : MonoBehaviour
             EXP_Update();
         }
 
-        Player.instance.CombatComponent.target = null;
+        Player.instance.SetTarget(null);
         monster = null;
     }
 
@@ -710,31 +710,37 @@ public class PlayerInfoManager : MonoBehaviour
         for (int i = 3; i > aliveMonsters["Slime"]; i--)//슬라임1
         {
             MonsterList.instance.monsterList[0].list[i - 1].tag = "Untagged";//태그 수정
+            MonsterList.instance.monsterList[0].list[i - 1].GetComponent<IEnemyController>().Disable();
             Destroy(MonsterList.instance.monsterList[0].list[i - 1]);
         }
         for (int i = 3; i > aliveMonsters["Turtle"]; i--)//거북이
         {
             MonsterList.instance.monsterList[2].list[i - 1].tag = "Untagged";
+            MonsterList.instance.monsterList[2].list[i - 1].GetComponent<IEnemyController>().Disable();
             Destroy(MonsterList.instance.monsterList[2].list[i - 1]);
         }
         if(aliveMonsters["Slime2"] == 0)//슬라임2
         {
             MonsterList.instance.monsterList[1].list[0].tag = "Untagged";
+            MonsterList.instance.monsterList[1].list[0].GetComponent<IEnemyController>().Disable();
             Destroy(MonsterList.instance.monsterList[1].list[0]);
         }
         for (int i = 4; i > aliveMonsters["Log"]; i--)//나무
         {
             MonsterList.instance.monsterList[3].list[i - 1].tag = "Untagged";
+            MonsterList.instance.monsterList[3].list[i - 1].GetComponent<IEnemyController>().Disable();
             Destroy(MonsterList.instance.monsterList[3].list[i - 1]);
         }
         for (int i = 4; i > aliveMonsters["Bat"]; i--)//박쥐
         {
             MonsterList.instance.monsterList[4].list[i - 1].tag = "Untagged";
+            MonsterList.instance.monsterList[4].list[i - 1].GetComponent<IEnemyController>().Disable();
             Destroy(MonsterList.instance.monsterList[4].list[i - 1]);
         }
         for (int i = 4; i > aliveMonsters["Mushroom"]; i--)//버섯
         {
             MonsterList.instance.monsterList[5].list[i - 1].tag = "Untagged";
+            MonsterList.instance.monsterList[5].list[i - 1].GetComponent<IEnemyController>().Disable();
             Destroy(MonsterList.instance.monsterList[5].list[i - 1]);
         }
     }

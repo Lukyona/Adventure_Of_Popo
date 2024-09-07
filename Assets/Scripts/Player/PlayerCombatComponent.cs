@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
-public class PlayerCombatComponent : CombatComponent
+
+public class PlayerCombatComponent
 {
-    public GameObject target;
+    public GameObject Target { get; set;}
     private PlayerAttack[] attacks;
     private float[] attackCooldowns;
     private float[] lastAttackTimes; // 공격을 마지막으로 수행한 시간
@@ -36,20 +38,22 @@ public class PlayerCombatComponent : CombatComponent
         }
     }
 
-    void ExecuteAttack(int attackIndex)
+    async void ExecuteAttack(int attackIndex)
     {
-        if (target != null)
+        if (Target != null)
         {
-            GameDirector.instance.Player.transform.LookAt(target.transform);
-            Invoke(nameof(GiveDamage), 0.2f + 0.02f * attackIndex);
-            attacks[attackIndex].Execute(target);
+            GameDirector.instance.Player.transform.LookAt(Target.transform);
+            await Task.Delay((int)(0.2f + 0.02f * attackIndex));
+
+            GiveDamage();
+            attacks[attackIndex].Execute(Target);
         }
         ThirdPlayerMovement.instance.foxAnimator.SetTrigger($"Attack{attackIndex + 1}");
     }
 
     void GiveDamage()//타겟에게 데미지 입히는 함수
     {
-        if (target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때, 문지기/보스 제외
+        if (Target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때, 문지기/보스 제외
         {
             GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
             GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제

@@ -12,4 +12,6 @@ public interface IEnemyController
 
     float GetMaxHealth();
 
+    void Disable();
+
 }

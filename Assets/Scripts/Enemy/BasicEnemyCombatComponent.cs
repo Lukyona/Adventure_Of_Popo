@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Threading.Tasks;
+using UnityEditor.Build.Content;
 
 
 public class BasicEnemyCombatComponent : EnemyCombatComponent
@@ -29,10 +30,22 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
 
     public async override void AttackPlayer()
     {
+        if(!canAttack) return;
+
+        if(EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle"))
+        {
+            animator.SetBool("Battle", true);
+
+            if(PlayerInfoManager.instance.death)
+            {
+                animator.SetTrigger("Victory");
+            }
+        }
+
         base.AttackPlayer();
 
-        Agent.SetDestination(EnemyInfo.EnemyTransform.position); // 정지
-
+        Agent.SetDestination(EnemyInfo.EnemyObject.transform.position); // 정지
+        
         int n = Random.Range(1, 10);
         if (n < 8)
         {
@@ -51,10 +64,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
 
         await Task.Delay((int)EnemyInfo.TimeBetweenAttacks * 1000); // TimeBetweenAttacks초만큼 기다리고 다음 실행
 
-        if(PlayerInfoManager.instance.death && (EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle")))
-        {
-            animator.SetTrigger("Victory");
-        }
+        ResetAttack();
     }
 
     public override void Die()

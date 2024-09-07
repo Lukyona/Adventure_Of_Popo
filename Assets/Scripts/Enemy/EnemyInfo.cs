@@ -4,7 +4,6 @@ using UnityEngine;
 public class EnemyInfo : ScriptableObject
 {
     public GameObject EnemyObject {get; set;}
-    public Transform EnemyTransform {get; set;}
     [SerializeField] float sightRange;
     [SerializeField] float attackRange;
     [SerializeField] float maxDistance; // 초기위치로부터 이동할 수 있는 최대 거리

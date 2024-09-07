@@ -54,11 +54,11 @@ public class FriendController : MonoBehaviour
         }
         else//전투 상태, 플레이어와 가까움
         {
-            if(Player.instance.CombatComponent.target != null)//타겟에게 이동
+            if(Player.instance.GetTarget() != null)//타겟에게 이동
             {
-                gameObject.transform.LookAt(Player.instance.CombatComponent.target.transform);
-                Vector3 direction = Player.instance.CombatComponent.target.transform.position - gameObject.transform.position;
-                distance = Vector3.Distance(Player.instance.CombatComponent.target.transform.position, gameObject.transform.position);
+                gameObject.transform.LookAt(Player.instance.GetTarget().transform);
+                Vector3 direction = Player.instance.GetTarget().transform.position - gameObject.transform.position;
+                distance = Vector3.Distance(Player.instance.GetTarget().transform.position, gameObject.transform.position);
                 direction.y = 0;
 
                 if (distance > 2)
@@ -166,18 +166,18 @@ public class FriendController : MonoBehaviour
 
     void Attack()
     {
-        if (battle && attack_start && ((Player.instance.CombatComponent.target != null) || (GameDirector.instance.mainCount == 10)))//타겟이 있거나 없어도 보스전일 때
+        if (battle && attack_start && ((Player.instance.GetTarget() != null) || (GameDirector.instance.mainCount == 10)))//타겟이 있거나 없어도 보스전일 때
         {
-            if (GameDirector.instance.mainCount < 9 && Player.instance.CombatComponent.target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때
+            if (GameDirector.instance.mainCount < 9 && Player.instance.GetTarget().GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때
             {
                 battle = false;//동료 전투 상태 해제
-                Player.instance.CombatComponent.target = null;
+                Player.instance.SetTarget(null);
             }
-            else if((GameDirector.instance.mainCount == 9 && Player.instance.CombatComponent.target.GetComponent<IEnemyController>().IsDead()) 
+            else if((GameDirector.instance.mainCount == 9 && Player.instance.GetTarget().GetComponent<IEnemyController>().IsDead()) 
                 || (GameDirector.instance.mainCount == 10 && (MonsterHPBar.instance.boss.GetComponent<IEnemyController>().IsDead()) || PlayerInfoManager.instance.death))
             {//보스전이어도 플레이어 죽으면 전투 해제
                 battle = false;//동료 전투 상태 해제
-                Player.instance.CombatComponent.target = null;
+                Player.instance.SetTarget(null);
             }
             else
             {
@@ -213,15 +213,15 @@ public class FriendController : MonoBehaviour
 
     void Slime_GiveDamage1()
     {
-        if (Player.instance.CombatComponent.target != null)
+        if (Player.instance.GetTarget() != null)
         {
             if(GameDirector.instance.mainCount < 9)
             {
-                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(5);
+                Player.instance.GetTarget().GetComponent<IEnemyController>().TakeDamage(5);
             }
             else
             {
-                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(5);
+                Player.instance.GetTarget().GetComponent<IEnemyController>().TakeDamage(5);
             }
         }
         else if (GameDirector.instance.mainCount == 10)//타겟 설정은 되지 않았지만 보스전일 때
@@ -235,15 +235,15 @@ public class FriendController : MonoBehaviour
 
     void Slime_GiveDamage2()
     {
-        if (Player.instance.CombatComponent.target != null)
+        if (Player.instance.GetTarget() != null)
         {
             if (GameDirector.instance.mainCount < 9)
             {
-                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(10);
+                Player.instance.GetTarget().GetComponent<IEnemyController>().TakeDamage(10);
             }
             else
             {
-                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(10);
+                Player.instance.GetTarget().GetComponent<IEnemyController>().TakeDamage(10);
             }
         }
         else if (GameDirector.instance.mainCount == 10)//타겟 설정은 되지 않았지만 보스전일 때
@@ -258,15 +258,15 @@ public class FriendController : MonoBehaviour
 
     void Mush_GiveDamage()
     {
-        if (Player.instance.CombatComponent.target != null)
+        if (Player.instance.GetTarget() != null)
         {
             if (GameDirector.instance.mainCount < 9)
             {
-                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(12);
+                Player.instance.GetTarget().GetComponent<IEnemyController>().TakeDamage(12);
             }
             else
             {
-                Player.instance.CombatComponent.target.GetComponent<IEnemyController>().TakeDamage(12);
+                Player.instance.GetTarget().GetComponent<IEnemyController>().TakeDamage(12);
             }
         }
         else if (GameDirector.instance.mainCount == 10)//타겟 설정은 되지 않았지만 보스전일 때

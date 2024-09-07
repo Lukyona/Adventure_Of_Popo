@@ -9,7 +9,6 @@ public class EnemyCombatComponent
     public MonoBehaviour OwnerController {get; set;}
     protected Transform playerTransform;
 
-
     public bool targetFound {get; set;}
     protected bool isInCombat = false;
     public bool PlayerInSightRange { get; private set;}
@@ -21,7 +20,7 @@ public class EnemyCombatComponent
 
 
     [Header("Attack Settings")]
-    private bool canAttack = true;
+    protected bool canAttack = true;
 
     public virtual void Start()
     {
@@ -30,12 +29,11 @@ public class EnemyCombatComponent
         animator = EnemyInfo.EnemyObject.GetComponent<Animator>();
     }
 
-    void Update()
+    public virtual void Update()
     {
         // 시야 및 공격 범위 체크
-        PlayerInSightRange = Physics.CheckSphere(EnemyInfo.EnemyTransform.position, EnemyInfo.SightRange, LayerMask.NameToLayer("Player"));
-        PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.EnemyTransform.position, EnemyInfo.AttackRange, LayerMask.NameToLayer("Player"));
-
+        PlayerInSightRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.SightRange, LayerMask.GetMask("Player"));
+        PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.AttackRange, LayerMask.GetMask("Player"));
         if (currentHealth > 0)
         {
             if (PlayerInSightRange && !PlayerInAttackRange)
@@ -54,11 +52,12 @@ public class EnemyCombatComponent
         if(isInCombat) isInCombat = false;
         
         targetFound = true;
-        EnemyInfo.EnemyObject.GetComponent<Animator>().SetBool("Walk", true);
     }
 
     public virtual void AttackPlayer()
     {
+        canAttack = false;
+
         if(targetFound)
         {
             targetFound = false;
@@ -67,12 +66,7 @@ public class EnemyCombatComponent
 
         isInCombat = true;
 
-        EnemyInfo.EnemyTransform.LookAt(playerTransform);
-
-        if (canAttack)
-        {
-            canAttack = false;
-        }
+        EnemyInfo.EnemyObject.transform.LookAt(playerTransform);
 
         if(PlayerInfoManager.instance.death)
         {
@@ -81,8 +75,7 @@ public class EnemyCombatComponent
         }
     }
 
-   
-    void ResetAttack()
+    public void ResetAttack()
     {
         canAttack = true;
     }

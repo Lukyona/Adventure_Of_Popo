@@ -11,14 +11,20 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
     public void Start()
     {
         enemyInfo.EnemyObject = gameObject;
-        enemyInfo.EnemyTransform = transform;
 
         combatComponent = new EliteEnemyCombatacomponent
         {
-            OwnerController = this,
             EnemyInfo = enemyInfo,
+            OwnerController = this,
             Fireball = fireball
         };
+ 
+        combatComponent.Start();
+    }
+
+    void Update()
+    {
+        combatComponent.Update();
     }
 
     public void TakeDamage(int damage)
@@ -34,5 +40,10 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
     public float GetMaxHealth()
     {
         return enemyInfo.MaxHealth;
+    }
+
+    public void Disable()
+    {
+        enabled = false;
     }
 }

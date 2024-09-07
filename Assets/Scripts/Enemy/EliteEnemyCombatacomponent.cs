@@ -13,8 +13,8 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
     public override void Start()
     {
         base.Start();
-        initialLocation = EnemyInfo.EnemyTransform.position;
-        initialRotation = EnemyInfo.EnemyTransform.rotation;
+        initialLocation = EnemyInfo.EnemyObject.transform.position;
+        initialRotation = EnemyInfo.EnemyObject.transform.rotation;
     }
 
     public override void ChasePlayer()
@@ -29,14 +29,14 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             target = playerTransform.position;
         }
 
-        EnemyInfo.EnemyTransform.LookAt(target);
-        Vector3 direction = target - EnemyInfo.EnemyTransform.position;
-        float distance = Vector3.Distance(target, EnemyInfo.EnemyTransform.position);
+        EnemyInfo.EnemyObject.transform.LookAt(target);
+        Vector3 direction = target - EnemyInfo.EnemyObject.transform.position;
+        float distance = Vector3.Distance(target, EnemyInfo.EnemyObject.transform.position);
         direction.y = 0;
 
         if (distance > 1f)
         {
-            EnemyInfo.EnemyTransform.rotation = Quaternion.Slerp(EnemyInfo.EnemyTransform.rotation, Quaternion.LookRotation(direction), 0.1f);
+            EnemyInfo.EnemyObject.transform.rotation = Quaternion.Slerp(EnemyInfo.EnemyObject.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
             if (direction.magnitude > 1f)
             {
                 Vector3 movementVelocity = direction.normalized * EnemyInfo.ChaseSpeed;
@@ -50,10 +50,10 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             currentHealth = EnemyInfo.MaxHealth;
             MonsterHPBar.instance.Recover_HP(EnemyInfo.MaxHealth);
             
-            EnemyInfo.EnemyTransform.rotation = initialRotation;
+            EnemyInfo.EnemyObject.transform.rotation = initialRotation;
             isReturning = false;
         }
-        if (Vector3.Distance(EnemyInfo.EnemyTransform.position, initialLocation) > EnemyInfo.MaxDistance) isReturning = true;
+        if (Vector3.Distance(EnemyInfo.EnemyObject.transform.position, initialLocation) > EnemyInfo.MaxDistance) isReturning = true;
 
         base.ChasePlayer(); // 부모 메서드 호출
     }

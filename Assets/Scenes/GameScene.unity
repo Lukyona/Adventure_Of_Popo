@@ -1645,7 +1645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
-  walkPointRange: 4
+  walkPointRange: 6
   patrolSpeed: 2
 --- !u!195 &146605277
 NavMeshAgent:
@@ -9583,7 +9583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
-  walkPointRange: 3
+  walkPointRange: 4
   patrolSpeed: 2
 --- !u!195 &514816925
 NavMeshAgent:
@@ -11048,7 +11048,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646344181}
-  m_LocalRotation: {x: 0.075741604, y: 0.0005618304, z: -0.00004267652, w: 0.9971274}
+  m_LocalRotation: {x: 0.07574149, y: 0.0005618179, z: -0.0000426755, w: 0.9971274}
   m_LocalPosition: {x: 280.02512, y: 2.1965716, z: 72.98348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -12194,7 +12194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
-  walkPointRange: 2.5
+  walkPointRange: 6
   patrolSpeed: 1.3
 --- !u!195 &804106996
 NavMeshAgent:
@@ -19057,7 +19057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
-  walkPointRange: 2.5
+  walkPointRange: 6
   patrolSpeed: 1.3
 --- !u!195 &1085631872
 NavMeshAgent:
@@ -19556,7 +19556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
-  walkPointRange: 4
+  walkPointRange: 6
   patrolSpeed: 2
 --- !u!195 &1125722200
 NavMeshAgent:
@@ -19998,7 +19998,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190772476}
-  m_LocalRotation: {x: 0.028489357, y: -0.8642403, z: 0.049258005, w: 0.49985075}
+  m_LocalRotation: {x: 0.02848915, y: -0.8642403, z: 0.049257647, w: 0.49985075}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -21319,7 +21319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
-  walkPointRange: 3
+  walkPointRange: 4
   patrolSpeed: 2
 --- !u!195 &1361072023
 NavMeshAgent:
@@ -22978,7 +22978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
-  walkPointRange: 2.5
+  walkPointRange: 6
   patrolSpeed: 1.3
 --- !u!195 &1536369076
 NavMeshAgent:
@@ -25268,7 +25268,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903070921}
-  m_LocalRotation: {x: 0.044212207, y: -0.86226106, z: 0.07644276, w: 0.498706}
+  m_LocalRotation: {x: 0.04421188, y: -0.8622611, z: 0.076442204, w: 0.498706}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -26043,7 +26043,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972225827}
-  m_LocalRotation: {x: 0.036347136, y: -0.86335874, z: 0.06284408, w: 0.49934086}
+  m_LocalRotation: {x: 0.036347147, y: -0.8633587, z: 0.062844105, w: 0.49934083}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -27156,7 +27156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
-  walkPointRange: 3
+  walkPointRange: 4
   patrolSpeed: 2
 --- !u!195 &2095105444
 NavMeshAgent:
@@ -28392,7 +28392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 5eb7eab97c6894ba9aefbe4732ffe134, type: 2}
-  walkPointRange: 2.5
+  walkPointRange: 6
   patrolSpeed: 1.3
 --- !u!95 &1382258697082971
 Animator:
@@ -29189,7 +29189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: d21acb879c7a248ec9069502362e5f1a, type: 2}
-  walkPointRange: 3
+  walkPointRange: 4
   patrolSpeed: 2
 --- !u!95 &1625219996298050
 Animator:
@@ -29711,7 +29711,7 @@ GameObject:
   - component: {fileID: 1774624963502876}
   - component: {fileID: 1774624963502875}
   m_Layer: 9
-  m_Name: Monster_Turtle
+  m_Name: Monster3_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29730,7 +29730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 48122214f6f9c4ba592847c00e10416b, type: 2}
-  walkPointRange: 2
+  walkPointRange: 4
   patrolSpeed: 0.8
 --- !u!195 &1774624963502876
 NavMeshAgent:
@@ -29768,7 +29768,7 @@ GameObject:
   - component: {fileID: 1774624987562915}
   - component: {fileID: 1774624987562914}
   m_Layer: 9
-  m_Name: Monster_Turtle
+  m_Name: Monster4_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29787,7 +29787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 48122214f6f9c4ba592847c00e10416b, type: 2}
-  walkPointRange: 2
+  walkPointRange: 4
   patrolSpeed: 0.8
 --- !u!195 &1774624987562915
 NavMeshAgent:
@@ -29825,7 +29825,7 @@ GameObject:
   - component: {fileID: 1774625763528048}
   - component: {fileID: 1774625763528049}
   m_Layer: 9
-  m_Name: Monster_Turtle
+  m_Name: Monster2_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29866,7 +29866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 48122214f6f9c4ba592847c00e10416b, type: 2}
-  walkPointRange: 2
+  walkPointRange: 4
   patrolSpeed: 0.8
 --- !u!1 &1790514462693893
 GameObject:
@@ -30221,7 +30221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
-  walkPointRange: 3
+  walkPointRange: 5
   patrolSpeed: 0.8
 --- !u!1 &1919010938444362
 GameObject:
@@ -30316,7 +30316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
-  walkPointRange: 3
+  walkPointRange: 5
   patrolSpeed: 0.8
 --- !u!1 &1919011543599854
 GameObject:
@@ -30351,7 +30351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
-  walkPointRange: 3
+  walkPointRange: 5
   patrolSpeed: 0.8
 --- !u!1 &1919012020917148
 GameObject:
@@ -30386,7 +30386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 81054356f37194a159a150eff15a5b39, type: 2}
-  walkPointRange: 3
+  walkPointRange: 5
   patrolSpeed: 0.8
 --- !u!1 &1933747459825371
 GameObject:
@@ -46280,6 +46280,7 @@ GameObject:
   - component: {fileID: 7666986768184271733}
   - component: {fileID: 4020983979220132790}
   - component: {fileID: 4020983979220132791}
+  - component: {fileID: 4020983979220132792}
   m_Layer: 11
   m_Name: Fox
   m_TagString: Untagged
@@ -46346,6 +46347,18 @@ MonoBehaviour:
     m_Bits: 8192
   isPlayerIdle: 1
   isPlayerAction: 0
+--- !u!114 &4020983979220132792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020983979220132789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5a9f3dc2a7d4b0d9bf161b9d4d3ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &4067132820964666709
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -46759,7 +46772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
-  walkPointRange: 4
+  walkPointRange: 6
   patrolSpeed: 2
 --- !u!1 &4800839811808069541
 GameObject:
@@ -46794,7 +46807,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyInfo: {fileID: 11400000, guid: 15b18b94261a54eda9a6294d9a33c8fe, type: 2}
-  walkPointRange: 4
+  walkPointRange: 6
   patrolSpeed: 2
 --- !u!195 &4800839811808069543
 NavMeshAgent:
