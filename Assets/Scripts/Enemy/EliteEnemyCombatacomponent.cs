@@ -120,6 +120,8 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
 
     public override void Die()
     {
+        if(IsDead) return;
+
         if(EnemyInfo.EnemyObject.name.Contains("Boss"))
         {
             SoundManager.instance.PlayDragonDieSound();
@@ -127,7 +129,7 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         }
         else
         {
-            PlayerInfoManager.instance.Invoke(nameof(PlayerInfoManager.instance.GetEXP), 1.5f);
+            PlayerInfoManager.instance.GetEXP(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name));
         }
 
         base.Die();

@@ -69,9 +69,11 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
 
     public override void Die()
     {
+        if(IsDead) return;
+
         base.Die();
         Agent.enabled = false;
         PlayerInfoManager.instance.UpdateMonsterCount(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name), -1);
-        PlayerInfoManager.instance.Invoke(nameof(PlayerInfoManager.instance.GetEXP), 1.5f);
+        PlayerInfoManager.instance.GetEXP(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name));
     }
 }

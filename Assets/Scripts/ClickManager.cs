@@ -51,7 +51,6 @@ public class ClickManager : MonoBehaviour
                     MonsterHPBar.instance.DisappearMonsterInfo();//기존 타겟 정보 안 보이게 하기
                 }
                 Player.instance.SetTarget(targetObj);//타겟 할당
-                PlayerInfoManager.instance.monster = targetObj;
             }
             if(Physics.Raycast(ray, out hit, 20f) && !(hit.collider.gameObject.tag == "Monster") && Player.instance.GetTarget() != null)//타겟이 설정된 상태에서 클릭한 게 몬스터가 아니면
             {

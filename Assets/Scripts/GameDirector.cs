@@ -114,7 +114,6 @@ public class GameDirector : MonoBehaviour
     public void Fox_Can_Move()
     {
         Player.GetComponent<ThirdPlayerMovement>().enabled = true;//플레이어 이동 가능
-        //ThirdPersonCamera.SetActive(true);
         CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
         Player.GetComponent<CharacterController>().enabled = true;//캐릭터 컨트롤러 켜기
     }
@@ -122,7 +121,6 @@ public class GameDirector : MonoBehaviour
     public void Fox_Cant_Move()
     {
         Player.GetComponent<ThirdPlayerMovement>().enabled = false;//플레이어 이동 불가
-        //ThirdPersonCamera.SetActive(false);
         CameraController.instance.SetFixedState(true); //카메라 회전 불가
         Player.GetComponent<CharacterController>().enabled = false;//캐릭터 컨트롤러 끄기
         ThirdPlayerMovement.instance.DontMove();
@@ -142,10 +140,7 @@ public class GameDirector : MonoBehaviour
     public void Start_Talk()
     {
         talking = true;
-        if(!PlayerInfoManager.instance.death)//플레이어 죽음 상태가 아니면
-        {
-            Fox_Cant_Move();
-        }
+        Fox_Cant_Move();
         TextWindowAnimator.SetTrigger("Talk_On");//대화창 등장
         DialogueController.instance.ShowDialogue();//첫 대사는 스페이스바를 누르지 않고도 바로 나오도록
     }
@@ -153,7 +148,7 @@ public class GameDirector : MonoBehaviour
     public void End_Talk()
     {
         TextWindowAnimator.SetTrigger("Talk_Off");//대화창 사라지기
-        if(!firstStart)//첫 시작이 아닐 때만
+        if(!firstStart && !PlayerInfoManager.instance.death)//첫 시작이 아닐 때만
         {
             Fox_Can_Move();
         }
@@ -283,13 +278,11 @@ public class GameDirector : MonoBehaviour
     {
         CameraController.instance.SetFixedState(false);
 
-        ////ThirdPersonCamera.SetActive(true);
-        
         if(mainCount == 13)//마지막 대화
         {
-            PlayerInfoManager.instance.cameraSetting.m_Lens.FieldOfView = 35; //카메라 조정
-            PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
-            PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = 25f;
+            CameraController.instance.SetFieldOfView(35f);
+            CameraController.instance.SetYAxisValue(0.6f);
+            CameraController.instance.SetXAxisValue(25f);
 
             Player.transform.position = new Vector3(348.2f, 0.545f, 304);//플레이어 위치 조정
             Player.transform.rotation = Quaternion.Euler(0, 205, 0);//플레이어 회전
@@ -299,11 +292,11 @@ public class GameDirector : MonoBehaviour
         }
         else
         {
-            PlayerInfoManager.instance.cameraSetting.m_Lens.FieldOfView = 45; //카메라 조정
+            CameraController.instance.SetFieldOfView(45f);
             if (mainCount >= 10)//보스 해치운 후
             {
-                PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
-                PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = 0f;
+                CameraController.instance.SetYAxisValue(0.6f);
+                CameraController.instance.SetXAxisValue(0f);
 
                 Player.transform.position = new Vector3(348f, 0.545f, 305);//플레이어 위치 조정
                 Player.transform.rotation = Quaternion.Euler(0, 162, 0);//플레이어 회전
@@ -316,8 +309,8 @@ public class GameDirector : MonoBehaviour
             }
             else
             {
-                PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.58f;
-                PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = -40f;
+                CameraController.instance.SetYAxisValue(0.58f);
+                CameraController.instance.SetXAxisValue(-40f);
             }
 
             if (mainCount == 4)//슬라임 등장
@@ -393,6 +386,6 @@ public class GameDirector : MonoBehaviour
     public string GetObjectName(string name)
     {
         int idx = name.IndexOf("_");
-        return name.Substring(idx+1, name.Length - 1);
+        return name.Substring(idx+1, name.Length - (idx+1)); // 몬스터 이름만 반환
     }
 }

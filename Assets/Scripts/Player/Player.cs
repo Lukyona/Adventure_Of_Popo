@@ -20,11 +20,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         combatComponent = new PlayerCombatComponent();
+        combatComponent.Start();
     }
 
     void Update()
     {
-        
+        combatComponent.Update();
     }
 
     public void SetTarget(GameObject target)

@@ -38,6 +38,20 @@ public class CameraController : MonoBehaviour
             thisCamera.GetComponent<CinemachineFreeLook>().enabled = false;
         else
             thisCamera.GetComponent<CinemachineFreeLook>().enabled = true;
+    }
 
+    public void SetXAxisValue(float value)
+    {
+        thisCamera.m_XAxis.Value = value;
+    }
+
+    public void SetYAxisValue(float value)
+    {
+        thisCamera.m_YAxis.Value = value;
+    }
+
+    public void SetFieldOfView(float value)
+    {
+        thisCamera.m_Lens.FieldOfView = value;
     }
 }

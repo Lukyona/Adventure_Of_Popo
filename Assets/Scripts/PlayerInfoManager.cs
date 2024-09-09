@@ -11,8 +11,6 @@ public class PlayerInfoManager : MonoBehaviour
     public GameObject BlackScreen;//플레이어 죽음 시 블랙스크린
     public Animator blackAnimator;
 
-    public CinemachineFreeLook cameraSetting;//카메라 조정 위함
-
     private void Awake()
     {
         if(instance == null)
@@ -316,16 +314,14 @@ public class PlayerInfoManager : MonoBehaviour
         }
     }
 
-    public void BlackOut_Off() //화면 다시 밝아지고 플레이어 처음 위치로 이동, 능력치 변화
+    public void BlackOut_Off() // 부활, 화면 다시 밝아지고 플레이어 처음 위치로 이동, 능력치 변화
     {
-        GameDirector.instance.Fox_Cant_Move();
-        cameraSetting.m_Lens.FieldOfView = 35; //카메라 조정
-        cameraSetting.m_YAxis.Value = 0.6f;
-        cameraSetting.m_XAxis.Value = 0f;
+        CameraController.instance.SetFieldOfView(35f);
+        CameraController.instance.SetYAxisValue(0.6f);
+        CameraController.instance.SetXAxisValue(0f);
 
         GameDirector.instance.Player.transform.position = new Vector3(280, 0, 80);//플레이어 위치 처음으로
         GameDirector.instance.Player.transform.rotation = Quaternion.Euler(0, 180, 0);//플레이어 회전, 앞을 보도록
-
         if (GameDirector.instance.mainCount >= 5)
         {
             GameDirector.instance.friend_slime.transform.position = GameDirector.instance.Player.transform.position + new Vector3(2f, 0, -3f);//슬라임동료 위치 조정
@@ -339,6 +335,7 @@ public class PlayerInfoManager : MonoBehaviour
         HP_Update();
         blackAnimator.SetTrigger("BlackOff");
         Invoke(nameof(InActiveBlackScreen), 2.5f);
+        CameraController.instance.SetFixedState(false); //카메라가 플레이어 위치로 이동
     }
 
     void InActiveBlackScreen()//검은화면 비활성화, 플레이어 부활
@@ -357,32 +354,28 @@ public class PlayerInfoManager : MonoBehaviour
     public Text middle;//슬래시 텍스트
     public Text max;//5렙일 때 경험치란에 max 표시
 
-    public GameObject monster;
-    public void GetEXP()//경험치 얻는 함수
+    public void GetEXP(string enemyName)//경험치 얻는 함수
     {
-        if (monster.name.Contains("Slime"))
+        switch(enemyName)
         {
-            exp += 5;
-        }
-        if (monster.name.Contains("Turtle"))
-        {
-            exp += 10;
-        }
-        if (monster.name.Contains("Log"))
-        {
-            exp += 20;
-        }
-        if (monster.name.Contains("Bat"))
-        {
-            exp += 25;
-        }
-        if (monster.name.Contains("Mushroom"))
-        {
-            exp += 33;
-        }
-        if (monster.name.Contains("Dog"))
-        {
-            exp += 48;
+            case "Slime":
+                exp += 5;
+                break;
+            case "Turtle":
+                exp += 10;
+                break;
+            case "Log":
+                exp += 20;
+                break;
+            case "Bat":
+                exp += 25;
+                break;
+            case "Mushroom":
+                exp += 33;
+                break;
+            case "DogKnight":
+                exp += 48;
+                break;
         }
 
         if(GameDirector.instance.mainCount == 7)
@@ -401,7 +394,6 @@ public class PlayerInfoManager : MonoBehaviour
         }
 
         Player.instance.SetTarget(null);
-        monster = null;
     }
 
     void EXP_Update()//경험치 갱신, 레벨에 따라 게이지 차는 양 달라짐

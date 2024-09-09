@@ -15,7 +15,6 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
         combatComponent = new EliteEnemyCombatacomponent
         {
             EnemyInfo = enemyInfo,
-            OwnerController = this,
             Fireball = fireball
         };
  
@@ -45,5 +44,10 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
     public void Disable()
     {
         enabled = false;
+    }
+
+    public void DestroyMyself()
+    {
+        Destroy(gameObject);
     }
 }

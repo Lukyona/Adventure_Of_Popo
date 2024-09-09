@@ -11,14 +11,14 @@ public class PlayerCombatComponent
     private float[] attackCooldowns;
     private float[] lastAttackTimes; // 공격을 마지막으로 수행한 시간
 
-    private void Start() 
+    public void Start() 
     {
         attacks = new PlayerAttack[] { new PawAttack(), new TailWhipAttack(), new RollAttack() };
         attackCooldowns = new float[attacks.Length];
         lastAttackTimes = new float[attacks.Length];    
     }
 
-    private void Update()
+    public void Update()
     {
         if (ThirdPlayerMovement.instance.foxAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fox_Idle"))
         {

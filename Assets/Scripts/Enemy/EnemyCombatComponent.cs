@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class EnemyCombatComponent
 {
     public EnemyInfo EnemyInfo {get; set;}
     protected Animator animator;
-    public MonoBehaviour OwnerController {get; set;}
     protected Transform playerTransform;
 
     public bool targetFound {get; set;}
@@ -94,12 +94,17 @@ public class EnemyCombatComponent
         }
     }
 
-    public virtual void Die()
+    public async virtual void Die()
     {
-        if(IsDead) return;
-
         IsDead = true;
         animator.SetTrigger("Die");
-        OwnerController.Invoke(nameof(OwnerController.Destroy), 2f);
+
+        await Task.Delay(2000); 
+        DestroyOwner();
+    }
+
+    void DestroyOwner()
+    {
+        EnemyInfo.EnemyObject.GetComponent<IEnemyController>().DestroyMyself();
     }
 }

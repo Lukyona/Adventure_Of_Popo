@@ -11048,7 +11048,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646344181}
-  m_LocalRotation: {x: 0.07574149, y: 0.0005618179, z: -0.0000426755, w: 0.9971274}
+  m_LocalRotation: {x: 0.0757415, y: 0.00056181976, z: -0.000042675645, w: 0.9971274}
   m_LocalPosition: {x: 280.02512, y: 2.1965716, z: 72.98348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -19998,7 +19998,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190772476}
-  m_LocalRotation: {x: 0.02848915, y: -0.8642403, z: 0.049257647, w: 0.49985075}
+  m_LocalRotation: {x: 0.028489152, y: -0.8642403, z: 0.049257647, w: 0.49985075}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -25268,7 +25268,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903070921}
-  m_LocalRotation: {x: 0.04421188, y: -0.8622611, z: 0.076442204, w: 0.498706}
+  m_LocalRotation: {x: 0.044211943, y: -0.8622611, z: 0.076442316, w: 0.498706}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -26043,7 +26043,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972225827}
-  m_LocalRotation: {x: 0.036347147, y: -0.8633587, z: 0.062844105, w: 0.49934083}
+  m_LocalRotation: {x: 0.036347136, y: -0.86335874, z: 0.06284408, w: 0.49934086}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -29711,7 +29711,7 @@ GameObject:
   - component: {fileID: 1774624963502876}
   - component: {fileID: 1774624963502875}
   m_Layer: 9
-  m_Name: Monster3_Turtle
+  m_Name: Monster_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29768,7 +29768,7 @@ GameObject:
   - component: {fileID: 1774624987562915}
   - component: {fileID: 1774624987562914}
   m_Layer: 9
-  m_Name: Monster4_Turtle
+  m_Name: Monster_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29825,7 +29825,7 @@ GameObject:
   - component: {fileID: 1774625763528048}
   - component: {fileID: 1774625763528049}
   m_Layer: 9
-  m_Name: Monster2_Turtle
+  m_Name: Monster_Turtle
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47015,7 +47015,7 @@ GameObject:
   - component: {fileID: 5255722807079543227}
   - component: {fileID: 5255722807079543226}
   m_Layer: 9
-  m_Name: Dragon_Boss
+  m_Name: Monster_Dragon_Boss
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54606,7 +54606,7 @@ GameObject:
   - component: {fileID: 1343276530}
   - component: {fileID: 8422892626469559649}
   m_Layer: 9
-  m_Name: DogKnight_GateKeeper
+  m_Name: Monster_DogKnight
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

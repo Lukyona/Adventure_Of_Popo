@@ -19,7 +19,7 @@ public class DialogueController : MonoBehaviour
     string[] sentences = null;
     bool isLineComplete = true; // 대사 출력 완료 상태면 true
     bool wait = false; //대사 넘어가기 방지
-    bool goMainProgress = false; //메인 진행함수로 넘어가야할 때는 true
+    bool goMainProgress = true; //메인 진행함수로 넘어가야할 때는 true
 
     Color slimeColor = new Color(255 / 255f, 50 / 255f, 80 / 255f);
     Color mushroomColor = new Color(40 / 255f, 200 / 255f, 0 / 255f);
@@ -98,12 +98,12 @@ public class DialogueController : MonoBehaviour
                     "그 엘릭서라는 걸 마시면 우리 엄마도\n다시 건강해질 거야!",
                     "음.. 일단 주변부터 둘러볼까?",
                 };
-                goMainProgress = true;
                 break;
             case 1://플레이어 죽음
                 sentences = new string[] {
                     "으으... 너무 아픈걸....",
                 };
+                goMainProgress = false;
                 break;
             case 2://플레이어 울타리 부수기 가능
                 NameTag.gameObject.SetActive(false);//이름표 없애고
@@ -123,13 +123,13 @@ public class DialogueController : MonoBehaviour
                     "그래 꼬맹이, 그럼 이제 이 울타리 좀\n어떻게 해봐.",
                     "울타리가 부서질 때까지 숫자키 1번을\n눌러보자!",
                 };
-                goMainProgress = true;
                 break;
             case 3://플레이어 울타리 부수기 불가
                 NameTag.gameObject.SetActive(false);
                 sentences = new string[] {
                     "레벨을 좀 더 올려야할 것 같다..",
                 };
+                goMainProgress = false;
                 break;
             case 4://첫 몬스터 발견
                 NameTag.gameObject.SetActive(false);
@@ -138,7 +138,6 @@ public class DialogueController : MonoBehaviour
                     "몬스터에게 다가가서 클릭하면\n타겟을 지정할 수 있어.",
                     "타겟을 지정한 뒤 숫자키 1을 눌러\n공격하자!",
                 };
-                goMainProgress = true;
                 break;
             case 5://첫 음식
                 NameTag.gameObject.SetActive(false);
@@ -147,19 +146,20 @@ public class DialogueController : MonoBehaviour
                     "이 근처에 먹을 수 있는 게 없을까?",
                     "음식을 발견하면 클릭해보자!",
                 };
-                goMainProgress = true;
                 break;
             case 6:
                 NameTag.gameObject.SetActive(false);
                 sentences = new string[] {
                     "이 울타리는 좀 아플 것 같아..",
                 };
+                goMainProgress = false;
                 break;
             case 7:
                 NameTag.gameObject.SetActive(false);
                 sentences = new string[] {
                     "울타리가 부서질 때까지 숫자키 1번을\n눌러보자!",
                 };
+                goMainProgress = false;
                 break;
             case 8://울타리 부순 뒤
                 NameTag.gameObject.SetActive(false);
@@ -169,7 +169,6 @@ public class DialogueController : MonoBehaviour
                     "네가 앞으로 가면 따라갈게.",
                     "좋아, 가자~!",
                 };
-                goMainProgress = true;
                 break;
             case 9://3렙에서 새 기술 습득
                 NameTag.gameObject.SetActive(false);
@@ -178,7 +177,6 @@ public class DialogueController : MonoBehaviour
                     "이제부터 숫자키 2번으로\n새로운 공격을 할 수 있어!",
                     "이 기술은 한 번 쓰면 2초 후에\n다시 쓸 수 있다는 것도 명심해!",
                 };
-                goMainProgress = true;
                 break;
             case 10://버섯몬스터까지 다 해치움
                 sentences = new string[] {
@@ -199,7 +197,6 @@ public class DialogueController : MonoBehaviour
                     "내 이름은 포포야!\n여기 빨간 친구는 라임이고!",//14
                     "고마워! 도움이 되도록 노력할게!",
                 };
-                goMainProgress = true;
                 break;
             case 11://문지기 발견
                 sentences = new string[] {
@@ -211,7 +208,6 @@ public class DialogueController : MonoBehaviour
                     "그렇다면 쟤를 쓰러뜨리고 문을\n여는 수 밖에 없겠네!",
                     "만만한 상대가 아니니 각오하는 게\n좋을 거야.",//머시
                 };
-                goMainProgress = true;
                 break;
             case 12://문지기 해치우고 5렙에서 새 기술 습득 + 캐릭터 간 대화
                 NameTag.gameObject.SetActive(false);
@@ -226,7 +222,6 @@ public class DialogueController : MonoBehaviour
                     "우리 셋이 함께라면 할 수 있어!",//포포 6
                     "가자~!!",
                 };
-                goMainProgress = true;
                 break;
             case 13://보스 쓰러뜨림
                 sentences = new string[] {
@@ -238,14 +233,12 @@ public class DialogueController : MonoBehaviour
                     "혹시 저 안에 엘릭서가..?",//머시
                     "어서 열어보라구.",//라임
                 };
-                goMainProgress = true;
                 break;
             case 14://엘릭서 획득
                 NameTag.gameObject.SetActive(false);
                 sentences = new string[] {
                     "엘릭서를 획득했다!",                  
                 };
-                goMainProgress = true;
                 break;
             case 15://엘릭서 획득 후
                 sentences = new string[] {
@@ -260,7 +253,6 @@ public class DialogueController : MonoBehaviour
                     "그래, 그럼 또 만날 수 있길\n기대하마, 꼬맹이.",//라임 8
                     "나중에 놀러오게 되면 내가 제대로\n대접할게! 그 때까지 잘 지내!",//머시
                 };
-                goMainProgress = true;
                 break;
             case 16://동료들 간 뒤
                 sentences = new string[] {
@@ -271,7 +263,6 @@ public class DialogueController : MonoBehaviour
                     "..그럼 안녕! 나중에 또 보자!",
                     "게임 진행상황을 초기화하고 싶다면\n오른쪽 상단의 리셋버튼을 눌러주세요!\n초기화 시 게임이 자동으로 종료됩니다.",//5
                 };
-                goMainProgress = true;
                 break;
         }
     }
@@ -297,8 +288,8 @@ public class DialogueController : MonoBehaviour
                         wait = true;
                         ////GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
                         CameraController.instance.SetFixedState(false);
-                        PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
-                        PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = -15f;
+                        CameraController.instance.SetYAxisValue(0.6f);
+                        CameraController.instance.SetXAxisValue(-15f);
                         GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_slime.transform);//슬라임 쳐다보기
                         ChangeToFoxNameTag();
                         Invoke(nameof(CanPrintNextDialogue), 1f);
@@ -350,9 +341,8 @@ public class DialogueController : MonoBehaviour
                     case 1:
                         wait = true;
                         CameraController.instance.SetFixedState(false);
-                        ////GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
-                        PlayerInfoManager.instance.cameraSetting.m_YAxis.Value = 0.6f;
-                        PlayerInfoManager.instance.cameraSetting.m_XAxis.Value = -15f;
+                        CameraController.instance.SetYAxisValue(0.6f);
+                        CameraController.instance.SetXAxisValue(-15f);
                         GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_mushroom.transform);//버섯 쳐다보기
                         GameDirector.instance.friend_slime.transform.LookAt(GameDirector.instance.friend_mushroom.transform);
                         ChangeToFoxNameTag();

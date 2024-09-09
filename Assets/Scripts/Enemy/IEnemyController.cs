@@ -14,4 +14,6 @@ public interface IEnemyController
 
     void Disable();
 
+    void DestroyMyself();
+
 }

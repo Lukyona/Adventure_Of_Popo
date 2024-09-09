@@ -27,7 +27,6 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
 
         combatComponent = new BasicEnemyCombatComponent()
         {
-            OwnerController = this,
             Agent = agent,
             EnemyInfo = ScriptableObject.CreateInstance<EnemyInfo>()
         };
@@ -137,5 +136,10 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
     public void Disable()
     {
         enabled = false;
+    }
+
+    public void DestroyMyself()
+    {
+        Destroy(gameObject);
     }
 }

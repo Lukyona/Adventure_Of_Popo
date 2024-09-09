@@ -142,7 +142,7 @@ public class ThirdPlayerMovement : MonoBehaviour
                 foxAnimator.SetBool("Run", true);
                 PlayerInfoManager.instance.ConsumeSP();//스태미나 소모 
             }
-            else if((Input.GetKey(KeyCode.W)) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))//스태미나 없는데 쉬프트키와 이동키 누르면 그냥 걷기
+            else if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))//스태미나 없는데 쉬프트키와 이동키 누르면 그냥 걷기
             {
                 running = false;
                 foxAnimator.SetBool("WalkBack", false);
@@ -159,8 +159,8 @@ public class ThirdPlayerMovement : MonoBehaviour
                 DontMove();
             }
         }
-        else if ((Input.GetKey(KeyCode.W)) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)
-                    || (Input.GetKey(KeyCode.UpArrow)) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)
+                    || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {// 쉬프트키 없이 이동조작키 누르면 그냥 걷기
             foxAnimator.SetBool("WalkBack", false);
             foxAnimator.SetBool("Run", false);
