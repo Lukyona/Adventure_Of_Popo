@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9900abda47d84d938b72c236677f3b9, type: 3}
   m_Name: EnemyInfo_Dragon
   m_EditorClassIdentifier: 
-  enemyObject: {fileID: 0}
-  transform: {fileID: 0}
   sightRange: 20
   attackRange: 5
   maxDistance: 35
   chaseSpeed: 3.5
+  level: 5
   maxHealth: 400
   normalAttackDamage: 35
   strongAttackDamage: 45

@@ -41,6 +41,8 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
 
     void Update()
     {
+        if(IsDead()) return;
+
         if(combatComponent.EnemyInfo.EnemyObject == null)
         {
             combatComponent.EnemyInfo.EnemyObject = gameObject;
@@ -118,7 +120,17 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
         }
     }
 
-    public void TakeDamage(int damage)
+    public int GetLevel()
+    {
+        return enemyInfo.Level;
+    }
+
+    public float GetMaxHealth()
+    {
+        return enemyInfo.MaxHealth;
+    }
+
+    public void TakeDamage(float damage)
     {
         combatComponent.TakeDamage(damage);
     }
@@ -126,11 +138,6 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
     public bool IsDead()
     {
         return combatComponent.IsDead;
-    }
-
-    public float GetMaxHealth()
-    {
-        return enemyInfo.MaxHealth;
     }
     
     public void Disable()

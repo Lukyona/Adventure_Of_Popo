@@ -10,6 +10,7 @@ public class EnemyInfo : ScriptableObject
 
     [SerializeField] float chaseSpeed;
 
+    [SerializeField] int level;
     [SerializeField] float maxHealth;
 
     [SerializeField] int normalAttackDamage;
@@ -21,6 +22,7 @@ public class EnemyInfo : ScriptableObject
     public float AttackRange => attackRange;
     public float MaxDistance => maxDistance;
     public float ChaseSpeed => chaseSpeed;
+    public int Level => level;
     public float MaxHealth => maxHealth;
     public int NormalAttackDamage => normalAttackDamage;
     public int StrongAttackDamage => strongAttackDamage;    

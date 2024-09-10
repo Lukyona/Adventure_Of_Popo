@@ -8,7 +8,7 @@ public class DamageText : MonoBehaviour // 몬스터/플레이어 데미지 텍�
 {
     public float alphaSpeed;
     public float destroyTime;
-    int damage;
+    float damage;
     Text text;
     Color alpha;
 
@@ -27,7 +27,7 @@ public class DamageText : MonoBehaviour // 몬스터/플레이어 데미지 텍�
         text.color = alpha;
     }
 
-    public void SetDamage(int value)
+    public void SetDamage(float value)
     {
         damage = value;
     }

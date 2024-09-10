@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9900abda47d84d938b72c236677f3b9, type: 3}
   m_Name: EnemyInfo_Slime
   m_EditorClassIdentifier: 
-  enemyObject: {fileID: 0}
-  transform: {fileID: 0}
   sightRange: 6
   attackRange: 2.3
   maxDistance: 10
   chaseSpeed: 2
+  level: 1
   maxHealth: 70
   normalAttackDamage: 7
   strongAttackDamage: 15

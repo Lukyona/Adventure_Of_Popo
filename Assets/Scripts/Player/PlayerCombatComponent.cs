@@ -11,6 +11,8 @@ public class PlayerCombatComponent
     private float[] attackCooldowns;
     private float[] lastAttackTimes; // 공격을 마지막으로 수행한 시간
 
+    public float SkillDamage { get; private set;}
+
     public void Start() 
     {
         attacks = new PlayerAttack[] { new PawAttack(), new TailWhipAttack(), new RollAttack() };
@@ -45,13 +47,14 @@ public class PlayerCombatComponent
             GameDirector.instance.Player.transform.LookAt(Target.transform);
             await Task.Delay((int)(0.2f + 0.02f * attackIndex));
 
-            GiveDamage();
+            UpdateNPCState();
             attacks[attackIndex].Execute(Target);
+            SkillDamage = attacks[attackIndex].Damage;
         }
         ThirdPlayerMovement.instance.foxAnimator.SetTrigger($"Attack{attackIndex + 1}");
     }
 
-    void GiveDamage()//타겟에게 데미지 입히는 함수
+    void UpdateNPCState()//타겟에게 데미지 입히는 함수
     {
         if (Target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때, 문지기/보스 제외
         {

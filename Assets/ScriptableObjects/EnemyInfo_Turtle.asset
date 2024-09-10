@@ -16,6 +16,7 @@ MonoBehaviour:
   attackRange: 2.5
   maxDistance: 10
   chaseSpeed: 2
+  level: 1
   maxHealth: 90
   normalAttackDamage: 10
   strongAttackDamage: 20

@@ -80,17 +80,20 @@ public class EnemyCombatComponent
         canAttack = true;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         animator.SetTrigger("GetHit");
 
         MonsterHPBar.instance.ShowDamage(damage);
-        MonsterHPBar.instance.Get_Damage(damage);
 
         if (currentHealth <= 0)
         {
             Die();
+        }
+        else
+        {
+            MonsterHPBar.instance.Get_Damage(damage);
         }
     }
 

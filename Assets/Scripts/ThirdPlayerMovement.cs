@@ -196,7 +196,7 @@ public class ThirdPlayerMovement : MonoBehaviour
             //Debug.Log("공격범위 내 몬스터");
 
         }
-        if(!monsterInTargetRange)//몬스터가 타겟범위에 없으면
+        if(!monsterInTargetRange && Player.instance.GetTarget())//타겟 몬스터가 타겟팅 범위 벗어나면
         {
             Player.instance.SetTarget(null); //타겟 해제
         }
@@ -208,7 +208,6 @@ public class ThirdPlayerMovement : MonoBehaviour
             {
                 DialogueController.instance.SetDialogue(11);
                 GameDirector.instance.Start_Talk();
-                ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
                 CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
             }
         }

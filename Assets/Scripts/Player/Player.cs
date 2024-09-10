@@ -37,4 +37,21 @@ public class Player : MonoBehaviour
     {
         return combatComponent.Target;
     }
+
+    public void ActivateCollider()
+    {
+        GetComponent<BoxCollider>().enabled = true;
+    }
+
+    public void DeactivateCollider()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(!other.gameObject.CompareTag("Enemy")) return;
+
+        other.gameObject.GetComponent<IEnemyController>().TakeDamage(combatComponent.SkillDamage);
+    }
 }

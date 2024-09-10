@@ -6,11 +6,13 @@ public interface IEnemyController
 {
     void Start();
 
-    void TakeDamage(int damage);
-
-    bool IsDead();
+    int GetLevel();
 
     float GetMaxHealth();
+
+    void TakeDamage(float damage);
+
+    bool IsDead();
 
     void Disable();
 

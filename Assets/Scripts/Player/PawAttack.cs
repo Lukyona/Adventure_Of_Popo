@@ -8,14 +8,6 @@ public class PawAttack : PlayerAttack
 
     public override void Execute(GameObject target)
     {
-        if (target.name.Contains("Turtle"))
-        {
-            target.GetComponent<IEnemyController>().TakeDamage(12);
-        }
-        else
-        {
-            target.GetComponent<IEnemyController>().TakeDamage(15);
-        }
         SoundManager.instance.PlayAttack1Sound();
         if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, LayerMask.NameToLayer("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
         {
@@ -28,4 +20,6 @@ public class PawAttack : PlayerAttack
     }
 
     public override float Cooldown => 0f; // 첫 번째 공격은 쿨타임이 없음, get하면 0f를 반환
+
+    public override float Damage => 15f;
 }

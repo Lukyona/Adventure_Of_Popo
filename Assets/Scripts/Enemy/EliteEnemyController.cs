@@ -26,7 +26,17 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
         combatComponent.Update();
     }
 
-    public void TakeDamage(int damage)
+    public float GetMaxHealth()
+    {
+        return enemyInfo.MaxHealth;
+    }    
+    
+    public int GetLevel()
+    {
+        return enemyInfo.Level;
+    }
+
+    public void TakeDamage(float damage)
     {
         combatComponent.TakeDamage(damage);
     }
@@ -34,11 +44,6 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
     public bool IsDead()
     {
         return combatComponent.IsDead;
-    }
-
-    public float GetMaxHealth()
-    {
-        return enemyInfo.MaxHealth;
     }
 
     public void Disable()

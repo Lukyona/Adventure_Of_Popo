@@ -359,6 +359,7 @@ public class PlayerInfoManager : MonoBehaviour
         switch(enemyName)
         {
             case "Slime":
+            case "Slime2":
                 exp += 5;
                 break;
             case "Turtle":
@@ -392,8 +393,6 @@ public class PlayerInfoManager : MonoBehaviour
         {
             EXP_Update();
         }
-
-        Player.instance.SetTarget(null);
     }
 
     void EXP_Update()//경험치 갱신, 레벨에 따라 게이지 차는 양 달라짐

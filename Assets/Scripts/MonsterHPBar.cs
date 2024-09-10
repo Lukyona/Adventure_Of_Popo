@@ -30,7 +30,7 @@ public class MonsterHPBar : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Monster"); //살아있는 몬스터 전부 저장
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("Enemy"); //살아있는 몬스터 전부 저장
         for (int i = 0; i < objects.Length; i++)
         {
             transformtList.Add(objects[i].transform);
@@ -61,32 +61,29 @@ public class MonsterHPBar : MonoBehaviour
                     color1.a = 255f;
                     hpBarList[i].GetComponent<Image>().color = color; //hp바를 보이게 만듬
                     levelList[i].GetComponent<Image>().color = color1;//레벨 정보
-                    if (Player.instance.GetTarget().name.Contains("Slime") || Player.instance.GetTarget().name.Contains("Turtle"))
-                    {
-                        levelList[i].transform.GetChild(0).GetComponent<Text>().text = 1.ToString();
-                    }
-                    else if (Player.instance.GetTarget().name.Contains("Log"))
-                    {
-                        levelList[i].transform.GetChild(0).GetComponent<Text>().text = 2.ToString();
-                    }
-                    else if (Player.instance.GetTarget().name.Contains("Bat"))
-                    {
-                        levelList[i].transform.GetChild(0).GetComponent<Text>().text = 3.ToString();
-                    }
-                    else if (Player.instance.GetTarget().name.Contains("Mushroom") || Player.instance.GetTarget().name.Contains("Dog"))
-                    {
-                        levelList[i].transform.GetChild(0).GetComponent<Text>().text = 4.ToString();
-                    }
-                    else if (Player.instance.GetTarget().name.Contains("Dragon"))
-                    {
-                        levelList[i].transform.GetChild(0).GetComponent<Text>().text = 5.ToString();
-                    }
+
+                    int level = Player.instance.GetTarget().GetComponent<IEnemyController>().GetLevel();
+
+                    levelList[i].transform.GetChild(0).GetComponent<Text>().text = level.ToString();
+                    
                     levelList[i].transform.GetChild(0).GetComponent<Text>().color = color1;//레벨 텍스트
                     arrow = Instantiate(arrowPrefeb, hpBarList[i].transform.position, Quaternion.identity, transform); //몬스터 위치에 화살표 프리팹 생성
                     arrow.SetActive(true);
                     num = i;
                 }
             }
+        }
+        if (Player.instance.GetTarget() != null)//타겟 죽었을 경우
+        {
+            if(Player.instance.GetTarget().GetComponent<IEnemyController>().IsDead())
+            {
+                transformtList.Remove(transformtList[num]);
+                Destroy(hpBarList[num]);
+                hpBarList.Remove(hpBarList[num]);//hp바 리스트에서 소멸
+                Destroy(levelList[num]);
+                levelList.Remove(levelList[num]);//hp바 리스트에서 소멸
+                Player.instance.SetTarget(null);
+            }          
         }
         if(Player.instance.GetTarget() == null && targetIn)
         {
@@ -124,7 +121,7 @@ public class MonsterHPBar : MonoBehaviour
         }
     }
 
-    public void Get_Damage(int dam)//공격받았을 때 체력바 감소
+    public void Get_Damage(float dam)//공격받았을 때 체력바 감소
     {
         if(GameDirector.instance.mainCount == 10 && Player.instance.GetTarget() == null)//타겟 없지만 보스전일 때
         {
@@ -132,21 +129,7 @@ public class MonsterHPBar : MonoBehaviour
         }
         else//보스전 제외 모두
         {
-            if (Player.instance.GetTarget().name.Contains("Turtle"))//거북이만 유일하게 입는 데미지 다름
-            {
-                hpBarList[num].GetComponent<Image>().fillAmount -= 0.133f;//12데미지
-            }
-            else
-            {
-                if (GameDirector.instance.mainCount < 9)//보스/문지기 제외
-                {
-                    hpBarList[num].GetComponent<Image>().fillAmount -= dam / Player.instance.GetTarget().GetComponent<IEnemyController>().GetMaxHealth();//몬스터의 본래 체력에 따라 체력바 각각 다르게 감소  
-                }
-                else
-                {
-                    hpBarList[num].GetComponent<Image>().fillAmount -= dam / Player.instance.GetTarget().GetComponent<IEnemyController>().GetMaxHealth();
-                }
-            }
+            hpBarList[num].GetComponent<Image>().fillAmount -= dam / Player.instance.GetTarget().GetComponent<IEnemyController>().GetMaxHealth();//몬스터의 본래 체력에 따라 체력바 각각 다르게 감소  
         }           
     }
 
@@ -169,26 +152,15 @@ public class MonsterHPBar : MonoBehaviour
     {
         targetIn = false;
         Destroy(arrow);
+        
+        if(!transformtList[num]) return;
         color.a = 0f;
         levelList[num].GetComponent<Image>().color = color;//몬스터 레벨 안 보이게 만듬
         levelList[num].transform.GetChild(0).GetComponent<Text>().color = color;
         hpBarList[num].GetComponent<Image>().color = color; //hp바를 안 보이게 만듬
-        if (Player.instance.GetTarget() != null)//타겟 죽었을 경우
-        {
-            if((GameDirector.instance.mainCount < 9 && Player.instance.GetTarget().GetComponent<IEnemyController>().IsDead())
-                || (GameDirector.instance.mainCount >= 9 && Player.instance.GetTarget().GetComponent<IEnemyController>().IsDead()))
-            {
-                transformtList.Remove(transformtList[num]);
-                Destroy(hpBarList[num]);
-                hpBarList.Remove(hpBarList[num]);//hp바 리스트에서 소멸
-                Destroy(levelList[num]);
-                levelList.Remove(levelList[num]);//hp바 리스트에서 소멸
-                Player.instance.SetTarget(null);
-            }          
-        }
     }
 
-    public void ShowDamage(int damage)
+    public void ShowDamage(float damage)
     {
         GameObject dText = Instantiate(damageText, hpBarList[num].transform.position, Quaternion.identity, transform);
         dText.GetComponent<DamageText>().SetDamage(damage);

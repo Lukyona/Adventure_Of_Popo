@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Monster
   - Treasure
   - Elixir
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +17,7 @@ TagManager:
   - 
   - 
   - Ground
-  - Monster
+  - Enemy
   - NPC
   - Player
   - Fence
