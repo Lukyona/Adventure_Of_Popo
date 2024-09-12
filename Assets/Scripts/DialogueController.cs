@@ -50,9 +50,9 @@ public class DialogueController : MonoBehaviour
         else
         {
             GameDirector.instance.End_Talk();//대화 종료
-            if (PlayerInfoManager.instance.death)//플레이어 죽음 상태면
+            if (Player.instance.IsDead())//플레이어 죽음 상태면
             {
-                PlayerInfoManager.instance.Invoke("BlackOut_Off",2f);//화면 밝아지기
+                UIManager.instance.Invoke(nameof(UIManager.instance.EndBlackOut),2f);//화면 밝아지기
             }
             else
             {
@@ -69,7 +69,7 @@ public class DialogueController : MonoBehaviour
     {
         DialogueText.text = "";
 
-        if(PlayerInfoManager.instance.level >= 2)//레벨이 2이상이면
+        if(Player.instance.StatusComponent.CurrentLevel >= 2)//레벨이 2이상이면
         {
             CheckDialogueEvent();
         }
@@ -286,11 +286,10 @@ public class DialogueController : MonoBehaviour
                         break;
                     case 2:
                         wait = true;
-                        ////GameDirector.instance.ThirdPersonCamera.SetActive(true);//카메라 조정
                         CameraController.instance.SetFixedState(false);
                         CameraController.instance.SetYAxisValue(0.6f);
                         CameraController.instance.SetXAxisValue(-15f);
-                        GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_slime.transform);//슬라임 쳐다보기
+                        Player.instance.transform.LookAt(GameDirector.instance.friend_slime.transform);//슬라임 쳐다보기
                         ChangeToFoxNameTag();
                         Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
@@ -343,7 +342,7 @@ public class DialogueController : MonoBehaviour
                         CameraController.instance.SetFixedState(false);
                         CameraController.instance.SetYAxisValue(0.6f);
                         CameraController.instance.SetXAxisValue(-15f);
-                        GameDirector.instance.Player.transform.LookAt(GameDirector.instance.friend_mushroom.transform);//버섯 쳐다보기
+                        Player.instance.transform.LookAt(GameDirector.instance.friend_mushroom.transform);//버섯 쳐다보기
                         GameDirector.instance.friend_slime.transform.LookAt(GameDirector.instance.friend_mushroom.transform);
                         ChangeToFoxNameTag();
                         Invoke(nameof(CanPrintNextDialogue), 1f);
@@ -435,7 +434,7 @@ public class DialogueController : MonoBehaviour
                         Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
                     case 4:
-                        GameDirector.instance.Player.transform.LookAt(GameDirector.instance.treasureBox.transform);//보물상자 쳐다보기
+                        Player.instance.transform.LookAt(GameDirector.instance.treasureBox.transform);//보물상자 쳐다보기
                         GameDirector.instance.friend_mushroom.transform.LookAt(GameDirector.instance.treasureBox.transform);
                         GameDirector.instance.friend_slime.transform.LookAt(GameDirector.instance.treasureBox.transform);
                         break;

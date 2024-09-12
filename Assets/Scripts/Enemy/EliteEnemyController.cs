@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class EliteEnemyController : MonoBehaviour, IEnemyController
 {
+    public Animator Animator {get; private set;}
+
     [SerializeField] EnemyInfo enemyInfo;
     EnemyCombatComponent combatComponent;
     [SerializeField] GameObject fireball;
 
     public void Start()
     {
+        Animator = GetComponent<Animator>();
+
         enemyInfo.EnemyObject = gameObject;
 
         combatComponent = new EliteEnemyCombatacomponent
@@ -36,6 +40,13 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
         return enemyInfo.Level;
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if(!other.gameObject.CompareTag("Player")) return;
+
+        other.gameObject.GetComponent<Player>().TakeDamage(combatComponent.SkillDamage);
+    }
+    
     public void TakeDamage(float damage)
     {
         combatComponent.TakeDamage(damage);

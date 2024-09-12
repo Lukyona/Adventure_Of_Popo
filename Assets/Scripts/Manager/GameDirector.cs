@@ -10,7 +10,7 @@ public class GameDirector : MonoBehaviour
     public static GameDirector instance;
     [SerializeField] Texture2D cursorImg;
 
-    public GameObject Player;
+    //public GameObject Player;
     [SerializeField] Animator TextWindowAnimator; //대화창 애니메이터
     public bool firstStart = false;
     public int mainCount = 0;
@@ -90,19 +90,17 @@ public class GameDirector : MonoBehaviour
                 break;
             case 9://문지기 쓰러뜨림
                 Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
-                //나중에 풀어 MonsterHPBar.instance.boss.GetComponent<IEnemyController>().animator.SetTrigger("Scream");//드래곤 포효
-                SoundManager.instance.Invoke(("PlayDragonRoarSound"), 0.5f);
+                GameObject.Find("Monster_Dragon_Boss").GetComponent<IEnemyController>().Animator.SetTrigger("Scream");//드래곤 포효
+                SoundManager.instance.Invoke("PlayDragonRoarSound", 0.5f);
                 break;
             case 11://엘릭서 획득 후
-                PlayerInfoManager.instance.BlackScreen.SetActive(true);
-                PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
+                UIManager.instance.ActiveBlackScreen();
                 Fox_Cant_Move();
                 Invoke(nameof(Ready_To_Talk), 2.2f);
                 DialogueController.instance.SetDialogue(15);
                 break;
             case 12://동료들 떠난 뒤
-                PlayerInfoManager.instance.BlackScreen.SetActive(true);
-                PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
+                UIManager.instance.ActiveBlackScreen();
                 Fox_Cant_Move();
                 Invoke(nameof(Ready_To_Talk), 2.2f);
                 DialogueController.instance.SetDialogue(16);
@@ -113,16 +111,16 @@ public class GameDirector : MonoBehaviour
 
     public void Fox_Can_Move()
     {
-        Player.GetComponent<ThirdPlayerMovement>().enabled = true;//플레이어 이동 가능
+        Player.instance.GetComponent<ThirdPlayerMovement>().enabled = true;//플레이어 이동 가능
         CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
-        Player.GetComponent<CharacterController>().enabled = true;//캐릭터 컨트롤러 켜기
+        Player.instance.GetComponent<CharacterController>().enabled = true;//캐릭터 컨트롤러 켜기
     }
 
     public void Fox_Cant_Move()
     {
-        Player.GetComponent<ThirdPlayerMovement>().enabled = false;//플레이어 이동 불가
+        Player.instance.GetComponent<ThirdPlayerMovement>().enabled = false;//플레이어 이동 불가
         CameraController.instance.SetFixedState(true); //카메라 회전 불가
-        Player.GetComponent<CharacterController>().enabled = false;//캐릭터 컨트롤러 끄기
+        Player.instance.GetComponent<CharacterController>().enabled = false;//캐릭터 컨트롤러 끄기
         ThirdPlayerMovement.instance.DontMove();
     }
 
@@ -148,7 +146,7 @@ public class GameDirector : MonoBehaviour
     public void End_Talk()
     {
         TextWindowAnimator.SetTrigger("Talk_Off");//대화창 사라지기
-        if(!firstStart && !PlayerInfoManager.instance.death)//첫 시작이 아닐 때만
+        if(!firstStart && !Player.instance.IsDead())//첫 시작이 아닐 때만
         {
             Fox_Can_Move();
         }
@@ -214,12 +212,12 @@ public class GameDirector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0)) //체력 치트
         {
-            PlayerInfoManager.instance.HPCheat();
+            //PlayerInfoManager.instance.HPCheat();
         }
 
         if (Input.GetKeyDown(KeyCode.R) && Input.GetKeyDown(KeyCode.T))
         {
-            PlayerInfoManager.instance.ResetData();
+            //PlayerInfoManager.instance.ResetData();
         }
     }
 
@@ -241,14 +239,13 @@ public class GameDirector : MonoBehaviour
             ThirdPlayerMovement.instance.DontMove();
             fence = true;
             SoundManager.instance.PlayClickSound();
-            if (PlayerInfoManager.instance.level >= 2)//레벨2 이상이면
+            if (Player.instance.StatusComponent.CurrentLevel >= 2)//레벨2 이상이면
             {
                 if(can_hit)
                 {    
                     if(mainCount == 4)
                     {
-                        PlayerInfoManager.instance.BlackScreen.SetActive(true);
-                        PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
+                        UIManager.instance.ActiveBlackScreen();
                         Fox_Cant_Move();
                         Invoke(nameof(Ready_To_Talk), 2.2f);
                         DialogueController.instance.SetDialogue(2);//울타리 부수기 가능
@@ -284,8 +281,8 @@ public class GameDirector : MonoBehaviour
             CameraController.instance.SetYAxisValue(0.6f);
             CameraController.instance.SetXAxisValue(25f);
 
-            Player.transform.position = new Vector3(348.2f, 0.545f, 304);//플레이어 위치 조정
-            Player.transform.rotation = Quaternion.Euler(0, 205, 0);//플레이어 회전
+            Player.instance.PlayerPos = new Vector3(348.2f, 0.545f, 304);//플레이어 위치 조정
+            Player.instance.PlayerRot = Quaternion.Euler(0, 205, 0);//플레이어 회전
 
             friend_mushroom.SetActive(false);//동료들 비활성화
             friend_slime.SetActive(false);
@@ -298,14 +295,14 @@ public class GameDirector : MonoBehaviour
                 CameraController.instance.SetYAxisValue(0.6f);
                 CameraController.instance.SetXAxisValue(0f);
 
-                Player.transform.position = new Vector3(348f, 0.545f, 305);//플레이어 위치 조정
-                Player.transform.rotation = Quaternion.Euler(0, 162, 0);//플레이어 회전
+                Player.instance.PlayerPos = new Vector3(348f, 0.545f, 305);//플레이어 위치 조정
+                Player.instance.PlayerRot = Quaternion.Euler(0, 162, 0);//플레이어 회전
 
                 friend_mushroom.transform.position = new Vector3(350.4f, 0.62f, 307f);//슬라임 위치 조정
                 friend_slime.transform.position = new Vector3(351f, 0.6f, 305.5f);//슬라임 위치 조정
-                Player.transform.LookAt(friend_slime.transform);//서로 마주보기
-                friend_mushroom.transform.LookAt(Player.transform);
-                friend_slime.transform.LookAt(Player.transform);
+                Player.instance.transform.LookAt(friend_slime.transform);//서로 마주보기
+                friend_mushroom.transform.LookAt(Player.instance.transform);
+                friend_slime.transform.LookAt(Player.instance.transform);
             }
             else
             {
@@ -315,19 +312,18 @@ public class GameDirector : MonoBehaviour
 
             if (mainCount == 4)//슬라임 등장
             {
-                Player.transform.position = new Vector3(246.5f, Player.transform.position.y, 118);//플레이어 위치 조정
-                Player.transform.rotation = Quaternion.Euler(0, 307, 0);//플레이어 회전
+                Player.instance.PlayerPos = new Vector3(246.5f, Player.instance.PlayerPos.y, 118);//플레이어 위치 조정
+                Player.instance.PlayerRot = Quaternion.Euler(0, 307, 0);//플레이어 회전
             }
             if (mainCount == 7)//버섯 등장
             {
-                Player.transform.position = new Vector3(343f, 0.29f, 174);//플레이어 위치 조정
+                Player.instance.PlayerPos = new Vector3(343f, 0.29f, 174);//플레이어 위치 조정
                 friend_slime.transform.position = new Vector3(340f, 0.17f, 173);//슬라임 위치 조정
-                Player.transform.rotation = Quaternion.Euler(1, 308, 0);//플레이어 회전
+                Player.instance.PlayerRot = Quaternion.Euler(1, 308, 0);//플레이어 회전
             }
-
         }
        
-        PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOff");
+        UIManager.instance.BlackAnimator.SetTrigger("BlackOff");
         Invoke(nameof(InActiveBlackScreen), 2.3f);
         Invoke(nameof(Fox_Cant_Move), 0.5f);
     }
@@ -338,21 +334,20 @@ public class GameDirector : MonoBehaviour
         Start_Talk();
         if (mainCount == 4)
         {
-            friend_slime.transform.position = new Vector3(Player.transform.position.x + 11f, friend_slime.transform.position.y, Player.transform.position.z + 2f);
+            friend_slime.transform.position = new Vector3(Player.instance.PlayerPos.x + 11f, friend_slime.transform.position.y, Player.instance.PlayerPos.z + 2f);
             friend_slime.SetActive(true);
         }
         if (mainCount == 7)
         {
-            friend_mushroom.transform.position = new Vector3(Player.transform.position.x + 11f, friend_mushroom.transform.position.y, Player.transform.position.z + 2f);
+            friend_mushroom.transform.position = new Vector3(Player.instance.PlayerPos.x + 11f, friend_mushroom.transform.position.y, Player.instance.PlayerPos.z + 2f);
             friend_mushroom.SetActive(true);
         }
-        PlayerInfoManager.instance.BlackScreen.SetActive(false);
+        UIManager.instance.DeactiveBlackScreen();
     }
 
     public void AfterDragonDead()//드래곤 죽은 후
     {
-        PlayerInfoManager.instance.BlackScreen.SetActive(true);
-        PlayerInfoManager.instance.blackAnimator.SetTrigger("BlackOn");
+        UIManager.instance.ActiveBlackScreen();
         Fox_Cant_Move();
         Invoke(nameof(Ready_To_Talk), 2.2f);
         DialogueController.instance.SetDialogue(13);

@@ -19,5 +19,5 @@ MonoBehaviour:
   level: 5
   maxHealth: 400
   normalAttackDamage: 35
-  strongAttackDamage: 45
+  strongAttackDamage: 55
   timeBetweenAttacks: 2

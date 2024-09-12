@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
+using System.Threading;
 
 public class EliteEnemyCombatacomponent : EnemyCombatComponent
 {
@@ -58,7 +58,7 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         base.ChasePlayer(); // 부모 메서드 호출
     }
 
-    public async override void AttackPlayer()
+    public override void AttackPlayer()
     {
         base.AttackPlayer();
 
@@ -69,18 +69,19 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             if (n < 6)
             {
                 animator.SetTrigger("Attack1");
-                PlayerInfoManager.instance.PlayerDamage(EnemyInfo.NormalAttackDamage);
+                SkillDamage = EnemyInfo.NormalAttackDamage;
                 // 보스 공격 타입 1
             }
             else if (n < 10)
             {
                 animator.SetTrigger("Attack2");
-                PlayerInfoManager.instance.PlayerDamage(EnemyInfo.NormalAttackDamage);
+                SkillDamage = (EnemyInfo.NormalAttackDamage + EnemyInfo.StrongAttackDamage) / 2;
                 // 보스 공격 타입 2
             }
             else
             {
                 animator.SetTrigger("Attack3");
+                SkillDamage = EnemyInfo.StrongAttackDamage;
                 ActivateFireball(); // 보스의 특별 공격
             }
         }
@@ -90,32 +91,27 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             if (n < 8)
             {
                 animator.SetTrigger("Attack"); // 일반 공격
-                PlayerInfoManager.instance.PlayerDamage(EnemyInfo.NormalAttackDamage);
+                SkillDamage = EnemyInfo.NormalAttackDamage;
             }
             else
             {
                 animator.SetTrigger("StrongAttack");
-
-                PlayerInfoManager.instance.PlayerDamage(EnemyInfo.StrongAttackDamage);
+                SkillDamage = EnemyInfo.StrongAttackDamage;
             }
         }
-        
-        await Task.Delay((int)EnemyInfo.TimeBetweenAttacks * 1000); // TimeBetweenAttacks초만큼 기다리고 다음 실행
     }
 
-    public async void ActivateFireball()
+    public  void ActivateFireball()
     {
         Fireball.SetActive(true);
-        PlayerInfoManager.instance.PlayerDamage(55);
 
-        await Task.Delay(1000); // 1초 기다리고 다음 실행
-
-        DeactivateFireball();
+        timer = new Timer(_ => DeactivateFireball(), null, 1000, Timeout.Infinite);
     }
 
     void DeactivateFireball()
     {
         Fireball.SetActive(false);
+        timer.Dispose();
     }
 
     public override void Die()
@@ -129,7 +125,7 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         }
         else
         {
-            PlayerInfoManager.instance.GetEXP(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name));
+            Player.instance.StatusComponent.GetEXP(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name));
         }
 
         base.Die();

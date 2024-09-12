@@ -112,21 +112,20 @@ public class SoundManager : MonoBehaviour
         mySEAudio.PlayOneShot(dragonDie);
     }
 
-    public void PlayAttack1Sound()
+    public void PlayAttackSound(int attackNum)
     {
-        mySEAudio.volume = 0.5f;
-        mySEAudio.PlayOneShot(attack1);
-    }
-
-    public void PlayAttack2Sound()
-    {
-        mySEAudio.volume = 0.5f;
-        mySEAudio.PlayOneShot(attack2);
-    }
-
-    public void PlayAttack3Sound()
-    {
-        mySEAudio.volume = 0.5f;
-        mySEAudio.PlayOneShot(attack3);
+        mySEAudio.volume = 0.2f;
+        switch(attackNum)
+        {
+            case 1:
+                mySEAudio.PlayOneShot(attack1);
+                break;
+            case 2:
+                mySEAudio.PlayOneShot(attack2);
+                break;
+            case 3:
+                mySEAudio.PlayOneShot(attack3);
+                break;
+        }
     }
 }

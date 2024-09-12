@@ -7,8 +7,9 @@ using UnityEngine.AI;
 public class BasicEnemyController : MonoBehaviour, IEnemyController
 {
     [SerializeField] EnemyInfo enemyInfo;
-    Animator animator;
     EnemyCombatComponent combatComponent;
+
+    public Animator Animator {get; private set;}
 
     private NavMeshAgent agent;
     Vector3 initialLocation;
@@ -22,7 +23,7 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
     public void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
         initialLocation = transform.position;
 
         combatComponent = new BasicEnemyCombatComponent()
@@ -74,21 +75,21 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
             if (combatComponent.targetFound)//발견했었지만 시야범위 벗어났을 때
             {
                 combatComponent.targetFound = false;
-                animator.SetBool("See", false);
+                Animator.SetBool("See", false);
             }
 
             if(name.Contains("Mushroom")) return;
 
-            animator.SetBool("Walk", walkPointSet); // 슬라임/거북만 해당
+            Animator.SetBool("Walk", walkPointSet); // 슬라임/거북만 해당
 
             //walkPoint에 도달했으면, 슬라임/거북이만 실행
             if (!walkPointSet)
             {
-                animator.SetBool("Stop", true);
+                Animator.SetBool("Stop", true);
             }
             else
             {
-                animator.SetBool("Stop", false);
+                Animator.SetBool("Stop", false);
             }
         }
     }
@@ -128,6 +129,13 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
     public float GetMaxHealth()
     {
         return enemyInfo.MaxHealth;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(!other.gameObject.CompareTag("Player")) return;
+
+        other.gameObject.GetComponent<Player>().TakeDamage(combatComponent.SkillDamage);
     }
 
     public void TakeDamage(float damage)

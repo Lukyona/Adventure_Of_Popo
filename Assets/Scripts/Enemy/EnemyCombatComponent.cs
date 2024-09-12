@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
+using System.Threading;
 
 public class EnemyCombatComponent
 {
+    protected Timer timer;
+
     public EnemyInfo EnemyInfo {get; set;}
     protected Animator animator;
     protected Transform playerTransform;
@@ -21,6 +23,8 @@ public class EnemyCombatComponent
 
     [Header("Attack Settings")]
     protected bool canAttack = true;
+    public float SkillDamage { get; protected set;}
+
 
     public virtual void Start()
     {
@@ -68,16 +72,19 @@ public class EnemyCombatComponent
 
         EnemyInfo.EnemyObject.transform.LookAt(playerTransform);
 
-        if(PlayerInfoManager.instance.death)
+        if(Player.instance.IsDead())
         {
             isInCombat = false;
             animator.SetBool("Battle", false);
         }
+
+        timer = new Timer(_ => ResetAttack(), null, (int)EnemyInfo.TimeBetweenAttacks * 1000, Timeout.Infinite);
     }
 
     public void ResetAttack()
     {
         canAttack = true;
+        timer.Dispose();
     }
 
     public void TakeDamage(float damage)
@@ -97,17 +104,17 @@ public class EnemyCombatComponent
         }
     }
 
-    public async virtual void Die()
+    public  virtual void Die()
     {
         IsDead = true;
         animator.SetTrigger("Die");
 
-        await Task.Delay(2000); 
-        DestroyOwner();
+        timer = new Timer(_ => DestroyOwner(), null, 2000, Timeout.Infinite);
     }
 
     void DestroyOwner()
     {
+        timer.Dispose();
         EnemyInfo.EnemyObject.GetComponent<IEnemyController>().DestroyMyself();
     }
 }

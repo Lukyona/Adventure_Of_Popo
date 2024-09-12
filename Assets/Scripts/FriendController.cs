@@ -174,7 +174,7 @@ public class FriendController : MonoBehaviour
                 Player.instance.SetTarget(null);
             }
             else if((GameDirector.instance.mainCount == 9 && Player.instance.GetTarget().GetComponent<IEnemyController>().IsDead()) 
-                || (GameDirector.instance.mainCount == 10 && (MonsterHPBar.instance.boss.GetComponent<IEnemyController>().IsDead()) || PlayerInfoManager.instance.death))
+                || (GameDirector.instance.mainCount == 10 && MonsterHPBar.instance.boss.GetComponent<IEnemyController>().IsDead()) || Player.instance.IsDead())
             {//보스전이어도 플레이어 죽으면 전투 해제
                 battle = false;//동료 전투 상태 해제
                 Player.instance.SetTarget(null);

@@ -858,7 +858,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1711551202}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: ResetData
         m_Mode: 1
@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1711551202}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: SavePlayerData
         m_Mode: 1
@@ -10825,7 +10825,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1711551202}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: Close_LevelUpBoard
         m_Mode: 1
@@ -11048,7 +11048,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646344181}
-  m_LocalRotation: {x: 0.07574158, y: 0.0005618266, z: -0.00004267621, w: 0.9971274}
+  m_LocalRotation: {x: 0.075741604, y: 0.0005618304, z: -0.00004267652, w: 0.9971274}
   m_LocalPosition: {x: 280.02512, y: 2.1965716, z: 72.98348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -11766,8 +11766,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1711551202}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1711551204}
+        m_TargetAssemblyTypeName: DataManager, Assembly-CSharp
         m_MethodName: ResetData
         m_Mode: 1
         m_Arguments:
@@ -18916,7 +18916,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1711551202}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: HPCheat
         m_Mode: 1
@@ -19998,7 +19998,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190772476}
-  m_LocalRotation: {x: 0.028489167, y: -0.8642403, z: 0.049257673, w: 0.49985075}
+  m_LocalRotation: {x: 0.02848925, y: -0.8642403, z: 0.04925782, w: 0.49985075}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -24076,7 +24076,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1711551202}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: SavePlayerData
         m_Mode: 1
@@ -24294,11 +24294,12 @@ GameObject:
   - component: {fileID: 1711551200}
   - component: {fileID: 1711551199}
   - component: {fileID: 1711551201}
-  - component: {fileID: 1711551202}
   - component: {fileID: 1711551203}
   - component: {fileID: 1711551205}
   - component: {fileID: 1711551206}
   - component: {fileID: 1711551207}
+  - component: {fileID: 1711551204}
+  - component: {fileID: 1711551202}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged
@@ -24319,7 +24320,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorImg: {fileID: 2800000, guid: da86a99f50fe1f34985bddb5225ce8df, type: 3}
-  Player: {fileID: 4020983979220132789}
   TextWindowAnimator: {fileID: 1908762147}
   firstStart: 0
   mainCount: 0
@@ -24379,37 +24379,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711551198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94442c90461ca4d468f11e4ac31b25fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 5199a016271a24f15810efb24b3112e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlackScreen: {fileID: 629477426}
-  blackAnimator: {fileID: 0}
-  sp: 12
-  spText: {fileID: 1877075667}
-  spMaxText: {fileID: 42369651}
-  spBar: {fileID: 1457195812}
-  hpText: {fileID: 1415150024}
-  hpBar: {fileID: 258655156}
-  hpMaxText: {fileID: 186545100}
-  death: 0
+  currnetHealthText: {fileID: 1415150024}
+  maxHealthText: {fileID: 186545100}
+  healthBar: {fileID: 258655156}
+  currnetStaminaText: {fileID: 1877075667}
+  maxStaminaText: {fileID: 42369651}
+  staminaBar: {fileID: 1457195812}
+  currentLevelText: {fileID: 113120854}
+  levelBoardAnimator: {fileID: 1552619937}
+  levelText: {fileID: 268268889}
+  levelGuideMessage: {fileID: 1277892962}
+  currentExpText: {fileID: 721291122}
+  maxExpText: {fileID: 427343350}
+  expBar: {fileID: 1439780875}
+  middleSlash: {fileID: 940046404}
+  maxText: {fileID: 164445520}
   damageText: {fileID: 6482107239833024665, guid: 89e9b03bbbfa91d48896b0ddb21bd489,
     type: 3}
   canvas: {fileID: 53547316}
-  recHp: 0
-  exp: 0
-  expText: {fileID: 721291122}
-  expMaxText: {fileID: 427343350}
-  expBar: {fileID: 1439780875}
-  middle: {fileID: 940046404}
-  max: {fileID: 164445520}
-  levelBoard_Animator: {fileID: 1552619937}
-  levelText2: {fileID: 268268889}
-  whatCanDo: {fileID: 1277892962}
-  level: 1
-  levelText: {fileID: 113120854}
-  load: 0
-  loadvalue: {fileID: 0}
-  foodNum: 010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  blackScreen: {fileID: 629477426}
+--- !u!114 &1711551203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711551198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486e74d3fad773f468ceeccc9a2d77df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1711551204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711551198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d0104bb435d444c9aed442d7387b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   foods:
   - {fileID: 1245764400}
   - {fileID: 1411682081}
@@ -24423,18 +24438,6 @@ MonoBehaviour:
   - {fileID: 2039230677805794282}
   - {fileID: 56867237}
   - {fileID: 408412014}
---- !u!114 &1711551203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711551198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 486e74d3fad773f468ceeccc9a2d77df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1711551205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25266,7 +25269,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903070921}
-  m_LocalRotation: {x: 0.04421215, y: -0.86226106, z: 0.07644267, w: 0.498706}
+  m_LocalRotation: {x: 0.044212207, y: -0.86226106, z: 0.07644276, w: 0.498706}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

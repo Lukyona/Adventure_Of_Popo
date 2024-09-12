@@ -107,7 +107,7 @@ public class ThirdPlayerMovement : MonoBehaviour
         }
         velocity.y += gravity * Time.deltaTime; //중력 적용
 
-        if (!((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && (Input.GetKey(KeyCode.S))))
+        if (!((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKey(KeyCode.S)))
         {
             controller.Move(velocity * Time.deltaTime);        
         }
@@ -126,25 +126,25 @@ public class ThirdPlayerMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.S))//뒤로 걷기
             {
-                running = false;
+                if(running) StopRunning();
                 foxAnimator.SetBool("Stop", false);
                 foxAnimator.SetBool("Walk", false);
                 foxAnimator.SetBool("Run", false);
                 foxAnimator.SetBool("WalkBack", true);
             }
-            else if (jumping == false && PlayerInfoManager.instance.sp > 0 && ((Input.GetKey(KeyCode.W)) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))//뛰기
+            else if (jumping == false && Player.instance.StatusComponent.CurrentStamina > 0 && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))//뛰기
             {
-                running = true;
                 speed = 5.5f;//속도 증가
                 foxAnimator.SetBool("Stop", false);
                 foxAnimator.SetBool("Walk", false);
                 foxAnimator.SetBool("WalkBack", false);
                 foxAnimator.SetBool("Run", true);
-                PlayerInfoManager.instance.ConsumeSP();//스태미나 소모 
+                StartRunning();
             }
             else if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))//스태미나 없는데 쉬프트키와 이동키 누르면 그냥 걷기
             {
-                running = false;
+                if(running) StopRunning();
+                
                 foxAnimator.SetBool("WalkBack", false);
                 foxAnimator.SetBool("Run", false);
                 foxAnimator.SetBool("Stop", false);
@@ -156,6 +156,7 @@ public class ThirdPlayerMovement : MonoBehaviour
             }
             else
             {
+                if(running) StopRunning();
                 DontMove();
             }
         }
@@ -167,7 +168,7 @@ public class ThirdPlayerMovement : MonoBehaviour
             foxAnimator.SetBool("Stop", false);
             if (jumping == false && !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
             {
-                running = false;
+                if(running) StopRunning();
                 speed = 4f;
                 foxAnimator.SetBool("Walk", true);
             }
@@ -214,6 +215,19 @@ public class ThirdPlayerMovement : MonoBehaviour
 
     }
 
+    void StartRunning()
+    {
+        running = true;
+        StartCoroutine(Player.instance.StatusComponent.ConsumeStamina());
+    }
+
+    void StopRunning()
+    {
+        running = false;
+        StopCoroutine(Player.instance.StatusComponent.ConsumeStamina());
+
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red; //공격범위 레드로 표시
@@ -251,7 +265,7 @@ public class ThirdPlayerMovement : MonoBehaviour
     void Jump()
     {
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        Invoke("FinishJump", 0.9f);
+        Invoke(nameof(FinishJump), 0.9f);
     }
 
     void FinishJump()

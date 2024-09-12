@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IEnemyController
 {
+    Animator Animator {get;}
+
     void Start();
 
     int GetLevel();
@@ -17,5 +19,7 @@ public interface IEnemyController
     void Disable();
 
     void DestroyMyself();
+
+    void OnTriggerEnter(Collider other);
 
 }

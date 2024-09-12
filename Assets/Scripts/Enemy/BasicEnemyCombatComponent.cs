@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Threading.Tasks;
+using System.Threading;
 using UnityEditor.Build.Content;
 
 
@@ -28,7 +28,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         }
     }
 
-    public async override void AttackPlayer()
+    public override void AttackPlayer()
     {
         if(!canAttack) return;
 
@@ -36,7 +36,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         {
             animator.SetBool("Battle", true);
 
-            if(PlayerInfoManager.instance.death)
+            if(Player.instance.IsDead())
             {
                 animator.SetTrigger("Victory");
             }
@@ -50,7 +50,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         if (n < 8)
         {
             animator.SetTrigger("Attack"); // 일반 공격
-            PlayerInfoManager.instance.PlayerDamage(EnemyInfo.NormalAttackDamage);
+            SkillDamage = EnemyInfo.NormalAttackDamage;
         }
         else
         {
@@ -59,12 +59,8 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
             else
                 animator.SetTrigger("StrongAttack");
 
-            PlayerInfoManager.instance.PlayerDamage(EnemyInfo.StrongAttackDamage);
+            SkillDamage = EnemyInfo.StrongAttackDamage;
         }
-
-        await Task.Delay((int)EnemyInfo.TimeBetweenAttacks * 1000); // TimeBetweenAttacks초만큼 기다리고 다음 실행
-
-        ResetAttack();
     }
 
     public override void Die()
@@ -73,7 +69,9 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
 
         base.Die();
         Agent.enabled = false;
-        PlayerInfoManager.instance.UpdateMonsterCount(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name), -1);
-        PlayerInfoManager.instance.GetEXP(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name));
+
+        string name = GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name);
+        DataManager.instance.UpdateMonsterCount(name, -1);
+        Player.instance.StatusComponent.GetEXP(name);
     }
 }

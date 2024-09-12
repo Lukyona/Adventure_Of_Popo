@@ -36,13 +36,13 @@ public class ClickManager : MonoBehaviour
                 if (objectName.Contains("food"))//음식을 클릭하면
                 {
                     int foodNum = GetNumber(objectName, objectName.Length);
-                    PlayerInfoManager.instance.Eat_Food(foodNum);
+                    DataManager.instance.EatFood(foodNum);
                     
                     Destroy(hit.transform.gameObject);//먹은 음식 삭제                   
                 }
             }
 
-            if (Physics.Raycast(ray, out hit, 11f) && hit.collider.gameObject.tag == "Enemy" && ThirdPlayerMovement.instance.monsterInTargetRange && !PlayerInfoManager.instance.death)
+            if (Physics.Raycast(ray, out hit, 11f) && hit.collider.gameObject.tag == "Enemy" && ThirdPlayerMovement.instance.monsterInTargetRange && !Player.instance.IsDead())
             {//범위 11, 클릭한 오브젝트 태그가 몬스터이고 몬스터가 플레이어 시야 내에 있을 때, 플레이어가 죽은 상태가 아닐 때
                 //Player.instance.SetTarget(null);
                 GameObject targetObj = hit.collider.gameObject;//타겟에 클릭한 오브젝트 할당

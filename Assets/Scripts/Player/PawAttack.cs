@@ -8,8 +8,7 @@ public class PawAttack : PlayerAttack
 
     public override void Execute(GameObject target)
     {
-        SoundManager.instance.PlayAttack1Sound();
-        if(Physics.CheckSphere(GameDirector.instance.Player.transform.position, 5f, LayerMask.NameToLayer("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
+        if(Physics.CheckSphere(Player.instance.PlayerPos, 5f, LayerMask.NameToLayer("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
         {
             fenceHitCount++;
             if (fenceHitCount == 5)//공격횟수가 5일 때 한번만 발생

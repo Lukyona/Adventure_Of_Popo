@@ -5,14 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    [SerializeField] Animator animator;
     [SerializeField] GameObject black;
+    Animator animator;
+
     [SerializeField] Texture2D cursorImg;
 
     bool start = false; //게임 시작 버튼 누르면 true
 
     private void Start()
     {
+        animator = black.GetComponent<Animator>();
         Cursor.SetCursor(cursorImg, Vector2.zero, CursorMode.ForceSoftware);
         Invoke(nameof(Black_Off), 2.2f);
     }

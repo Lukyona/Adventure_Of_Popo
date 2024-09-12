@@ -39,7 +39,7 @@ public class MonsterHPBar : MonoBehaviour
             GameObject mon_level = Instantiate(monLevelPrefeb, objects[i].transform.position, Quaternion.identity, transform);//레벨 정보 프리팹 생성
             levelList.Add(mon_level);//생성된 몬스터 레벨을 리스트에 추가
         }
-        if (PlayerInfoManager.instance.level == 2 && GameDirector.instance.mainCount == 4)//아직 울타리 부수기 전(슬라임 등장 전)이면
+        if (Player.instance.StatusComponent.CurrentLevel == 2 && GameDirector.instance.mainCount == 4)//아직 울타리 부수기 전(슬라임 등장 전)이면
         {
             Fence_arrow();//울타리 표시
         }
@@ -115,9 +115,22 @@ public class MonsterHPBar : MonoBehaviour
             }
         }
 
-        if(PlayerInfoManager.instance.level == 2 && GameDirector.instance.mainCount == 4)//2렙에 울타리 부수기 전
+        if(Player.instance.StatusComponent.CurrentLevel == 2 && GameDirector.instance.mainCount == 4)//2렙에 울타리 부수기 전
         {
-            arrow.transform.position = cam.WorldToScreenPoint(GameDirector.instance.right_Fence.transform.position + new Vector3(-1.5f, 2.5f, -1.5f));
+
+
+            if(arrow == null)
+            {
+               // Debug.Log("arrow nulll");
+                return;
+
+            }
+
+
+            Debug.Log("우ㄹ타리 위치");
+            
+            Vector3 fencePos = GameDirector.instance.right_Fence.transform.position;
+            arrow.transform.position = cam.WorldToScreenPoint(fencePos + new Vector3(-1.5f, 2.5f, -1.5f));
         }
     }
 
@@ -152,8 +165,9 @@ public class MonsterHPBar : MonoBehaviour
     {
         targetIn = false;
         Destroy(arrow);
-        
+
         if(!transformtList[num]) return;
+        
         color.a = 0f;
         levelList[num].GetComponent<Image>().color = color;//몬스터 레벨 안 보이게 만듬
         levelList[num].transform.GetChild(0).GetComponent<Text>().color = color;
