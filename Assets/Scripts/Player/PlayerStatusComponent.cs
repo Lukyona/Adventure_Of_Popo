@@ -1,59 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
 
 public class PlayerStatusComponent
 {
     public float CurrentHealth {get; set;} = 100;
     public float MaxHealth {get; private set;} = 100;
-    public bool IsHealthRecovering {get; private set;}
+    public bool IsHealthRecovering {get; private set;} = false;
+    float healthRecoveryInterval = 1f;
+
 
     public float CurrentStamina {get; private set;} = 12;
     public float MaxStamina {get; private set;} = 12;
-    public bool IsStaminaRecovering {get; private set;}
-
+    bool IsStaminaRecovering = false;
+    float staminaRecoveryInterval = 1f;
+    bool isStaminConsuming = false;
+    
     public int CurrentLevel {get; private set;} = 1;
 
     public float CurrentExp {get; private set;} = 0;
     public float MaxExp {get; private set;} = 50;
 
-    private Timer timer;
-    private Timer healthTimer;
-    private Timer staminaTimer;
-
-    void Update()
+    public void Update()
     {
         if(CurrentHealth > 0)
         {
             if(CurrentStamina < MaxStamina && !IsStaminaRecovering && !ThirdPlayerMovement.instance.running)
             {//현재 스태미나가 스태미나 최대치 미만이고 스태미나 회복 중이 아니고 달리지 않을 때
-                IsStaminaRecovering = true;
-                StartStaminaRecovery();
+                MyTaskManager.instance.StartMyCoroutine(RecoverStamina());
             }
             
             if(CurrentHealth < MaxHealth && !IsHealthRecovering)
             {
-                IsHealthRecovering = true;
-                StartStaminaRecovery();
+                MyTaskManager.instance.StartMyCoroutine(RecoverHealth());
             }
         }
         else
         {
             IsHealthRecovering = false;
             IsStaminaRecovering = false;
-            healthTimer.Dispose();
-            staminaTimer.Dispose();
         }
     }
 
-    void StartHealthRecovery()
+    #region Health 관련
+    IEnumerator RecoverHealth()//스태미나 회복
     {
-        int period = 0; // 단위는 ms, 1000 = 1초
+        if(IsHealthRecovering) yield break;
+
+        IsHealthRecovering = true;
+
         switch(CurrentLevel)//렙마다 회복속도 차이남
         {
             case 1:
-                period = 2000;
+                healthRecoveryInterval = 2000;
                 if (!ThirdPlayerMovement.instance.monsterInTargetRange && GameDirector.instance.mainCount == 3 && !GameDirector.instance.talking)//생명력 깎인 뒤 과일에 대한 설명
                 {
                     DialogueController.instance.SetDialogue(5);
@@ -63,73 +62,25 @@ public class PlayerStatusComponent
                 }
                 break;
             case 2:
-                period = 1800;
+                healthRecoveryInterval = 1800;
                 break;
             case 3:
-                period = 1500;
+                healthRecoveryInterval = 1500;
                 break;
             case 4:
-                period = 1300;
+                healthRecoveryInterval = 1300;
                 break;
             case 5:
-                period = 1000;
+                healthRecoveryInterval = 1000;
                 break;
         }
 
-        healthTimer = new Timer(_ => RecoverHealth(), null, 1000, period); // 처음만 1초 지연, 나머지는 period만큼 지연
-    }
+        CurrentHealth += 1;
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        UIManager.instance.UpdatePlayerHealthUI();
 
-    void RecoverHealth()//스태미나 회복
-    {
-        if(CurrentHealth == MaxHealth)
-        {
-            IsHealthRecovering = false;
-            healthTimer.Dispose();
-        }
-        else
-        {
-            CurrentHealth += 1;
-            UIManager.instance.UpdatePlayerHealthUI();         
-        }
-    }
-
-    void StartStaminaRecovery()
-    {
-        int period = 0; // 단위는 ms, 1000 = 1초
-        switch(CurrentLevel)//렙마다 회복속도 차이남
-        {
-            case 1:
-                period = 1000;
-                break;
-            case 2:
-                period = 750;
-                break;
-            case 3:
-                period = 500;
-                break;
-            case 4:
-                period = 400;
-                break;
-            case 5:
-                period = 300;
-                break;
-        }
-
-        staminaTimer = new Timer(_ => RecoverStamina(), null, 300, period);
-    }
-
-    void RecoverStamina()//스태미나 회복
-    {
-        if(CurrentStamina == MaxStamina)
-        {
-            IsStaminaRecovering = false;
-            staminaTimer.Dispose();
-        }
-        else
-        {
-            CurrentStamina += 1;
-            UIManager.instance.UpdatePlayerStaminaUI();         
-        }
+        yield return new WaitForSeconds(healthRecoveryInterval);
+        IsHealthRecovering = false;
     }
 
     public void ModifyHealth(float value)
@@ -148,23 +99,57 @@ public class PlayerStatusComponent
                 Player.instance.SetTarget(null);
             }
             
-            // 타이머 사용해서 2초 후에 함수 호출
-            timer = new Timer(_ => UIManager.instance.StartBlackOut(), null, 2000, Timeout.Infinite);
+            MyTaskManager.instance.ExecuteAfterDelay(UIManager.instance.StartBlackOut, 2f);
         }       
     }
+    #endregion
+
+    IEnumerator RecoverStamina()//스태미나 회복
+    {
+        if(IsStaminaRecovering) yield break;
+
+        IsStaminaRecovering = true;
+
+        switch(CurrentLevel)
+        {
+            case 1:
+                staminaRecoveryInterval = 1f;
+                break;
+            case 2:
+                staminaRecoveryInterval = 0.75f;
+                break;
+            case 3:
+                staminaRecoveryInterval = 0.5f;
+                break;
+            case 4:
+                staminaRecoveryInterval = 0.4f;
+                break;
+            case 5:
+                staminaRecoveryInterval = 0.3f;
+                break;
+        }
+
+        CurrentStamina += 1;
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0, MaxStamina); // 스태미나가 음수가 되지 않도록 제한
+        UIManager.instance.UpdatePlayerStaminaUI();
+
+        yield return new WaitForSeconds(staminaRecoveryInterval);
+        IsStaminaRecovering = false;
+    }
+
 
     public IEnumerator ConsumeStamina()
     {
+        if(isStaminConsuming) yield break;
+
+        isStaminConsuming = true;
+
         CurrentStamina -= 1;
         CurrentStamina = Mathf.Clamp(CurrentStamina, 0, MaxStamina); // 스태미나가 음수가 되지 않도록 제한
         UIManager.instance.UpdatePlayerStaminaUI();
 
         yield return new WaitForSeconds(0.07f);
-    }
-
-    public void DisposeTimer()
-    {
-        timer.Dispose();
+        isStaminConsuming = false;
     }
 
     public void GetEXP(string enemyName)//경험치 얻는 함수
@@ -267,10 +252,5 @@ public class PlayerStatusComponent
         CurrentExp = PlayerPrefs.GetFloat("EXP");
         CurrentHealth = PlayerPrefs.GetFloat("HP");
         CurrentStamina = PlayerPrefs.GetFloat("SP");
-
-        UIManager.instance.UpdatePlayerLevelUI();
-        UIManager.instance.UpdatePlayerExpUI();
-        UIManager.instance.UpdatePlayerHealthUI();
-        UIManager.instance.UpdatePlayerStaminaUI();
     }
 }

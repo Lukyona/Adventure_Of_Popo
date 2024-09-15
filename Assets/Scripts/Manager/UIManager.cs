@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading;
-
 
 public class UIManager : MonoBehaviour
 {
@@ -39,7 +37,6 @@ public class UIManager : MonoBehaviour
 
     public Animator BlackAnimator {get; private set;}
 
-    private Timer timer;
 
     void Awake()
     {
@@ -54,8 +51,6 @@ public class UIManager : MonoBehaviour
 
     public void StartBlackOut()//플레이어 죽음 시 검은 화면 전환
     {
-        Player.instance.StatusComponent.DisposeTimer();
-
         ActiveBlackScreen();
         DialogueController.instance.SetDialogue(1);
         GameDirector.instance.Invoke(nameof(GameDirector.instance.Start_Talk), 3.5f);
@@ -87,8 +82,7 @@ public class UIManager : MonoBehaviour
         UpdatePlayerHealthUI();
 
         BlackAnimator.SetTrigger("BlackOff");
-
-        timer = new Timer(_ => Player.instance.Revive(), null, 2500, Timeout.Infinite);
+        MyTaskManager.instance.ExecuteAfterDelay(Player.instance.Revive, 2.5f);
     }
 
     public void ActiveBlackScreen()
@@ -99,8 +93,6 @@ public class UIManager : MonoBehaviour
 
     public void DeactiveBlackScreen()
     {
-        if(timer != null) timer.Dispose();
-
         blackScreen.SetActive(false);
     }
 
@@ -163,7 +155,7 @@ public class UIManager : MonoBehaviour
         maxHealthText.text = Player.instance.StatusComponent.MaxHealth.ToString();
         maxStaminaText.text = Player.instance.StatusComponent.MaxStamina.ToString();
 
-        if(PlayerPrefs.GetInt("Level") == level) return; // 레벨업 상태가 아님
+        if(PlayerPrefs.GetInt("Level") == 0 || PlayerPrefs.GetInt("Level") == level) return; // 레벨업 상태가 아님
 
         switch(level)
         {

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
+
 
 public class EliteEnemyCombatacomponent : EnemyCombatComponent
 {
@@ -104,14 +104,12 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
     public  void ActivateFireball()
     {
         Fireball.SetActive(true);
-
-        timer = new Timer(_ => DeactivateFireball(), null, 1000, Timeout.Infinite);
+        MyTaskManager.instance.ExecuteAfterDelay(DeactivateFireball, 1f);
     }
 
     void DeactivateFireball()
     {
         Fireball.SetActive(false);
-        timer.Dispose();
     }
 
     public override void Die()

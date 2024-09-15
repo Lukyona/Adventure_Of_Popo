@@ -225,7 +225,6 @@ public class ThirdPlayerMovement : MonoBehaviour
     {
         running = false;
         StopCoroutine(Player.instance.StatusComponent.ConsumeStamina());
-
     }
 
     private void OnDrawGizmosSelected()

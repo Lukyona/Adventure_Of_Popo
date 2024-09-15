@@ -18,7 +18,13 @@ public class MonsterHPBar : MonoBehaviour
     Color color = new Color(255/255f, 50/255f, 50/255f);//빨간색 컬러
     Color color1 = new Color(255/255f, 255/255f, 255/255f);//하얀색 컬러
 
+    public bool targetIn = false;//타겟이 있으면 true
+    public int num;//타겟 인덱스
+    GameObject arrow;
+
     public static MonsterHPBar instance;
+
+
 
     private void Awake()
     {
@@ -45,9 +51,7 @@ public class MonsterHPBar : MonoBehaviour
         }
     }
 
-    public bool targetIn = false;//타겟이 있으면 true
-    public int num;//타겟 인덱스
-    GameObject arrow;
+
     void Update()
     {
         if(Player.instance.GetTarget() != null && !targetIn)//몬스터가 타겟으로 지정됐을 때
@@ -164,8 +168,8 @@ public class MonsterHPBar : MonoBehaviour
     public void DisappearMonsterInfo()//기존 타겟 정보 안 보이게
     {
         targetIn = false;
-        Destroy(arrow);
-
+        //Destroy(arrow);
+        arrow.SetActive(false);
         if(!transformtList[num]) return;
         
         color.a = 0f;

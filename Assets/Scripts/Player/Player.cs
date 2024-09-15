@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        StatusComponent.Update();
         combatComponent.Update();
     }
 

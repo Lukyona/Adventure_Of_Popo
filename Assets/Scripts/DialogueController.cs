@@ -88,7 +88,7 @@ public class DialogueController : MonoBehaviour
     {
         dialogueNum = dNum;
         index = 0;//인덱스는 대화시작 전 0으로 초기화
-
+        goMainProgress = true;
         switch(dialogueNum)
         {
             case 0://주인공 소개

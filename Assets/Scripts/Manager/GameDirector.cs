@@ -14,7 +14,6 @@ public class GameDirector : MonoBehaviour
     [SerializeField] Animator TextWindowAnimator; //대화창 애니메이터
     public bool firstStart = false;
     public int mainCount = 0;
-    public GameObject Warning;
     public bool talking = false; //대화 중인지 아닌지 판단
     public GameObject fenceObject;//부서질 펜스 오브젝트
     public GameObject gkDiscover;//문지기 감지 오브젝트
@@ -55,10 +54,8 @@ public class GameDirector : MonoBehaviour
                 break;
             case 1://소개 끝, 주변 둘러보기
                 Fox_StandUp();//여우 일어나기
-                Warning.SetActive(true);//이동조작 주의사항 활성화
                 GuideButton.gameObject.SetActive(true);//가이드버튼 활성화
                 Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
-                Invoke("InActiveWarning", 4f); //이동조작 주의사항 비활성화
                 firstStart = false;
                 break;
             case 2: //첫 몬스터 발견
@@ -155,11 +152,6 @@ public class GameDirector : MonoBehaviour
             Invoke(nameof(FenceClickOn), 1f); //1초 후 다시 펜스 클릭 시 반응
         }
         talking = false;
-    }
-
-    void InActiveWarning()
-    {
-        Warning.SetActive(false);
     }
 
     public Button GuideButton;//이동조작 가이드 버튼

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Threading;
 using UnityEditor.Build.Content;
 
 
@@ -66,7 +65,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
     public override void Die()
     {
         if(IsDead) return;
-
+        
         base.Die();
         Agent.enabled = false;
 

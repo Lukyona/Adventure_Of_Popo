@@ -27,7 +27,6 @@ public class DataManager : MonoBehaviour
     public void ResetData()//데이터 초기화
     {
         PlayerPrefs.DeleteAll();//저장된 것 전부 삭제
-        SavePlayerData();
         Application.Quit();//게임 종료
     }
 
@@ -68,7 +67,7 @@ public class DataManager : MonoBehaviour
             Player.instance.GetComponent<CharacterController>().enabled = false;//이동을 위해 잠시 캐릭터 컨트롤러 꺼두고
             Player.instance.PlayerPos = new Vector3(280f, 0, 80f);
             Player.instance.PlayerRot = Quaternion.Euler(0, 180f, 0);
-
+            
             GameDirector.instance.Fox_Cant_Move();
             GameDirector.instance.Invoke(nameof(GameDirector.instance.MainProgress), 2.3f);
             AliveMonsters.Add("Slime", 3);
@@ -150,6 +149,11 @@ public class DataManager : MonoBehaviour
                 Destroy(GameDirector.instance.wall);
             }
         }
+
+        UIManager.instance.UpdatePlayerLevelUI();
+        UIManager.instance.UpdatePlayerExpUI();
+        UIManager.instance.UpdatePlayerHealthUI();
+        UIManager.instance.UpdatePlayerStaminaUI();
 
         UIManager.instance.Invoke(nameof(UIManager.instance.DeactiveBlackScreen), 2.2f);
     }
