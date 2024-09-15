@@ -52,7 +52,7 @@ public class PlayerStatusComponent
         switch(CurrentLevel)//렙마다 회복속도 차이남
         {
             case 1:
-                healthRecoveryInterval = 2000;
+                healthRecoveryInterval = 2f;
                 if (!ThirdPlayerMovement.instance.monsterInTargetRange && GameDirector.instance.mainCount == 3 && !GameDirector.instance.talking)//생명력 깎인 뒤 과일에 대한 설명
                 {
                     DialogueController.instance.SetDialogue(5);
@@ -62,16 +62,16 @@ public class PlayerStatusComponent
                 }
                 break;
             case 2:
-                healthRecoveryInterval = 1800;
+                healthRecoveryInterval = 1.8f;
                 break;
             case 3:
-                healthRecoveryInterval = 1500;
+                healthRecoveryInterval = 1.5f;
                 break;
             case 4:
-                healthRecoveryInterval = 1300;
+                healthRecoveryInterval = 1.3f;
                 break;
             case 5:
-                healthRecoveryInterval = 1000;
+                healthRecoveryInterval = 1f;
                 break;
         }
 

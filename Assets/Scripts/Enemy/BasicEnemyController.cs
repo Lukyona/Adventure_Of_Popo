@@ -151,6 +151,7 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
         tag = "EnemyAttack";
         Collider attackCollider = GetComponent<BoxCollider>();
         attackCollider.enabled = true;
+        Debug.Log("EnableAttackCollider");
     }
 
     public void DisableAttackCollider()

@@ -56,7 +56,6 @@ public class Player : MonoBehaviour
     public void DisableAttackCollider()
     {
         tag = "Player";
-
         GetComponent<BoxCollider>().enabled = false;
     }
 
