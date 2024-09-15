@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.AI;
-using Cinemachine;
 
 public class GameDirector : MonoBehaviour
 {
@@ -49,44 +47,44 @@ public class GameDirector : MonoBehaviour
             case 0://처음 시작, 주인공 소개 부분
                 SoundManager.instance.PlayFirstBgm();
                 firstStart = true;
-                Invoke("Fox_Sit", 1.7f);
                 DialogueController.instance.SetDialogue(0);
+                Fox_Sit();
                 break;
             case 1://소개 끝, 주변 둘러보기
                 Fox_StandUp();//여우 일어나기
                 GuideButton.gameObject.SetActive(true);//가이드버튼 활성화
-                Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
+                Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 firstStart = false;
                 break;
             case 2: //첫 몬스터 발견
             case 3:// 음식 찾기
             case 5://울타리 부숨
-                Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
+                Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 if(mainCount == 5)
                 {
                     SoundManager.instance.PlaySecondBgm();// 음악 변경
                 }
                 break;
             case 4: //슬라임 등장 후     
-                Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
+                Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 can_hit = false;
                 MonsterHPBar.instance.Invoke(nameof(MonsterHPBar.instance.Fence_arrow), 0.2f);
                 break;
             case 6:
             case 10://보스 쓰러뜨림
-                Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
+                Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 break;
             case 7://버섯 등장 후
-                Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
+                Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 Destroy(wall);
                 break;
             case 8://문지기 발견 후
-                Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
+                Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 SoundManager.instance.PlayThirdBgm();
                 Destroy(gkDiscover);//문지기 감지 오브젝트 파괴, 콜라이더가 있어서 통행에 방해될 수 있음
                 break;
             case 9://문지기 쓰러뜨림
-                Invoke("Fox_Can_Move", 0.6f); //여우 이동조작 가능
+                Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 GameObject.Find("Monster_Dragon_Boss").GetComponent<IEnemyController>().Animator.SetTrigger("Scream");//드래곤 포효
                 SoundManager.instance.Invoke("PlayDragonRoarSound", 0.5f);
                 break;

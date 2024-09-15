@@ -40,13 +40,35 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
         return enemyInfo.Level;
     }
 
+    public EnemyCombatComponent GetCombatComponent()
+    {
+        return combatComponent;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.CompareTag("Player")) return;
+        if(!other.gameObject.CompareTag("PlayerAttack")) return;
 
-        other.gameObject.GetComponent<Player>().TakeDamage(combatComponent.SkillDamage);
+        PlayerCombatComponent pComp = Player.instance.CombatComponent;
+        SoundManager.instance.PlayAttackSound(pComp.AttackNum);
+
+        TakeDamage(pComp.SkillDamage);
     }
-    
+
+    public void EnableAttackCollider()
+    {
+        tag = "EnemyAttack";
+        Collider attackCollider = GetComponent<BoxCollider>();
+        attackCollider.enabled = true;
+    }
+
+    public void DisableAttackCollider()
+    {
+        tag = "Enemy";
+        Collider attackCollider = GetComponent<BoxCollider>();
+        attackCollider.enabled = false;
+    }
+
     public void TakeDamage(float damage)
     {
         combatComponent.TakeDamage(damage);

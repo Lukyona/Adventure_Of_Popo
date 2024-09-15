@@ -12,6 +12,8 @@ public interface IEnemyController
 
     float GetMaxHealth();
 
+    EnemyCombatComponent GetCombatComponent();
+
     void TakeDamage(float damage);
 
     bool IsDead();
@@ -21,5 +23,8 @@ public interface IEnemyController
     void DestroyMyself();
 
     void OnTriggerEnter(Collider other);
+
+    void EnableAttackCollider();
+    void DisableAttackCollider();
 
 }

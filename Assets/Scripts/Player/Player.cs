@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     public Quaternion PlayerRot {get { return transform.rotation; }
                               set { transform.rotation = value; }}
-    PlayerCombatComponent combatComponent;
+    public PlayerCombatComponent CombatComponent {get; private set;}
     public PlayerStatusComponent StatusComponent {get; private set;}
 
 
@@ -23,51 +23,54 @@ public class Player : MonoBehaviour
         }
 
         StatusComponent = new PlayerStatusComponent();
-        combatComponent = new PlayerCombatComponent();
+        CombatComponent = new PlayerCombatComponent();
     }
 
     void Start()
     {
-        combatComponent.Start();
+        CombatComponent.Start();
     }
 
     void Update()
     {
         StatusComponent.Update();
-        combatComponent.Update();
+        CombatComponent.Update();
     }
 
     public void SetTarget(GameObject target)
     {
-        combatComponent.Target = target;
+        CombatComponent.Target = target;
     }
 
     public GameObject GetTarget()
     {
-        return combatComponent.Target;
+        return CombatComponent.Target;
     }
 
-    public void ActivateCollider()
+    public void EnableAttackCollider()
     {
+        tag = "PlayerAttack";
         GetComponent<BoxCollider>().enabled = true;
     }
 
-    public void DeactivateCollider()
+    public void DisableAttackCollider()
     {
+        tag = "Player";
+
         GetComponent<BoxCollider>().enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.CompareTag("Enemy")) return;
+        if(!other.gameObject.CompareTag("EnemyAttack")) return;
 
-        SoundManager.instance.PlayAttackSound(combatComponent.AttackNum);
-        other.gameObject.GetComponent<IEnemyController>().TakeDamage(combatComponent.SkillDamage);
+        EnemyCombatComponent eComp = other.GetComponent<IEnemyController>().GetCombatComponent();
+        TakeDamage(eComp.SkillDamage);
     }
 
     public void TakeDamage(float damage)
     {
-        combatComponent.TakeDamage(damage);
+        CombatComponent.TakeDamage(damage);
     }
 
     public bool IsDead()

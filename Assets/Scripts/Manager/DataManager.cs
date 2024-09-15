@@ -43,7 +43,7 @@ public class DataManager : MonoBehaviour
         PlayerPrefs.SetFloat("PosZ", Player.instance.PlayerPos.z);
         PlayerPrefs.SetFloat("RotY", Player.instance.PlayerRot.eulerAngles.y);
 
-        PlayerPrefs.SetInt("Slime1", AliveMonsters["Slime"]);//남은 몬스터 수 저장
+        PlayerPrefs.SetInt("Slime", AliveMonsters["Slime"]);//남은 몬스터 수 저장
         PlayerPrefs.SetInt("Slime2", AliveMonsters["Slime2"]);
         PlayerPrefs.SetInt("Turtle", AliveMonsters["Turtle"]);
         PlayerPrefs.SetInt("Log", AliveMonsters["Log"]);
@@ -134,7 +134,7 @@ public class DataManager : MonoBehaviour
             AliveMonsters["Mushroom"] = PlayerPrefs.GetInt("Mushroom");
             LoadAliveMonsters();
             LoadFood();
-
+            
             if (GameDirector.instance.mainCount >= 5 && GameDirector.instance.mainCount <= 11)
             {
                 GameDirector.instance.friend_slime.transform.position = playerPos + new Vector3(2f, 0, -3f);//슬라임동료 위치 조정

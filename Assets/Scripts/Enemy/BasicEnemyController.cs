@@ -32,7 +32,7 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
             EnemyInfo = ScriptableObject.CreateInstance<EnemyInfo>()
         };
 
-        //Json으로 바꾼 enemyInfo의 필드 값을 combatComponent.EnemyInfo 필드 값으로 복사
+        //Json으로 바꾼 enemyInfo의 필드 값을 CombatComponent.EnemyInfo 필드 값으로 복사
         JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(enemyInfo), combatComponent.EnemyInfo);
         combatComponent.EnemyInfo.EnemyObject = gameObject; // 각 객체 오브젝트를 할당
 
@@ -131,11 +131,33 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
         return enemyInfo.MaxHealth;
     }
 
+    public EnemyCombatComponent GetCombatComponent()
+    {
+        return combatComponent;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.CompareTag("Player")) return;
+        if(!other.gameObject.CompareTag("PlayerAttack")) return;
 
-        other.gameObject.GetComponent<Player>().TakeDamage(combatComponent.SkillDamage);
+        PlayerCombatComponent pComp = Player.instance.CombatComponent;
+        SoundManager.instance.PlayAttackSound(pComp.AttackNum);
+
+        TakeDamage(pComp.SkillDamage);
+    }
+
+    public void EnableAttackCollider()
+    {
+        tag = "EnemyAttack";
+        Collider attackCollider = GetComponent<BoxCollider>();
+        attackCollider.enabled = true;
+    }
+
+    public void DisableAttackCollider()
+    {
+        tag = "Enemy";
+        Collider attackCollider = GetComponent<BoxCollider>();
+        attackCollider.enabled = false;
     }
 
     public void TakeDamage(float damage)

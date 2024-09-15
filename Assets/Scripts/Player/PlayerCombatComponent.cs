@@ -83,8 +83,7 @@ public class PlayerCombatComponent
             GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
         }
 
-        Player.instance.StatusComponent.ModifyHealth(damage);
+        Player.instance.StatusComponent.ModifyHealth(-damage);
         UIManager.instance.ShowPlayerDamageText(damage);
-
     }
 }

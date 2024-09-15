@@ -64,7 +64,7 @@ public class EnemyCombatComponent
             targetFound = false;
             EnemyInfo.EnemyObject.GetComponent<Animator>().SetBool("See", false);
         }
-
+        
         isInCombat = true;
 
         EnemyInfo.EnemyObject.transform.LookAt(playerTransform);
