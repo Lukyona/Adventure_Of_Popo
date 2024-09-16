@@ -51,19 +51,20 @@ public class EnemyCombatComponent
     public virtual void ChasePlayer()
     {
         if(isInCombat) isInCombat = false;
-        
+        Debug.Log("ChasePlayer")   ;
         targetFound = true;
     }
 
     public virtual void AttackPlayer()
     {
         canAttack = false;
+        Debug.Log("AttackPlayer")   ;
 
         if(targetFound)
         {
             targetFound = false;
-            EnemyInfo.EnemyObject.GetComponent<Animator>().SetBool("See", false);
         }
+        
         
         isInCombat = true;
 
@@ -81,12 +82,23 @@ public class EnemyCombatComponent
     public void ResetAttack()
     {
         canAttack = true;
+        animator.ResetTrigger("Attack");
+
+        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && EnemyInfo.EnemyObject.name.Contains("Mushroom"))
+            animator.ResetTrigger("StrongAttack");
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        animator.SetTrigger("GetHit");
+        
+        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && EnemyInfo.EnemyObject.name.Contains("Log"))
+            animator.SetTrigger("GetHit");
+
+        animator.ResetTrigger("Attack");
+
+        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && EnemyInfo.EnemyObject.name.Contains("Mushroom"))
+            animator.ResetTrigger("StrongAttack");
 
         MonsterHPBar.instance.ShowDamage(damage);
 

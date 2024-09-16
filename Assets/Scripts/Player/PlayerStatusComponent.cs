@@ -136,8 +136,6 @@ public class PlayerStatusComponent
         yield return new WaitForSeconds(staminaRecoveryInterval);
         IsStaminaRecovering = false;
     }
-
-
     public IEnumerator ConsumeStamina()
     {
         if(isStaminConsuming) yield break;
@@ -188,12 +186,12 @@ public class PlayerStatusComponent
             }
         }
 
-        UIManager.instance.UpdatePlayerExpUI();
-
         if (CurrentExp >= MaxExp && CurrentLevel != 5)//레벨업, 5레벨 아닐 때만 가능
         {
             LevelUp();
         }
+
+        UIManager.instance.UpdatePlayerExpUI();
     }
 
     void LevelUp()
@@ -203,16 +201,24 @@ public class PlayerStatusComponent
         CurrentExp -= MaxExp; //현재 경험치 
         CurrentLevel++;
 
+        SetMaxStatus();
+        
+        CurrentHealth = MaxHealth;
+        CurrentStamina = MaxStamina;
+
+        UIManager.instance.UpdatePlayerHealthUI();
+        UIManager.instance.UpdatePlayerStaminaUI();
+        UIManager.instance.UpdatePlayerLevelUI();
+    }
+    
+    void SetMaxStatus()
+    {
         switch (CurrentLevel)
         {
             case 2:
                 MaxHealth = 150;
                 MaxStamina = 14;
                 MaxExp = 80;
-                if(GameDirector.instance.mainCount == 4)
-                {
-                    MonsterHPBar.instance.Fence_arrow();
-                }
                 break;
             case 3:
                 MaxHealth = 200;
@@ -229,15 +235,8 @@ public class PlayerStatusComponent
                 MaxStamina = 20;
                 break;
         }
-        
-        CurrentHealth = MaxExp;
-        CurrentStamina = MaxStamina;
-
-        UIManager.instance.UpdatePlayerHealthUI();
-        UIManager.instance.UpdatePlayerStaminaUI();
-        UIManager.instance.UpdatePlayerLevelUI();
     }
-   
+
     public void SavePlayerStatus()
     {
         PlayerPrefs.SetInt("Level", CurrentLevel);
@@ -252,5 +251,12 @@ public class PlayerStatusComponent
         CurrentExp = PlayerPrefs.GetFloat("EXP");
         CurrentHealth = PlayerPrefs.GetFloat("HP");
         CurrentStamina = PlayerPrefs.GetFloat("SP");
+
+        SetMaxStatus();
+
+        UIManager.instance.UpdatePlayerLevelUI();
+        UIManager.instance.UpdatePlayerExpUI();
+        UIManager.instance.UpdatePlayerHealthUI();
+        UIManager.instance.UpdatePlayerStaminaUI();
     }
 }

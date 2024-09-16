@@ -70,7 +70,7 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
             walkPointSet = false;
 
 
-         if (name.Contains("Slime") || name.Contains("Turtle") || name.Contains("Mushroom"))
+        if (name.Contains("Slime") || name.Contains("Turtle") || name.Contains("Mushroom"))
         {
             if (combatComponent.targetFound)//발견했었지만 시야범위 벗어났을 때
             {
@@ -138,12 +138,18 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
 
     public void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.CompareTag("PlayerAttack")) return;
+        if(other.gameObject.CompareTag("PlayerAttack"))
+        {
+            PlayerCombatComponent pComp = Player.instance.CombatComponent;
+            SoundManager.instance.PlayAttackSound(pComp.AttackNum);
+            TakeDamage(pComp.SkillDamage);
+        }
 
-        PlayerCombatComponent pComp = Player.instance.CombatComponent;
-        SoundManager.instance.PlayAttackSound(pComp.AttackNum);
+        if(other.gameObject.CompareTag("NpcAttack"))
+        {
 
-        TakeDamage(pComp.SkillDamage);
+            //TakeDamage(pComp.SkillDamage);
+        }
     }
 
     public void EnableAttackCollider()
@@ -151,7 +157,6 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
         tag = "EnemyAttack";
         Collider attackCollider = GetComponent<BoxCollider>();
         attackCollider.enabled = true;
-        Debug.Log("EnableAttackCollider");
     }
 
     public void DisableAttackCollider()

@@ -51,10 +51,10 @@ public class PlayerCombatComponent
             await Task.Delay((int)(0.2f + 0.02f * attackIndex)); //여기
 
             UpdateNPCState();
-            attacks[attackIndex].Execute(Target);
             SkillDamage = attacks[attackIndex].Damage;
         }
         ThirdPlayerMovement.instance.foxAnimator.SetTrigger($"Attack{attackIndex + 1}");
+        attacks[attackIndex].Execute(Target);
     }
 
     void UpdateNPCState()//타겟에게 데미지 입히는 함수

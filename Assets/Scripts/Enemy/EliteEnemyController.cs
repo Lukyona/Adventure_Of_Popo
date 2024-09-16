@@ -47,12 +47,19 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
     public void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.CompareTag("PlayerAttack")) return;
+        if(other.gameObject.CompareTag("PlayerAttack"))
+        {
+            PlayerCombatComponent pComp = Player.instance.CombatComponent;
+            SoundManager.instance.PlayAttackSound(pComp.AttackNum);
+            TakeDamage(pComp.SkillDamage);
+        }
 
-        PlayerCombatComponent pComp = Player.instance.CombatComponent;
-        SoundManager.instance.PlayAttackSound(pComp.AttackNum);
+        if(other.gameObject.CompareTag("NpcAttack"))
+        {
 
-        TakeDamage(pComp.SkillDamage);
+            //TakeDamage(pComp.SkillDamage);
+        }
+
     }
 
     public void EnableAttackCollider()

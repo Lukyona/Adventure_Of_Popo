@@ -31,13 +31,17 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
     {
         if(!canAttack) return;
 
-        if(EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle"))
+        if(EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle") || EnemyInfo.EnemyObject.name.Contains("Mushroom"))
         {
-            animator.SetBool("Battle", true);
+            animator.SetBool("See", false);
 
-            if(Player.instance.IsDead())
+            if(!EnemyInfo.EnemyObject.name.Contains("Mushroom"))
             {
-                animator.SetTrigger("Victory");
+                animator.SetBool("Battle", true);
+                if(Player.instance.IsDead())
+                {
+                    animator.SetTrigger("Victory");
+                }
             }
         }
 

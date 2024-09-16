@@ -160,6 +160,8 @@ public class UIManager : MonoBehaviour
         switch(level)
         {
             case 2:
+                levelGuideMessage.text = "이제 울타리를 부술 수 있습니다.";
+                break;
             case 4:
                 levelGuideMessage.text = "";
                 break;

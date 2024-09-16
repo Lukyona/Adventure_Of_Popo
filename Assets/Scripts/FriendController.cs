@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class FriendController : MonoBehaviour
 {
-    public static FriendController instance;
-
-    Transform player;
     Animator animator; //슬라임/버섯 애니메이터
-    public LayerMask whatIsPlayer;
-    public bool playerInRange;
+    Transform player;
+    bool playerInRange;
 
-    public Transform groundCheck;
-    public LayerMask groundMask;
-    public bool isGrounded;
+    [SerializeField] Transform groundCheck;
+    [SerializeField] LayerMask groundMask;
+    float gravity = -30.5f;
+
+    bool isGrounded;
     Vector3 velocity;
+    bool isInCombat = false;//플레이어가 전투 중이면 true
+    bool attack_start = false;//공격 시작하면 true
 
     private void Awake()
     {
@@ -26,12 +27,10 @@ public class FriendController : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Fox").transform;
+        player = Player.instance.transform;
         animator = gameObject.GetComponent<Animator>();
     }
 
-    public bool battle = false;//플레이어가 전투 중이면 true
-    bool attack_start = false;//공격 시작하면 true
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, ThirdPlayerMovement.instance.groundDistance, groundMask);
@@ -39,18 +38,18 @@ public class FriendController : MonoBehaviour
         {
             velocity.y = -2f;
         }
-        velocity.y += ThirdPlayerMovement.instance.gravity * Time.deltaTime; //중력 적용
+        velocity.y += gravity * Time.deltaTime; //중력 적용
 
-        playerInRange = Physics.CheckSphere(gameObject.transform.position, 6f, whatIsPlayer);
+        playerInRange = Physics.CheckSphere(gameObject.transform.position, 6f, LayerMask.GetMask("Player"));
 
-        if (!battle || (battle && !playerInRange && GameDirector.instance.mainCount != 10))//전투 중이 아니거나 전투 중이어도 플레이어가 일정 거리 멀어지면 플레이어에게로 이동, 보스전은 해당X
+        if (!isInCombat || (isInCombat && !playerInRange && GameDirector.instance.mainCount != 10))//전투 중이 아니거나 전투 중이어도 플레이어가 일정 거리 멀어지면 플레이어에게로 이동, 보스전은 해당X
         {
-            if(battle)
+            if(isInCombat)
             {
-                battle = false;
+                isInCombat = false;
                 attack_start = false;
             }
-            npcMoving();
+            CheckDistance();
         }
         else//전투 상태, 플레이어와 가까움
         {
@@ -58,18 +57,17 @@ public class FriendController : MonoBehaviour
             {
                 gameObject.transform.LookAt(Player.instance.GetTarget().transform);
                 Vector3 direction = Player.instance.GetTarget().transform.position - gameObject.transform.position;
-                distance = Vector3.Distance(Player.instance.GetTarget().transform.position, gameObject.transform.position);
+                float targetDistance = Vector3.Distance(Player.instance.GetTarget().transform.position, gameObject.transform.position);
                 direction.y = 0;
 
-                if (distance > 2)
+                if (targetDistance > 2)
                 {
                     gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                     if (direction.magnitude > 1)
                     {
                         ctrlVelocity = direction.normalized * 5f;
                         ctrlVelocity.y = Mathf.Clamp(gameObject.GetComponent<CharacterController>().velocity.y, -30, 2);
-                        ctrlVelocity.y -= 30.5f * Time.deltaTime; //중력 적용
-                        gameObject.GetComponent<CharacterController>().Move(ctrlVelocity * Time.deltaTime);//이동
+                        gameObject.GetComponent<CharacterController>().Move(ctrlVelocity * Time.deltaTime);
                     }
                 }
             }
@@ -77,10 +75,10 @@ public class FriendController : MonoBehaviour
             {
                 gameObject.transform.LookAt(MonsterHPBar.instance.boss.transform);
                 Vector3 direction = MonsterHPBar.instance.boss.transform.position - gameObject.transform.position;
-                distance = Vector3.Distance(MonsterHPBar.instance.boss.transform.position, gameObject.transform.position);
+                float targetDistance = Vector3.Distance(MonsterHPBar.instance.boss.transform.position, gameObject.transform.position);
                 direction.y = 0;
 
-                if (distance > 2)
+                if (targetDistance > 2)
                 {
                     gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
                     if (direction.magnitude > 1)
@@ -107,11 +105,10 @@ public class FriendController : MonoBehaviour
         }    
     }
 
-    float distance; //플레이어와 동료몬스터 사이 거리
-    public void npcMoving()//이동
+    void CheckDistance()
     {
-        Vector3 direction = player.position - gameObject.transform.position;
-        distance = Vector3.Distance(player.position, gameObject.transform.position);
+        float distance = Vector3.Distance(player.position, transform.position);
+        Vector3 direction = player.position - transform.position;
 
         if ((ThirdPlayerMovement.instance.isPlayerAction == true && distance > 10) || (ThirdPlayerMovement.instance.isPlayerAction == false && distance > 3))
         {
@@ -119,14 +116,13 @@ public class FriendController : MonoBehaviour
             gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
             if (direction.magnitude > 1)
             {
-
                 if ((ThirdPlayerMovement.instance.running || ThirdPlayerMovement.instance.isPlayerIdle || !ThirdPlayerMovement.instance.running) && distance > 10)
                 {
-                    npcMove(direction, 5.5f);//플레이어와 멀리 떨어져있을 때
+                    Move(direction, 5.5f);//플레이어와 멀리 떨어져있을 때
                 }
                 else
                 {
-                    npcMove(direction, 3.7f);//비교적 가까울 때
+                    Move(direction, 3.7f);//비교적 가까울 때
  
                 }
 
@@ -148,8 +144,7 @@ public class FriendController : MonoBehaviour
         }
     }
 
-    public Vector3 ctrlVelocity;
-    void npcMove(Vector3 dir, float spd)//이동 함수
+    void Move(Vector3 dir, float speed)//이동 함수
     {
         if (gameObject.name.Contains("Slime"))
         {
@@ -158,10 +153,10 @@ public class FriendController : MonoBehaviour
             animator.SetBool("Walk", true);
         }
 
-        ctrlVelocity = dir.normalized * spd;
-        ctrlVelocity.y = Mathf.Clamp(gameObject.GetComponent<CharacterController>().velocity.y, -30, 2);
-        ctrlVelocity.y -= 30.5f * Time.deltaTime; //중력 적용
-        gameObject.GetComponent<CharacterController>().Move(ctrlVelocity * Time.deltaTime);//이동
+        Vector3 moveVector = dir.normalized * speed;
+        moveVector.y = Mathf.Clamp(gameObject.GetComponent<CharacterController>().velocity.y, -30, 2);
+        moveVector.y -= 30.5f * Time.deltaTime; //중력 적용
+        gameObject.GetComponent<CharacterController>().Move(moveVector * Time.deltaTime);
     }
 
     void Attack()
@@ -187,12 +182,12 @@ public class FriendController : MonoBehaviour
 
                     if (n < 8) // 일반 공격, 확률 70%, 5데미지
                     {
-                        animator.SetTrigger("Attack1");
+                        animator.SetTrigger("Attack");
                         Invoke(nameof(Slime_GiveDamage1), 0.4f);
                     }
                     else if (n > 7) //센 공격, 확률 30%, 10데미지
                     {
-                        animator.SetTrigger("Attack2");
+                        animator.SetTrigger("StrongAttack");
                         Invoke(nameof(Slime_GiveDamage2), 0.4f);
                     }
                 }
@@ -277,4 +272,17 @@ public class FriendController : MonoBehaviour
             }
         }
     }
+
+    public void EnableAttackCollider()
+    {
+        tag = "NpcAttack";
+        GetComponent<BoxCollider>().enabled = true;
+    }
+
+    public void DisableAttackCollider()
+    {
+        tag = "Npc";
+        GetComponent<BoxCollider>().enabled = false;
+    }
+
 }

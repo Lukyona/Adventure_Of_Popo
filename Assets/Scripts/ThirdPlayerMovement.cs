@@ -16,7 +16,7 @@ public class ThirdPlayerMovement : MonoBehaviour
     public float trunSmoothTime = 0.1f;
     float trunSmoothVelocity;
 
-    public float gravity = -30.5f;
+    float gravity = -30.5f;
     private float jumpHeight = 2.2f; //점프 높이
     private KeyCode jumpKey = KeyCode.Space; //점프키 설정
 

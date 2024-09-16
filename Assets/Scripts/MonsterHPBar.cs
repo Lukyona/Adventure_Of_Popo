@@ -24,8 +24,6 @@ public class MonsterHPBar : MonoBehaviour
 
     public static MonsterHPBar instance;
 
-
-
     private void Awake()
     {
         if(instance == null)
@@ -45,9 +43,10 @@ public class MonsterHPBar : MonoBehaviour
             GameObject mon_level = Instantiate(monLevelPrefeb, objects[i].transform.position, Quaternion.identity, transform);//레벨 정보 프리팹 생성
             levelList.Add(mon_level);//생성된 몬스터 레벨을 리스트에 추가
         }
-        if (Player.instance.StatusComponent.CurrentLevel == 2 && GameDirector.instance.mainCount == 4)//아직 울타리 부수기 전(슬라임 등장 전)이면
+        if (!(Player.instance.StatusComponent.CurrentLevel == 2 && GameDirector.instance.mainCount == 4))//아직 울타리 부수기 전(슬라임 등장 전)이면
         {
-            Fence_arrow();//울타리 표시
+            arrow = Instantiate(arrowPrefeb, hpBarList[0].transform.position, Quaternion.identity, transform); //몬스터 위치에 화살표 프리팹 생성
+            arrow.SetActive(false);
         }
     }
 
@@ -71,7 +70,8 @@ public class MonsterHPBar : MonoBehaviour
                     levelList[i].transform.GetChild(0).GetComponent<Text>().text = level.ToString();
                     
                     levelList[i].transform.GetChild(0).GetComponent<Text>().color = color1;//레벨 텍스트
-                    arrow = Instantiate(arrowPrefeb, hpBarList[i].transform.position, Quaternion.identity, transform); //몬스터 위치에 화살표 프리팹 생성
+                    arrow.transform.position =  hpBarList[i].transform.position;//Instantiate(arrowPrefeb, hpBarList[i].transform.position, Quaternion.identity, transform); //몬스터 위치에 화살표 프리팹 생성
+                    
                     arrow.SetActive(true);
                     num = i;
                 }
@@ -121,17 +121,14 @@ public class MonsterHPBar : MonoBehaviour
 
         if(Player.instance.StatusComponent.CurrentLevel == 2 && GameDirector.instance.mainCount == 4)//2렙에 울타리 부수기 전
         {
-
-
             if(arrow == null)
             {
-               // Debug.Log("arrow nulll");
-                return;
-
+                arrow = Instantiate(arrowPrefeb,GameDirector.instance.right_Fence.transform.position, Quaternion.identity, transform);
             }
 
+                if(arrow.transform.position.z < 0) arrow.SetActive(false);
+                else arrow.SetActive(true);
 
-            Debug.Log("우ㄹ타리 위치");
             
             Vector3 fencePos = GameDirector.instance.right_Fence.transform.position;
             arrow.transform.position = cam.WorldToScreenPoint(fencePos + new Vector3(-1.5f, 2.5f, -1.5f));
@@ -168,7 +165,6 @@ public class MonsterHPBar : MonoBehaviour
     public void DisappearMonsterInfo()//기존 타겟 정보 안 보이게
     {
         targetIn = false;
-        //Destroy(arrow);
         arrow.SetActive(false);
         if(!transformtList[num]) return;
         
@@ -185,16 +181,8 @@ public class MonsterHPBar : MonoBehaviour
         dText.transform.position = cam.WorldToScreenPoint(transformtList[num].transform.position + new Vector3(2f, 1f, 0));
     }
 
-    public void Fence_arrow()//올바른(부술 수 있는) 울타리 표시해주기
+    public void DeactiveArrow()
     {
-        if(GameDirector.instance.mainCount == 5)//슬라임 등장 후 화살표 제거
-        {
-            Destroy(arrow);
-        }
-        else
-        {
-            arrow = Instantiate(arrowPrefeb,GameDirector.instance.right_Fence.transform.position, Quaternion.identity, transform); //펜스 위치에 화살표 프리팹 생성    
-            arrow.SetActive(true);
-        }
+        arrow.SetActive(false);
     }
 }
