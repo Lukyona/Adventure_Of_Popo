@@ -23,7 +23,7 @@ public class ThirdPlayerMovement : MonoBehaviour
     Vector3 velocity;
 
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
+    float groundDistance = 0.4f;
     public LayerMask groundMask;
     public bool isGrounded;
 
@@ -240,10 +240,8 @@ public class ThirdPlayerMovement : MonoBehaviour
     }
 
     public bool isPlayerIdle = true;
-    public bool isPlayerAction = false;
     public void DontMove()
     {
-        isPlayerAction = false;
         isPlayerIdle = true;
         running = false;
         foxAnimator.SetBool("WalkBack", false);

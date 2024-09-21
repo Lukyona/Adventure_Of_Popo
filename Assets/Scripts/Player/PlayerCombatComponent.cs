@@ -47,7 +47,10 @@ public class PlayerCombatComponent
     {
         if (Target != null)
         {
-            Player.instance.transform.LookAt(Target.transform);
+            //Player.instance.transform.LookAt(Target.transform);
+            Vector3 directionToTarget = Target.transform.position - Player.instance.transform.position;
+            Player.instance.transform.rotation = Quaternion.Slerp(Player.instance.transform.rotation, Quaternion.LookRotation(directionToTarget), 0.1f);
+
             await Task.Delay((int)(0.2f + 0.02f * attackIndex)); //여기
 
             UpdateNPCState();
@@ -61,27 +64,21 @@ public class PlayerCombatComponent
     {
         if (Target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때, 문지기/보스 제외
         {
-            GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
-            GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = false;//동료 전투 상태 해제
+            Player.instance.SetFriendCombatState(false);
         }
       
         if (ThirdPlayerMovement.instance.monsterInAttackRange)//타겟이 있어야하며 공격범위 안에 있을 때
         {
             if(GameDirector.instance.mainCount >= 5)
             {
-                GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
-                GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
+                Player.instance.SetFriendCombatState(true);
             }
         } 
     }
 
-    public void TakeDamage(float damage)//플레이어가 입는 데미지
+    public void TakeDamage(float damage, GameObject attacker)//플레이어가 입는 데미지
     {
-        if(GameDirector.instance.mainCount == 10)//보스전
-        {
-            GameDirector.instance.friend_slime.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
-            GameDirector.instance.friend_mushroom.GetComponent<FriendController>().battle = true;//동료 전투 상태 돌입
-        }
+        Player.instance.SetFriendCombatState(true, attacker);
 
         Player.instance.StatusComponent.ModifyHealth(-damage);
         UIManager.instance.ShowPlayerDamageText(damage);

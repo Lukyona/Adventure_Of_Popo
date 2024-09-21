@@ -56,8 +56,8 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
         if(other.gameObject.CompareTag("NpcAttack"))
         {
-
-            //TakeDamage(pComp.SkillDamage);
+            float damage = other.GetComponent<FriendController>().SkillDamage;
+            TakeDamage(damage);
         }
 
     }

@@ -51,14 +51,14 @@ public class EnemyCombatComponent
     public virtual void ChasePlayer()
     {
         if(isInCombat) isInCombat = false;
-        Debug.Log("ChasePlayer")   ;
+       // Debug.Log("ChasePlayer")   ;
         targetFound = true;
     }
 
     public virtual void AttackPlayer()
     {
         canAttack = false;
-        Debug.Log("AttackPlayer")   ;
+       // Debug.Log("AttackPlayer")   ;
 
         if(targetFound)
         {
@@ -73,7 +73,9 @@ public class EnemyCombatComponent
         if(Player.instance.IsDead())
         {
             isInCombat = false;
-            animator.SetBool("Battle", false);
+
+            if(EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle"))
+                animator.SetBool("Battle", false);
         }
 
         MyTaskManager.instance.ExecuteAfterDelay(ResetAttack, EnemyInfo.TimeBetweenAttacks);
@@ -84,7 +86,7 @@ public class EnemyCombatComponent
         canAttack = true;
         animator.ResetTrigger("Attack");
 
-        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && EnemyInfo.EnemyObject.name.Contains("Mushroom"))
+        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && !EnemyInfo.EnemyObject.name.Contains("Mushroom"))
             animator.ResetTrigger("StrongAttack");
     }
 
@@ -92,15 +94,15 @@ public class EnemyCombatComponent
     {
         currentHealth -= damage;
         
-        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && EnemyInfo.EnemyObject.name.Contains("Log"))
+        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && !EnemyInfo.EnemyObject.name.Contains("Log"))
             animator.SetTrigger("GetHit");
 
         animator.ResetTrigger("Attack");
 
-        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && EnemyInfo.EnemyObject.name.Contains("Mushroom"))
+        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && !EnemyInfo.EnemyObject.name.Contains("Mushroom"))
             animator.ResetTrigger("StrongAttack");
 
-        MonsterHPBar.instance.ShowDamage(damage);
+        MonsterHPBar.instance.ShowDamage(EnemyInfo.EnemyObject.transform, damage);
 
         if (currentHealth <= 0)
         {
@@ -108,7 +110,7 @@ public class EnemyCombatComponent
         }
         else
         {
-            MonsterHPBar.instance.Get_Damage(damage);
+            MonsterHPBar.instance.Get_Damage(EnemyInfo.EnemyObject.transform, damage);
         }
     }
 

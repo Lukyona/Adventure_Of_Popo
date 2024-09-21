@@ -135,15 +135,15 @@ public class MonsterHPBar : MonoBehaviour
         }
     }
 
-    public void Get_Damage(float dam)//공격받았을 때 체력바 감소
+    public void Get_Damage(Transform enemy, float dam)//공격받았을 때 체력바 감소
     {
         if(GameDirector.instance.mainCount == 10 && Player.instance.GetTarget() == null)//타겟 없지만 보스전일 때
         {
-            hpBarList[0].GetComponent<Image>().fillAmount -= dam / MonsterHPBar.instance.boss.GetComponent<IEnemyController>().GetMaxHealth();
+            hpBarList[0].GetComponent<Image>().fillAmount -= dam / boss.GetComponent<IEnemyController>().GetMaxHealth();
         }
         else//보스전 제외 모두
         {
-            hpBarList[num].GetComponent<Image>().fillAmount -= dam / Player.instance.GetTarget().GetComponent<IEnemyController>().GetMaxHealth();//몬스터의 본래 체력에 따라 체력바 각각 다르게 감소  
+            hpBarList[num].GetComponent<Image>().fillAmount -= dam / enemy.GetComponent<IEnemyController>().GetMaxHealth();//몬스터의 본래 체력에 따라 체력바 각각 다르게 감소  
         }           
     }
 
@@ -174,11 +174,13 @@ public class MonsterHPBar : MonoBehaviour
         hpBarList[num].GetComponent<Image>().color = color; //hp바를 안 보이게 만듬
     }
 
-    public void ShowDamage(float damage)
+    public void ShowDamage(Transform enemy, float damage)
     {
-        GameObject dText = Instantiate(damageText, hpBarList[num].transform.position, Quaternion.identity, transform);
+       // GameObject dText = Instantiate(damageText, hpBarList[num].transform.position, Quaternion.identity, transform);
+        GameObject dText = Instantiate(damageText, enemy.position, Quaternion.identity, transform);
         dText.GetComponent<DamageText>().SetDamage(damage);
-        dText.transform.position = cam.WorldToScreenPoint(transformtList[num].transform.position + new Vector3(2f, 1f, 0));
+        //dText.transform.position = cam.WorldToScreenPoint(transformtList[num].transform.position + new Vector3(2f, 1f, 0));
+        dText.transform.position = cam.WorldToScreenPoint(enemy.position + new Vector3(2f, 1f, 0));
     }
 
     public void DeactiveArrow()

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyInfo_Log
   m_EditorClassIdentifier: 
   sightRange: 6
-  attackRange: 2.5
+  attackRange: 1.5
   maxDistance: 10
   chaseSpeed: 3
   level: 2

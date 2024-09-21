@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     public PlayerCombatComponent CombatComponent {get; private set;}
     public PlayerStatusComponent StatusComponent {get; private set;}
 
-
     void Awake()
     {
         if (instance == null)
@@ -64,12 +63,23 @@ public class Player : MonoBehaviour
         if(!other.gameObject.CompareTag("EnemyAttack")) return;
 
         EnemyCombatComponent eComp = other.GetComponent<IEnemyController>().GetCombatComponent();
-        TakeDamage(eComp.SkillDamage);
+        TakeDamage(eComp.SkillDamage, other.gameObject);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject attacker)
     {
-        CombatComponent.TakeDamage(damage);
+        CombatComponent.TakeDamage(damage, attacker);
+    }
+
+    public void SetFriendCombatState(bool value, GameObject attacker = null)
+    {
+        FriendController[] friends = FindObjectsOfType<FriendController>();
+
+        foreach(FriendController f in friends)
+        {
+            f.IsInCombat = value;
+            if(value != false && CombatComponent.Target == null) f.CombatTarget = attacker.transform;
+        }
     }
 
     public bool IsDead()

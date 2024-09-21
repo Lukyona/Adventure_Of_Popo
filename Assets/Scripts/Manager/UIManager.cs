@@ -54,11 +54,6 @@ public class UIManager : MonoBehaviour
         ActiveBlackScreen();
         DialogueController.instance.SetDialogue(1);
         GameDirector.instance.Invoke(nameof(GameDirector.instance.Start_Talk), 3.5f);
-
-        if (GameDirector.instance.mainCount >= 5)
-        {
-            FriendController.instance.battle = false;//동료 전투 중지
-        }
     }
 
     public void EndBlackOut() // 부활, 화면 다시 밝아지고 플레이어 처음 위치로 이동, 능력치 변화
@@ -81,7 +76,7 @@ public class UIManager : MonoBehaviour
         Player.instance.StatusComponent.CurrentHealth = 10;
         UpdatePlayerHealthUI();
 
-        BlackAnimator.SetTrigger("BlackOff");
+        MyTaskManager.instance.ExecuteAfterDelay(() => BlackAnimator.SetTrigger("BlackOff"), 0.8f);
         MyTaskManager.instance.ExecuteAfterDelay(Player.instance.Revive, 2.5f);
     }
 

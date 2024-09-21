@@ -100,6 +100,7 @@ public class PlayerStatusComponent
             }
             
             MyTaskManager.instance.ExecuteAfterDelay(UIManager.instance.StartBlackOut, 2f);
+            Player.instance.SetFriendCombatState(false);
         }       
     }
     #endregion
