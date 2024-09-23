@@ -46,7 +46,7 @@ public class GameDirector : MonoBehaviour
             case 0://처음 시작, 주인공 소개 부분
                 SoundManager.instance.PlayFirstBgm();
                 firstStart = true;
-                DialogueController.instance.SetDialogue(0);
+                DialogueManager.instance.SetDialogue(0);
                 Fox_Sit();
                 break;
             case 1://소개 끝, 주변 둘러보기
@@ -91,13 +91,13 @@ public class GameDirector : MonoBehaviour
                 UIManager.instance.ActiveBlackScreen();
                 Fox_Cant_Move();
                 Invoke(nameof(Ready_To_Talk), 2.2f);
-                DialogueController.instance.SetDialogue(15);
+                DialogueManager.instance.SetDialogue(15);
                 break;
             case 12://동료들 떠난 뒤
                 UIManager.instance.ActiveBlackScreen();
                 Fox_Cant_Move();
                 Invoke(nameof(Ready_To_Talk), 2.2f);
-                DialogueController.instance.SetDialogue(16);
+                DialogueManager.instance.SetDialogue(16);
                 break;
         }
         mainCount++;
@@ -134,7 +134,7 @@ public class GameDirector : MonoBehaviour
         talking = true;
         Fox_Cant_Move();
         TextWindowAnimator.SetTrigger("Talk_On");//대화창 등장
-        DialogueController.instance.ShowDialogue();//첫 대사는 스페이스바를 누르지 않고도 바로 나오도록
+        DialogueManager.instance.ShowDialogue();//첫 대사는 스페이스바를 누르지 않고도 바로 나오도록
     }
 
     public void End_Talk()
@@ -237,24 +237,24 @@ public class GameDirector : MonoBehaviour
                         UIManager.instance.ActiveBlackScreen();
                         Fox_Cant_Move();
                         Invoke(nameof(Ready_To_Talk), 2.2f);
-                        DialogueController.instance.SetDialogue(2);//울타리 부수기 가능
+                        DialogueManager.instance.SetDialogue(2);//울타리 부수기 가능
                     }
                     else
                     {
-                        DialogueController.instance.SetDialogue(7);//울타리 부수기 안내
+                        DialogueManager.instance.SetDialogue(7);//울타리 부수기 안내
                         Start_Talk();
                         can_hit = false;
                     }
                 }
                 else
                 {
-                    DialogueController.instance.SetDialogue(6);//올바르지 않은 울타리
+                    DialogueManager.instance.SetDialogue(6);//올바르지 않은 울타리
                     Start_Talk();
                 }               
             }
             else
             {
-                DialogueController.instance.SetDialogue(3);//울타리 못 부숨
+                DialogueManager.instance.SetDialogue(3);//울타리 못 부숨
                 Start_Talk();
             }
         }
@@ -339,7 +339,7 @@ public class GameDirector : MonoBehaviour
         UIManager.instance.ActiveBlackScreen();
         Fox_Cant_Move();
         Invoke(nameof(Ready_To_Talk), 2.2f);
-        DialogueController.instance.SetDialogue(13);
+        DialogueManager.instance.SetDialogue(13);
     }
 
     void FenceClickOn()//다시 펜스 클릭 가능
@@ -350,7 +350,7 @@ public class GameDirector : MonoBehaviour
     public void HitWoodenFence()
     {
         SoundManager.instance.PlayWoodSound();
-        DialogueController.instance.SetDialogue(8);
+        DialogueManager.instance.SetDialogue(8);
         Invoke(nameof(Start_Talk),0.6f);
         Invoke(nameof(Destroy_Fence), 0.3f);
 

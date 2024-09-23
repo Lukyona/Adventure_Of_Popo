@@ -5,7 +5,7 @@ using UnityEngine;
 public class FriendController : MonoBehaviour
 {
     Animator animator;
-    bool IsSlime => gameObject.name.Contains("Slime");
+    bool isSlime;
 
     Transform player;
     bool playerInRange;
@@ -28,6 +28,7 @@ public class FriendController : MonoBehaviour
     {
         player = Player.instance.transform;
         animator = gameObject.GetComponent<Animator>();
+        isSlime = gameObject.name.Contains("Slime");
     }
 
     void Update()
@@ -49,7 +50,7 @@ public class FriendController : MonoBehaviour
         }  
     }
 
-    void UpdateSlimeAnimationState(bool isWalking, bool isStopped, bool isInBattle)
+    void UpdateSlimeAnimationState(bool isWalking = false, bool isStopped = false, bool isInBattle = false)
     {
         animator.SetBool("Walk", isWalking);
         animator.SetBool("Stop", isStopped);
@@ -72,10 +73,11 @@ public class FriendController : MonoBehaviour
         Vector3 direction = player.position - transform.position;
        
         direction.y = 0;
-        if (IsSlime)
+        if (isSlime)
         {
-            UpdateSlimeAnimationState(true, false, false);
+            UpdateSlimeAnimationState(isWalking : true);
         }
+
         if (direction.magnitude > 1)
         {
             if (distance > 10)
@@ -106,7 +108,6 @@ public class FriendController : MonoBehaviour
         if(CombatTarget == null) return;
         if(CombatTarget.GetComponent<IEnemyController>().IsDead()) return;
 
-        //transform.LookAt(CombatTarget);
         MoveTo(CombatTarget, 5f);
     }
 
@@ -131,17 +132,17 @@ public class FriendController : MonoBehaviour
         }
         else
         {
-            if (IsSlime)
+            if (isSlime)
             {
-                UpdateSlimeAnimationState(false, true, false);
+                UpdateSlimeAnimationState(isStopped : true);
             }
 
             if(CombatTarget)
             {
                 IsInCombat = true;
-                if (IsSlime)
+                if (isSlime)
                 {
-                    UpdateSlimeAnimationState(false, false, true);
+                    UpdateSlimeAnimationState(isInBattle : true);
                 }
                 
                 Invoke(nameof(Attack),0.5f);
@@ -162,32 +163,15 @@ public class FriendController : MonoBehaviour
             {
                 int n = Random.Range(1, 10);
 
-                if (IsSlime)//슬라임 동료면
+                if (isSlime)
                 {
-                    if (n < 8)
-                    {
-                        animator.ResetTrigger("StrongAttack");
-                        animator.SetTrigger("Attack");
-                        SkillDamage = 5f;
-                    }
-                    else 
-                    {
-                        animator.ResetTrigger("Attack");
-                        animator.SetTrigger("StrongAttack");
-                        SkillDamage = 10f;
-                    }
+                    animator.SetTrigger(n < 8 ? "Attack" : "StrongAttack");
+                    SkillDamage = n < 8 ? 5f : 10f;
                 }
-                else if(gameObject.name.Contains("Mushroom"))
+                else
                 {
                     animator.SetTrigger("Attack");
-                    if (n < 8)
-                    {
-                        SkillDamage = 7f;
-                    }
-                    else 
-                    {
-                        SkillDamage = 13f;
-                    }
+                    SkillDamage = n < 8 ? 7f : 13f;
                 }
                 Invoke(nameof(Attack), 2f);//2초 후 재공격
             }            
@@ -196,13 +180,13 @@ public class FriendController : MonoBehaviour
 
     public void EnableAttackCollider()
     {
-        tag = "NpcAttack";
+        gameObject.layer = LayerMask.NameToLayer("NpcAttack");
         GetComponent<BoxCollider>().enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        tag = "Npc";
+        gameObject.layer = LayerMask.NameToLayer("Npc");
         GetComponent<BoxCollider>().enabled = false;
     }
 

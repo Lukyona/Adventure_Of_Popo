@@ -4,9 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class DialogueController : MonoBehaviour
+public class DialogueManager : MonoBehaviour
 {
-    public static DialogueController instance;
+    public static DialogueManager instance;
 
     [SerializeField] TextMeshProUGUI DialogueText;
     [SerializeField] Image NameTag;//캐릭터 이름칸, 캐릭터에 따라 색상 달라질 것
@@ -50,7 +50,7 @@ public class DialogueController : MonoBehaviour
         else
         {
             GameDirector.instance.End_Talk();//대화 종료
-            if (Player.instance.IsDead())//플레이어 죽음 상태면
+            if (dialogueNum == 1)//플레이어 죽음 상태면
             {
                 UIManager.instance.Invoke(nameof(UIManager.instance.EndBlackOut),2f);//화면 밝아지기
             }
@@ -396,7 +396,6 @@ public class DialogueController : MonoBehaviour
                     case 4:
                         wait = true;
                         CameraController.instance.SetFixedState(false);
-                        ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
                         CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
                         ChangeToSlimeNameTag();
                         GameDirector.instance.bossGate.SetTrigger("Open");//문 열리는 애니메이션
@@ -416,7 +415,6 @@ public class DialogueController : MonoBehaviour
                         {
                             SoundManager.instance.PlayEndingBgm();//음악 변경
                             NameTag.gameObject.SetActive(true);
-                            ////GameDirector.instance.ThirdPersonCamera.SetActive(true);
                             CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
                         }
                         ChangeToSlimeNameTag();

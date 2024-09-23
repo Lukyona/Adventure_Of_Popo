@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
     public void StartBlackOut()//플레이어 죽음 시 검은 화면 전환
     {
         ActiveBlackScreen();
-        DialogueController.instance.SetDialogue(1);
+        DialogueManager.instance.SetDialogue(1);
         GameDirector.instance.Invoke(nameof(GameDirector.instance.Start_Talk), 3.5f);
     }
 
@@ -99,12 +99,12 @@ public class UIManager : MonoBehaviour
         int level = Player.instance.StatusComponent.CurrentLevel;
         if(level == 3)//3렙, 새로운 기술 안내
         {
-            DialogueController.instance.SetDialogue(9);
+            DialogueManager.instance.SetDialogue(9);
             GameDirector.instance.Start_Talk();
         }
         if (level == 5)//5렙, 새로운 기술 안내
         {
-            DialogueController.instance.SetDialogue(12);
+            DialogueManager.instance.SetDialogue(12);
             GameDirector.instance.Start_Talk();
         }
     }
@@ -170,9 +170,17 @@ public class UIManager : MonoBehaviour
         levelBoardAnimator.SetTrigger("Down");
     }
 
-    public void ShowPlayerDamageText(float damage)
+    public void ShowDamageText(GameObject target, float damage)
     {
-        GameObject dText = Instantiate(damageText, canvas.transform.position + new Vector3(-250f, 20f, 0), Quaternion.identity, canvas.transform);
+        GameObject dText = Instantiate(damageText, target.transform.position , Quaternion.identity, canvas.transform);
         dText.GetComponent<DamageText>().SetDamage(damage);
+
+        if(target.name.Contains("Fox"))  // 데미지 입은 대상에 따라 색상 변경
+            dText.GetComponent<Text>().color = new Color(255 / 255f, 105 / 255f, 0 / 255f);  
+        else
+            dText.GetComponent<Text>().color = new Color(200 / 255f, 0 / 255f, 30 / 255f);
+        
+        float randomX = Random.Range(-1f, 2f);
+        dText.transform.position = Camera.main.WorldToScreenPoint(dText.transform.position + new Vector3(randomX, 1f, 0));
     }
 }

@@ -55,7 +55,7 @@ public class PlayerStatusComponent
                 healthRecoveryInterval = 2f;
                 if (!ThirdPlayerMovement.instance.monsterInTargetRange && GameDirector.instance.mainCount == 3 && !GameDirector.instance.talking)//생명력 깎인 뒤 과일에 대한 설명
                 {
-                    DialogueController.instance.SetDialogue(5);
+                    DialogueManager.instance.SetDialogue(5);
                     GameDirector.instance.Fox_Cant_Move(); //플레이어 이동, 카메라 회전 금지
                     ThirdPlayerMovement.instance.DontMove();
                     GameDirector.instance.Start_Talk();
@@ -91,16 +91,7 @@ public class PlayerStatusComponent
 
         if (CurrentHealth <= 0)//생명력이 0이하일 땐
         {
-            GameDirector.instance.Fox_Cant_Move();//플레이어 이동 금지
-            ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Die");//쓰러짐 애니메이션
-
-            if(Player.instance.GetTarget() != null)
-            {
-                Player.instance.SetTarget(null);
-            }
-            
-            MyTaskManager.instance.ExecuteAfterDelay(UIManager.instance.StartBlackOut, 2f);
-            Player.instance.SetFriendCombatState(false);
+           Player.instance.Die();
         }       
     }
     #endregion
@@ -183,7 +174,7 @@ public class PlayerStatusComponent
                 UIManager.instance.ActiveBlackScreen();
                 GameDirector.instance.Fox_Cant_Move();
                 GameDirector.instance.Invoke(nameof(GameDirector.instance.Ready_To_Talk), 2.2f);
-                DialogueController.instance.SetDialogue(10);
+                DialogueManager.instance.SetDialogue(10);
             }
         }
 

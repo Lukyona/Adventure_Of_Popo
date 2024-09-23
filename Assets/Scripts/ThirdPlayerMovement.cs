@@ -31,7 +31,7 @@ public class ThirdPlayerMovement : MonoBehaviour
 
     public bool running = false;
 
-    public LayerMask whatIsMonster;
+    LayerMask whatIsMonster;
     public float sightRange, attackRange, targetRange;//플레이어의 시야범위, 공격범위, 타겟 표시 범위
     public bool monsterInSightRange, monsterInAttackRange, monsterInTargetRange; //몬스터가 해당 범위 내에 있을 경우 true
 
@@ -48,6 +48,7 @@ public class ThirdPlayerMovement : MonoBehaviour
     private void Start()
     {
         CinemachineCore.GetInputAxis = GetAxisCustom;
+        whatIsMonster = LayerMask.GetMask("Enemy", "EnemyAttack");
     }
 
     public float GetAxisCustom(string axisName) //카메라 회전
@@ -187,7 +188,7 @@ public class ThirdPlayerMovement : MonoBehaviour
             //Debug.Log("시야에 몬스터");
             if(GameDirector.instance.mainCount == 2 && !GameDirector.instance.talking)//소개 후 첫 몬스터 발견
             {
-                DialogueController.instance.SetDialogue(4);//몬스터 첫 발견
+                DialogueManager.instance.SetDialogue(4);//몬스터 첫 발견
                 DontMove();
                 GameDirector.instance.Start_Talk();
             }      
@@ -207,7 +208,7 @@ public class ThirdPlayerMovement : MonoBehaviour
             bool gateKeeperInRange = Physics.CheckSphere(gameObject.transform.position, sightRange, gk);//gk가 시야범위에 있으면 true
             if(gateKeeperInRange && !GameDirector.instance.talking)
             {
-                DialogueController.instance.SetDialogue(11);
+                DialogueManager.instance.SetDialogue(11);
                 GameDirector.instance.Start_Talk();
                 CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
             }

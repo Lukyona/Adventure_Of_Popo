@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MonsterHPBar : MonoBehaviour
+public class MonsterHPBar : MonoBehaviour //Canvas에 추가되어있음
 {
     [SerializeField] GameObject hpPrefeb = null; //hp바 프리팹
     [SerializeField] GameObject arrowPrefeb = null; //화살표 프리팹
     List<Transform> transformtList = new List<Transform>(); //몬스터들 위치 리스트 
-    public List<GameObject> hpBarList = new List<GameObject>();//몬스터 hp바 리스트
+    List<GameObject> hpBarList = new List<GameObject>();//몬스터 hp바 리스트
     [SerializeField] GameObject monLevelPrefeb = null;//몬스터 레벨 프리팹
-    public List<GameObject> levelList = new List<GameObject>();//몬스터 레벨 리스트
-    [SerializeField] GameObject damageText = null;//몬스터 데미지 프리팹
+    List<GameObject> levelList = new List<GameObject>();//몬스터 레벨 리스트
 
     Camera cam = null;
 
@@ -172,15 +171,6 @@ public class MonsterHPBar : MonoBehaviour
         levelList[num].GetComponent<Image>().color = color;//몬스터 레벨 안 보이게 만듬
         levelList[num].transform.GetChild(0).GetComponent<Text>().color = color;
         hpBarList[num].GetComponent<Image>().color = color; //hp바를 안 보이게 만듬
-    }
-
-    public void ShowDamage(Transform enemy, float damage)
-    {
-       // GameObject dText = Instantiate(damageText, hpBarList[num].transform.position, Quaternion.identity, transform);
-        GameObject dText = Instantiate(damageText, enemy.position, Quaternion.identity, transform);
-        dText.GetComponent<DamageText>().SetDamage(damage);
-        //dText.transform.position = cam.WorldToScreenPoint(transformtList[num].transform.position + new Vector3(2f, 1f, 0));
-        dText.transform.position = cam.WorldToScreenPoint(enemy.position + new Vector3(2f, 1f, 0));
     }
 
     public void DeactiveArrow()

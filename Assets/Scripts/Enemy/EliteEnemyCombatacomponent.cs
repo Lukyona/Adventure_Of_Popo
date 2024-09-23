@@ -29,7 +29,6 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             target = playerTransform.position;
         }
 
-        EnemyInfo.EnemyObject.transform.LookAt(target);
         Vector3 direction = target - EnemyInfo.EnemyObject.transform.position;
         float distance = Vector3.Distance(target, EnemyInfo.EnemyObject.transform.position);
         direction.y = 0;

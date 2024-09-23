@@ -7,6 +7,7 @@ public class EnemyCombatComponent
     public EnemyInfo EnemyInfo {get; set;}
     protected Animator animator;
     protected Transform playerTransform;
+    LayerMask whatIsPlayer;
 
     public bool targetFound {get; set;}
     protected bool isInCombat = false;
@@ -28,15 +29,18 @@ public class EnemyCombatComponent
         playerTransform = GameObject.Find("Fox").transform;
         currentHealth = EnemyInfo.MaxHealth;
         animator = EnemyInfo.EnemyObject.GetComponent<Animator>();
+        whatIsPlayer = LayerMask.GetMask("Player", "PlayerAttack");
     }
 
     public virtual void Update()
     {
         // 시야 및 공격 범위 체크
-        PlayerInSightRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.SightRange, LayerMask.GetMask("Player"));
-        PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.AttackRange, LayerMask.GetMask("Player"));
+        PlayerInSightRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.SightRange, whatIsPlayer);
+        PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.AttackRange, whatIsPlayer);
         if (currentHealth > 0)
         {
+            if(Player.instance.IsDead()) return;
+
             if (PlayerInSightRange && !PlayerInAttackRange)
                 ChasePlayer();
             if (PlayerInSightRange && PlayerInAttackRange)
@@ -102,7 +106,7 @@ public class EnemyCombatComponent
         if(!EnemyInfo.EnemyObject.name.Contains("Bat") && !EnemyInfo.EnemyObject.name.Contains("Mushroom"))
             animator.ResetTrigger("StrongAttack");
 
-        MonsterHPBar.instance.ShowDamage(EnemyInfo.EnemyObject.transform, damage);
+        UIManager.instance.ShowDamageText(EnemyInfo.EnemyObject, damage);
 
         if (currentHealth <= 0)
         {
@@ -114,7 +118,7 @@ public class EnemyCombatComponent
         }
     }
 
-    public  virtual void Die()
+    public virtual void Die()
     {
         IsDead = true;
         animator.SetTrigger("Die");

@@ -40,7 +40,7 @@ public class ClickManager : MonoBehaviour
                     
                     Destroy(hit.transform.gameObject);//먹은 음식 삭제                   
                 }
-            }
+            }   
 
             if (Physics.Raycast(ray, out hit, 11f) && hit.collider.gameObject.tag == "Enemy" && ThirdPlayerMovement.instance.monsterInTargetRange && !Player.instance.IsDead())
             {//범위 11, 클릭한 오브젝트 태그가 몬스터이고 몬스터가 플레이어 시야 내에 있을 때, 플레이어가 죽은 상태가 아닐 때
@@ -70,7 +70,7 @@ public class ClickManager : MonoBehaviour
                 GameDirector.instance.treasureBox.tag = "Untagged";//태그 변경
                 SoundManager.instance.PlayClickSound();
                 Destroy(GameDirector.instance.elixir);//오브젝트 파괴
-                DialogueController.instance.SetDialogue(14);
+                DialogueManager.instance.SetDialogue(14);
                 GameDirector.instance.Start_Talk();
             }
         }

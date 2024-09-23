@@ -47,14 +47,16 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("PlayerAttack"))
+        if(IsDead()) return;
+
+        if(other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
         {
             PlayerCombatComponent pComp = Player.instance.CombatComponent;
             SoundManager.instance.PlayAttackSound(pComp.AttackNum);
             TakeDamage(pComp.SkillDamage);
         }
 
-        if(other.gameObject.CompareTag("NpcAttack"))
+        if(other.gameObject.layer == LayerMask.NameToLayer("NpcAttack"))
         {
             float damage = other.GetComponent<FriendController>().SkillDamage;
             TakeDamage(damage);
@@ -64,14 +66,14 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
     public void EnableAttackCollider()
     {
-        tag = "EnemyAttack";
+        gameObject.layer = LayerMask.NameToLayer("EnemyAttack");
         Collider attackCollider = GetComponent<BoxCollider>();
         attackCollider.enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        tag = "Enemy";
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
         Collider attackCollider = GetComponent<BoxCollider>();
         attackCollider.enabled = false;
     }

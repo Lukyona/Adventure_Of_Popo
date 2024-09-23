@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1416931708248780441
+--- !u!1 &6482107239833024665
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6397658264093688932}
-  - component: {fileID: 6759719741260445516}
-  - component: {fileID: 6322421331133917316}
-  - component: {fileID: 6716269562423024424}
+  - component: {fileID: 1339237713227698788}
+  - component: {fileID: 1698904460310208844}
+  - component: {fileID: 2153038804830469764}
+  - component: {fileID: 1686626941637348648}
   m_Layer: 5
-  m_Name: MonsterDamageText
+  m_Name: DamageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6397658264093688932
+--- !u!224 &1339237713227698788
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416931708248780441}
+  m_GameObject: {fileID: 6482107239833024665}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -38,29 +38,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &6759719741260445516
+--- !u!222 &1698904460310208844
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416931708248780441}
+  m_GameObject: {fileID: 6482107239833024665}
   m_CullTransparentMesh: 0
---- !u!114 &6322421331133917316
+--- !u!114 &2153038804830469764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416931708248780441}
+  m_GameObject: {fileID: 6482107239833024665}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6792453, g: 0, b: 0.082574956, a: 1}
+  m_Color: {r: 0.8113208, g: 0, b: 0.12860766, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -79,18 +80,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
---- !u!114 &6716269562423024424
+--- !u!114 &1686626941637348648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416931708248780441}
+  m_GameObject: {fileID: 6482107239833024665}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ad40b8e4a239f845a095a157d561987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alphaSpeed: 1.5
-  destroyTime: 1.5
-  damage: 0
+  alphaSpeed: 1
+  destroyTime: 2

@@ -48,19 +48,19 @@ public class Player : MonoBehaviour
 
     public void EnableAttackCollider()
     {
-        tag = "PlayerAttack";
+        gameObject.layer = LayerMask.NameToLayer("PlayerAttack");
         GetComponent<BoxCollider>().enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        tag = "Player";
+        gameObject.layer = LayerMask.NameToLayer("Player");
         GetComponent<BoxCollider>().enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.CompareTag("EnemyAttack")) return;
+        if(other.gameObject.layer != LayerMask.NameToLayer("EnemyAttack")) return;
 
         EnemyCombatComponent eComp = other.GetComponent<IEnemyController>().GetCombatComponent();
         TakeDamage(eComp.SkillDamage, other.gameObject);
@@ -80,6 +80,20 @@ public class Player : MonoBehaviour
             f.IsInCombat = value;
             if(value != false && CombatComponent.Target == null) f.CombatTarget = attacker.transform;
         }
+    }
+
+    public void Die()
+    {
+        GameDirector.instance.Fox_Cant_Move();//플레이어 이동 금지
+        ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Die");//쓰러짐 애니메이션
+
+        if(GetTarget() != null)
+        {
+            SetTarget(null);
+        }
+        
+        MyTaskManager.instance.ExecuteAfterDelay(UIManager.instance.StartBlackOut, 2f);
+        SetFriendCombatState(false);
     }
 
     public bool IsDead()

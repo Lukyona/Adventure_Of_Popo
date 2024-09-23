@@ -7,9 +7,6 @@ TagManager:
   - Treasure
   - Elixir
   - Enemy
-  - EnemyAttack
-  - PlayerAttack
-  - NpcAttack
   - Npc
   layers:
   - Default
@@ -22,12 +19,12 @@ TagManager:
   - 
   - Ground
   - Enemy
-  - NPC
+  - Npc
   - Player
   - Fence
-  - GateKeeper
-  - 
-  - 
+  - EnemyAttack
+  - NpcAttack
+  - PlayerAttack
   - 
   - 
   - 

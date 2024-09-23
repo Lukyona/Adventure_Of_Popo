@@ -9,7 +9,6 @@ public class PlayerCombatComponent
     public GameObject Target { get; set;}
     public int AttackNum {get; private set;}
     private PlayerAttack[] attacks;
-    private float[] attackCooldowns;
     private float[] lastAttackTimes; // 공격을 마지막으로 수행한 시간
 
     public float SkillDamage { get; private set;}
@@ -17,7 +16,6 @@ public class PlayerCombatComponent
     public void Start() 
     {
         attacks = new PlayerAttack[] { new PawAttack(), new TailWhipAttack(), new RollAttack() };
-        attackCooldowns = new float[attacks.Length];
         lastAttackTimes = new float[attacks.Length];    
     }
 
@@ -47,7 +45,6 @@ public class PlayerCombatComponent
     {
         if (Target != null)
         {
-            //Player.instance.transform.LookAt(Target.transform);
             Vector3 directionToTarget = Target.transform.position - Player.instance.transform.position;
             Player.instance.transform.rotation = Quaternion.Slerp(Player.instance.transform.rotation, Quaternion.LookRotation(directionToTarget), 0.1f);
 
@@ -81,6 +78,6 @@ public class PlayerCombatComponent
         Player.instance.SetFriendCombatState(true, attacker);
 
         Player.instance.StatusComponent.ModifyHealth(-damage);
-        UIManager.instance.ShowPlayerDamageText(damage);
+        UIManager.instance.ShowDamageText(Player.instance.gameObject, damage);
     }
 }

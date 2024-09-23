@@ -11075,7 +11075,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646344181}
-  m_LocalRotation: {x: 0.07574149, y: 0.0005618179, z: -0.0000426755, w: 0.9971274}
+  m_LocalRotation: {x: 0.075741515, y: 0.0005618179, z: -0.000042675514, w: 0.9971274}
   m_LocalPosition: {x: 280.02512, y: 2.1965716, z: 72.98348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -12271,8 +12271,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 3, z: 3}
-  m_Center: {x: 0, y: 2, z: 3}
+  m_Size: {x: 3, y: 3, z: 4}
+  m_Center: {x: 0, y: 2, z: 4}
 --- !u!95 &804106999
 Animator:
   serializedVersion: 3
@@ -19148,8 +19148,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 3, z: 3}
-  m_Center: {x: 0, y: 2, z: 3}
+  m_Size: {x: 3, y: 3, z: 4}
+  m_Center: {x: 0, y: 2, z: 4}
 --- !u!95 &1085631875
 Animator:
   serializedVersion: 3
@@ -19987,7 +19987,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190772476}
-  m_LocalRotation: {x: 0.02848915, y: -0.8642403, z: 0.049257647, w: 0.49985075}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -23055,8 +23055,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 3, z: 3}
-  m_Center: {x: 0, y: 2, z: 3}
+  m_Size: {x: 3, y: 3, z: 4}
+  m_Center: {x: 0, y: 2, z: 4}
 --- !u!95 &1536369079
 Animator:
   serializedVersion: 3
@@ -25233,7 +25233,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903070921}
-  m_LocalRotation: {x: 0.04421188, y: -0.8622611, z: 0.076442204, w: 0.498706}
+  m_LocalRotation: {x: 0.044211857, y: -0.8622611, z: 0.07644217, w: 0.498706}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -25498,11 +25498,7 @@ MonoBehaviour:
     type: 3}
   arrowPrefeb: {fileID: 2837365995329528681, guid: b1941eb62be5dd24ea0b6a575d5b12b6,
     type: 3}
-  hpBarList: []
   monLevelPrefeb: {fileID: 1633199763163903459, guid: 167bed3631a033444bd5ba2d038bc25d,
-    type: 3}
-  levelList: []
-  damageText: {fileID: 1416931708248780441, guid: 82f926f4ba92e3c418f939cca9f38117,
     type: 3}
   targetIn: 0
   num: 0
@@ -26008,7 +26004,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972225827}
-  m_LocalRotation: {x: 0.036347147, y: -0.8633587, z: 0.062844105, w: 0.49934083}
+  m_LocalRotation: {x: 0.036347166, y: -0.8633587, z: 0.062844135, w: 0.49934083}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -28404,8 +28400,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 3, z: 3}
-  m_Center: {x: 0, y: 2, z: 3}
+  m_Size: {x: 3, y: 3, z: 4}
+  m_Center: {x: 0, y: 2, z: 4}
 --- !u!1 &1402249024589108
 GameObject:
   m_ObjectHideFlags: 0
@@ -46462,9 +46458,6 @@ MonoBehaviour:
   isGrounded: 0
   jumping: 0
   running: 0
-  whatIsMonster:
-    serializedVersion: 2
-    m_Bits: 512
   sightRange: 13
   attackRange: 2.5
   targetRange: 10
