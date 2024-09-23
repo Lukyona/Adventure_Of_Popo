@@ -134,7 +134,7 @@ public class MonsterHPBar : MonoBehaviour //Canvas에 추가되어있음
         }
     }
 
-    public void Get_Damage(Transform enemy, float dam)//공격받았을 때 체력바 감소
+    public void DecreaseHealthUI(Transform enemy, float dam)//공격받았을 때 체력바 감소
     {
         if(GameDirector.instance.mainCount == 10 && Player.instance.GetTarget() == null)//타겟 없지만 보스전일 때
         {
@@ -149,15 +149,15 @@ public class MonsterHPBar : MonoBehaviour //Canvas에 추가되어있음
     public GameObject boss;//보스 오브젝트
     public GameObject dog;//문지기 오브젝트
 
-    public void Recover_HP(float hp)//보스나 문지기 체력 회복 함수
+    public void ResetHP()//보스나 문지기 체력 회복 함수
     {
         if(GameDirector.instance.mainCount == 9)//문지기와 전투
         {
-            hpBarList[1].GetComponent<Image>().fillAmount += hp / dog.GetComponent<IEnemyController>().GetMaxHealth();
+            hpBarList[1].GetComponent<Image>().fillAmount = 1f;
         }
         else if(GameDirector.instance.mainCount > 9)//보스와 전투
         {
-            hpBarList[0].GetComponent<Image>().fillAmount += hp / boss.GetComponent<IEnemyController>().GetMaxHealth();
+            hpBarList[0].GetComponent<Image>().fillAmount = 1f;
         }
     }
 

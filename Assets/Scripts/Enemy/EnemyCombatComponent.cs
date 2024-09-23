@@ -37,18 +37,12 @@ public class EnemyCombatComponent
         // 시야 및 공격 범위 체크
         PlayerInSightRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.SightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.AttackRange, whatIsPlayer);
-        if (currentHealth > 0)
+        if (currentHealth > 0 && !Player.instance.IsDead())
         {
-            if(Player.instance.IsDead()) return;
-
             if (PlayerInSightRange && !PlayerInAttackRange)
                 ChasePlayer();
             if (PlayerInSightRange && PlayerInAttackRange)
                 AttackPlayer();
-        }
-        else
-        {
-            Die();
         }
     }
 
@@ -114,7 +108,7 @@ public class EnemyCombatComponent
         }
         else
         {
-            MonsterHPBar.instance.Get_Damage(EnemyInfo.EnemyObject.transform, damage);
+            MonsterHPBar.instance.DecreaseHealthUI(EnemyInfo.EnemyObject.transform, damage);
         }
     }
 

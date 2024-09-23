@@ -47,7 +47,7 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
     public void OnTriggerEnter(Collider other)
     {
-        if(IsDead()) return;
+        if(IsDead() || !other.isTrigger) return;
 
         if(other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
         {

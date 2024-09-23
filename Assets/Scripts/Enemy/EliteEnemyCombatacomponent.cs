@@ -47,7 +47,7 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             targetFound = false;
             animator.SetBool("See", false);
             currentHealth = EnemyInfo.MaxHealth;
-            MonsterHPBar.instance.Recover_HP(EnemyInfo.MaxHealth);
+            MonsterHPBar.instance.ResetHP();
             
             EnemyInfo.EnemyObject.transform.rotation = initialRotation;
             isReturning = false;
