@@ -6,6 +6,9 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 {
     public Animator Animator {get; private set;}
 
+    BoxCollider AttackCollider {get; set;}
+
+
     [SerializeField] EnemyInfo enemyInfo;
     EnemyCombatComponent combatComponent;
     [SerializeField] GameObject fireball;
@@ -13,6 +16,7 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
     public void Start()
     {
         Animator = GetComponent<Animator>();
+        AttackCollider = GetComponentInChildren<BoxCollider>();
 
         enemyInfo.EnemyObject = gameObject;
 
@@ -47,7 +51,7 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
     public void OnTriggerEnter(Collider other)
     {
-        if(IsDead() || !other.isTrigger) return;
+        if(IsDead()) return;
 
         if(other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
         {
@@ -58,24 +62,21 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
         if(other.gameObject.layer == LayerMask.NameToLayer("NpcAttack"))
         {
-            float damage = other.GetComponent<FriendController>().SkillDamage;
+            float damage = other.GetComponentInParent<FriendController>().SkillDamage;
             TakeDamage(damage);
         }
-
     }
 
     public void EnableAttackCollider()
     {
-        gameObject.layer = LayerMask.NameToLayer("EnemyAttack");
-        Collider attackCollider = GetComponent<BoxCollider>();
-        attackCollider.enabled = true;
+        AttackCollider.gameObject.layer = LayerMask.NameToLayer("EnemyAttack");
+        AttackCollider.enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        gameObject.layer = LayerMask.NameToLayer("Enemy");
-        Collider attackCollider = GetComponent<BoxCollider>();
-        attackCollider.enabled = false;
+        AttackCollider.gameObject.layer = LayerMask.NameToLayer("Enemy");
+        AttackCollider.enabled = false;
     }
 
     public void TakeDamage(float damage)

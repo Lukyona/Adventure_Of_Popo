@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public PlayerCombatComponent CombatComponent {get; private set;}
     public PlayerStatusComponent StatusComponent {get; private set;}
 
+    BoxCollider attackCollider;
+
     void Awake()
     {
         if (instance == null)
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         CombatComponent.Start();
+        attackCollider = GetComponentInChildren<BoxCollider>();
     }
 
     void Update()
@@ -48,21 +51,21 @@ public class Player : MonoBehaviour
 
     public void EnableAttackCollider()
     {
-        gameObject.layer = LayerMask.NameToLayer("PlayerAttack");
-        GetComponent<BoxCollider>().enabled = true;
+        attackCollider.gameObject.layer = LayerMask.NameToLayer("PlayerAttack");
+        attackCollider.enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        gameObject.layer = LayerMask.NameToLayer("Player");
-        GetComponent<BoxCollider>().enabled = false;
+        attackCollider.gameObject.layer = LayerMask.NameToLayer("Player");
+        attackCollider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer != LayerMask.NameToLayer("EnemyAttack")) return;
 
-        EnemyCombatComponent eComp = other.GetComponent<IEnemyController>().GetCombatComponent();
+        EnemyCombatComponent eComp = other.GetComponentInParent<IEnemyController>().GetCombatComponent();
         TakeDamage(eComp.SkillDamage, other.gameObject);
     }
 
