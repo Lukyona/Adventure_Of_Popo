@@ -48,7 +48,7 @@ public class ThirdPlayerMovement : MonoBehaviour
     private void Start()
     {
         CinemachineCore.GetInputAxis = GetAxisCustom;
-        whatIsMonster = LayerMask.GetMask("Enemy", "EnemyAttack");
+        whatIsMonster = LayerMask.GetMask("Enemy");
     }
 
     public float GetAxisCustom(string axisName) //카메라 회전
@@ -201,6 +201,7 @@ public class ThirdPlayerMovement : MonoBehaviour
         if(!monsterInTargetRange && Player.instance.GetTarget())//타겟 몬스터가 타겟팅 범위 벗어나면
         {
             Player.instance.SetTarget(null); //타겟 해제
+            EnemyHUD.instance.DisappearMonsterInfo();
         }
 
         if(GameDirector.instance.mainCount == 8)

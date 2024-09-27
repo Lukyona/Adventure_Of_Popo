@@ -45,14 +45,15 @@ public class PlayerCombatComponent
     {
         if (Target != null)
         {
-            Vector3 directionToTarget = Target.transform.position - Player.instance.transform.position;
-            Player.instance.transform.rotation = Quaternion.Slerp(Player.instance.transform.rotation, Quaternion.LookRotation(directionToTarget), 0.1f);
+            Vector3 targetPos = Target.transform.position;
+            targetPos.y = Player.instance.PlayerPos.y;
+            Player.instance.transform.LookAt(targetPos);
 
             await Task.Delay((int)(0.2f + 0.02f * attackIndex)); //여기
 
             UpdateNPCState();
-            SkillDamage = attacks[attackIndex].Damage;
         }
+        SkillDamage = attacks[attackIndex].Damage;
         ThirdPlayerMovement.instance.foxAnimator.SetTrigger($"Attack{attackIndex + 1}");
         attacks[attackIndex].Execute(Target);
     }
@@ -75,8 +76,7 @@ public class PlayerCombatComponent
 
     public void TakeDamage(float damage, GameObject attacker)//플레이어가 입는 데미지
     {
-        Player.instance.SetFriendCombatState(true, attacker);
-
+        Player.instance.SetFriendCombatState(true, attacker.transform);
         Player.instance.StatusComponent.ModifyHealth(-damage);
         UIManager.instance.ShowDamageText(Player.instance.gameObject, damage);
     }

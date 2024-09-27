@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class EnemyCombatComponent
 {
     public EnemyInfo EnemyInfo {get; set;}
     protected Animator animator;
+
+    protected GameObject owner;
+
     protected Transform playerTransform;
     LayerMask whatIsPlayer;
 
@@ -29,14 +33,15 @@ public class EnemyCombatComponent
         playerTransform = GameObject.Find("Fox").transform;
         currentHealth = EnemyInfo.MaxHealth;
         animator = EnemyInfo.EnemyObject.GetComponent<Animator>();
-        whatIsPlayer = LayerMask.GetMask("Player", "PlayerAttack");
+        whatIsPlayer = LayerMask.GetMask("Player");
+        owner = EnemyInfo.EnemyObject;
     }
 
     public virtual void Update()
     {
         // 시야 및 공격 범위 체크
-        PlayerInSightRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.SightRange, whatIsPlayer);
-        PlayerInAttackRange = Physics.CheckSphere(EnemyInfo.EnemyObject.transform.position, EnemyInfo.AttackRange, whatIsPlayer);
+        PlayerInSightRange = Physics.CheckSphere(owner.transform.position, EnemyInfo.SightRange, whatIsPlayer);
+        PlayerInAttackRange = Physics.CheckSphere(owner.transform.position, EnemyInfo.AttackRange, whatIsPlayer);
         if (currentHealth > 0 && !Player.instance.IsDead())
         {
             if (PlayerInSightRange && !PlayerInAttackRange)
@@ -66,13 +71,13 @@ public class EnemyCombatComponent
         
         isInCombat = true;
 
-        EnemyInfo.EnemyObject.transform.LookAt(playerTransform);
+        owner.transform.LookAt(playerTransform);
 
         if(Player.instance.IsDead())
         {
             isInCombat = false;
 
-            if(EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle"))
+            if(owner.name.Contains("Slime") || owner.name.Contains("Turtle"))
                 animator.SetBool("Battle", false);
         }
 
@@ -82,25 +87,28 @@ public class EnemyCombatComponent
     public void ResetAttack()
     {
         canAttack = true;
-        animator.ResetTrigger("Attack");
-
-        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && !EnemyInfo.EnemyObject.name.Contains("Mushroom"))
-            animator.ResetTrigger("StrongAttack");
+        if(owner.name.Contains("Boss"))
+        {
+            animator.ResetTrigger("Attack1");
+            animator.ResetTrigger("Attack2");
+            animator.ResetTrigger("Attack3");
+        }
+        else
+        {
+            animator.ResetTrigger("Attack");
+            if(!owner.name.Contains("Bat") && !owner.name.Contains("Mushroom"))
+                animator.ResetTrigger("StrongAttack");
+        }
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         
-        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && !EnemyInfo.EnemyObject.name.Contains("Log"))
+        if(!owner.name.Contains("Bat") && !owner.name.Contains("Log") && !owner.name.Contains("Boss"))
             animator.SetTrigger("GetHit");
 
-        animator.ResetTrigger("Attack");
-
-        if(!EnemyInfo.EnemyObject.name.Contains("Bat") && !EnemyInfo.EnemyObject.name.Contains("Mushroom"))
-            animator.ResetTrigger("StrongAttack");
-
-        UIManager.instance.ShowDamageText(EnemyInfo.EnemyObject, damage);
+        UIManager.instance.ShowDamageText(owner, damage);
 
         if (currentHealth <= 0)
         {
@@ -108,7 +116,7 @@ public class EnemyCombatComponent
         }
         else
         {
-            MonsterHPBar.instance.DecreaseHealthUI(EnemyInfo.EnemyObject.transform, damage);
+            EnemyHUD.instance.DecreaseHealthUI(owner.transform, damage);
         }
     }
 
@@ -122,6 +130,6 @@ public class EnemyCombatComponent
 
     void DestroyOwner()
     {
-        EnemyInfo.EnemyObject.GetComponent<IEnemyController>().DestroyMyself();
+        owner.GetComponent<IEnemyController>().DestroyMyself();
     }
 }

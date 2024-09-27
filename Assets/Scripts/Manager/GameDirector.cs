@@ -67,7 +67,7 @@ public class GameDirector : MonoBehaviour
             case 4: //슬라임 등장 후     
                 Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
                 can_hit = false;
-                MonsterHPBar.instance.DeactiveArrow();
+                EnemyHUD.instance.DeactiveArrow();
                 break;
             case 6:
             case 10://보스 쓰러뜨림

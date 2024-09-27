@@ -9,7 +9,7 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, int> AliveMonsters {get; private set;}
 
     //음식 정보 배열, 1이면 아직 안 먹은 것 0이면 먹은 것
-    int[] foodNum = new int[12] {1,1,1,1,1,1,1,1,1,1,1,1}; // 순서 : 0토마토 1오렌지 2키위 3키위1 4당근 5레몬 6체리 7사과 8바나나 9 10 11도토리
+    int[] foodNum = new int[13] {1,1,1,1,1,1,1,1,1,1,1,1,1}; // 순서 : 0토마토 1오렌지 2,3키위 4,5당근 6레몬 7체리 8사과 9바나나 10,11,12도토리
     public GameObject[] foods; //음식 오브젝트 배열
 
     void Awake() 
@@ -108,7 +108,7 @@ public class DataManager : MonoBehaviour
             {
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
-                Destroy(MonsterHPBar.instance.dog);//문지기 파괴
+                Destroy(GameObject.Find("Monster_DogKnight"));//문지기 파괴
                 Destroy(GameDirector.instance.gkDiscover);
                 GameDirector.instance.bossGate.SetTrigger("Open");
                 SoundManager.instance.PlayBossBgm();//배경음악 변경
@@ -117,10 +117,10 @@ public class DataManager : MonoBehaviour
             {
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
-                Destroy(MonsterHPBar.instance.dog);//문지기 파괴
+                Destroy(GameObject.Find("Monster_DogKnight"));//문지기 파괴
                 Destroy(GameDirector.instance.gkDiscover);
                 GameDirector.instance.bossGate.SetTrigger("Open");
-                Destroy(MonsterHPBar.instance.boss);//보스 파괴
+                Destroy(GameObject.Find("Monster_Dragon_Boss"));//보스 파괴
                 SoundManager.instance.PlayEndingBgm();//배경음악 변경
                 GameDirector.instance.resetButton.SetActive(true);//리셋버튼 활성화
             }
@@ -220,17 +220,18 @@ public class DataManager : MonoBehaviour
                 hp = 45;
                 break;
             case 3://키위, 박쥐 구역
-            case 4:
-            case 6://레몬, 버섯 구역
-            case 7://체리, 버섯 구역
-            case 8://사과, 문지기 구역
-            case 9://바나나, 문지기 구역
+            case 4://키위, 박쥐 구역
+            case 7://레몬, 버섯 구역
+            case 8://체리, 버섯 구역
+            case 9://사과, 문지기 구역
+            case 10://바나나, 문지기 구역
                 hp = 50;
                 break;
             case 5://당근, 나무 구역
-            case 10://도토리, 보스구역
-            case 11:
-            case 12:
+            case 6://당근, 나무 구역
+            case 11://도토리, 보스구역
+            case 12://도토리, 보스구역
+            case 13://도토리, 보스구역
                 hp = 60;
                 break;
         }

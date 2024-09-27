@@ -154,17 +154,16 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
             float damage = other.GetComponentInParent<FriendController>().SkillDamage;
             TakeDamage(damage);
         }
+        other.GetComponent<BoxCollider>().enabled = false; // 중복 감지 방지
     }
 
     public void EnableAttackCollider()
     {
-        AttackCollider.gameObject.layer = LayerMask.NameToLayer("EnemyAttack");
         AttackCollider.enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        AttackCollider.gameObject.layer = LayerMask.NameToLayer("Enemy");
         AttackCollider.enabled = false;
     }
 

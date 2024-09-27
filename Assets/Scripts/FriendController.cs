@@ -10,18 +10,16 @@ public class FriendController : MonoBehaviour
     Transform player;
     bool playerInRange;
 
+    bool enemyInRange;
 
-    [SerializeField] Transform groundCheck;
-    [SerializeField] LayerMask groundMask;
-    float groundDistance = 0.4f;
-    float gravity = -30.5f;
-    bool isGrounded;
-    float verticalVelocity; // 수직 속도 y축
+
     Vector3 movementVelocity;
-
 
     public bool IsInCombat {get; set;} //플레이어가 전투 중이면 true
     public Transform CombatTarget {get; set;}
+
+    BoxCollider attackCollider;
+
     public float SkillDamage {get; private set;}
 
     void Start()
@@ -29,15 +27,23 @@ public class FriendController : MonoBehaviour
         player = Player.instance.transform;
         animator = gameObject.GetComponent<Animator>();
         isSlime = gameObject.name.Contains("Slime");
+        attackCollider = GetComponentInChildren<BoxCollider>();
     }
 
     void Update()
     {
-        CheckGroundState();
-
         playerInRange = Physics.CheckSphere(gameObject.transform.position, 6f, LayerMask.GetMask("Player"));
 
-        if (!IsInCombat || (IsInCombat && !playerInRange && GameDirector.instance.mainCount != 10))//전투 중이 아니거나 전투 중이어도 플레이어가 일정 거리 멀어지면 플레이어에게로 이동, 보스전은 해당X
+        if(GameDirector.instance.mainCount >= 9)
+        {
+            enemyInRange = Physics.CheckSphere(gameObject.transform.position, 5f, LayerMask.GetMask("Enemy"));
+            if(enemyInRange)
+            {
+                IsInCombat = true;
+            }
+        }
+
+        if (!IsInCombat || (IsInCombat && !playerInRange && GameDirector.instance.mainCount < 9))//전투 중이 아니거나 전투 중이어도 플레이어가 일정 거리 멀어지면 플레이어에게로 이동, 보스전은 해당X
         {
             if(IsInCombat) IsInCombat = false;
             if(CombatTarget) CombatTarget = null;
@@ -56,17 +62,7 @@ public class FriendController : MonoBehaviour
         animator.SetBool("Stop", isStopped);
         animator.SetBool("Battle", isInBattle);
     }
-
-    void CheckGroundState()
-    {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (isGrounded && verticalVelocity < 0)
-        {
-            verticalVelocity = -2f;
-        }
-        verticalVelocity += gravity * Time.deltaTime; // 중력 적용
-    }
-
+    
     void MoveToPlayer()
     {
         float distance = Vector3.Distance(player.position, transform.position);
@@ -100,13 +96,18 @@ public class FriendController : MonoBehaviour
     void MoveToTarget()
     {
         if(CombatTarget == null) CombatTarget = Player.instance.GetTarget()?.transform;
+        if (GameDirector.instance.mainCount == 9)
+        {
+            CombatTarget = GameObject.Find("Monster_DogKnight")?.transform; 
+        }
         if (GameDirector.instance.mainCount == 10)
         {
-            CombatTarget = MonsterHPBar.instance.boss.transform; // 보스전일 때
+            CombatTarget = GameObject.Find("Monster_Dragon_Boss")?.transform; // 보스전일 때
         }
         
         if(CombatTarget == null) return;
-        if(CombatTarget.GetComponent<IEnemyController>().IsDead()) return;
+
+        if(CombatTarget.GetComponentInParent<IEnemyController>().IsDead()) return;
 
         MoveTo(CombatTarget, 5f);
     }
@@ -120,12 +121,13 @@ public class FriendController : MonoBehaviour
 
         if (distanceToTarget > 2)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), 0.1f);
+            Vector3 targetPos = target.transform.position;
+            targetPos.y = transform.position.y;
+            transform.LookAt(targetPos);
 
             if (directionToTarget.magnitude > 1)
             {
                 movementVelocity = directionToTarget.normalized * speed;
-                movementVelocity.y = verticalVelocity;
                 movementVelocity.y = Mathf.Clamp(GetComponent<CharacterController>().velocity.y, -30, -2);
                 GetComponent<CharacterController>().Move(movementVelocity * Time.deltaTime);
             }
@@ -180,14 +182,12 @@ public class FriendController : MonoBehaviour
 
     public void EnableAttackCollider()
     {
-        gameObject.layer = LayerMask.NameToLayer("NpcAttack");
-        GetComponent<BoxCollider>().enabled = true;
+        attackCollider.enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        gameObject.layer = LayerMask.NameToLayer("Npc");
-        GetComponent<BoxCollider>().enabled = false;
+        attackCollider.enabled = false;
     }
 
 }

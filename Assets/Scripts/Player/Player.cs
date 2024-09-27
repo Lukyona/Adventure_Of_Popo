@@ -51,13 +51,16 @@ public class Player : MonoBehaviour
 
     public void EnableAttackCollider()
     {
-        attackCollider.gameObject.layer = LayerMask.NameToLayer("PlayerAttack");
+        if(GameDirector.instance.mainCount >= 9)
+        {
+            attackCollider.center = new Vector3(0,0.7f,2);
+            attackCollider.size = new Vector3(1,1.2f,2);
+        }
         attackCollider.enabled = true;
     }
 
     public void DisableAttackCollider()
     {
-        attackCollider.gameObject.layer = LayerMask.NameToLayer("Player");
         attackCollider.enabled = false;
     }
 
@@ -65,6 +68,7 @@ public class Player : MonoBehaviour
     {
         if(other.gameObject.layer != LayerMask.NameToLayer("EnemyAttack")) return;
 
+        other.GetComponent<BoxCollider>().enabled = false; // 중복 감지 방지
         EnemyCombatComponent eComp = other.GetComponentInParent<IEnemyController>().GetCombatComponent();
         TakeDamage(eComp.SkillDamage, other.gameObject);
     }
@@ -74,25 +78,29 @@ public class Player : MonoBehaviour
         CombatComponent.TakeDamage(damage, attacker);
     }
 
-    public void SetFriendCombatState(bool value, GameObject attacker = null)
+    public void SetFriendCombatState(bool value, Transform attacker = null)
     {
         FriendController[] friends = FindObjectsOfType<FriendController>();
 
         foreach(FriendController f in friends)
         {
+            if(value != false && attacker != null)
+                f.CombatTarget = attacker.parent.transform;
+
             f.IsInCombat = value;
-            if(value != false && CombatComponent.Target == null) f.CombatTarget = attacker.transform;
         }
     }
 
     public void Die()
     {
+        DisableAttackCollider();
         GameDirector.instance.Fox_Cant_Move();//플레이어 이동 금지
         ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Die");//쓰러짐 애니메이션
 
         if(GetTarget() != null)
         {
             SetTarget(null);
+            EnemyHUD.instance.DisappearMonsterInfo();
         }
         
         MyTaskManager.instance.ExecuteAfterDelay(UIManager.instance.StartBlackOut, 2f);

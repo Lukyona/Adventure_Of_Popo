@@ -180,7 +180,7 @@ public class UIManager : MonoBehaviour
         else
             dText.GetComponent<Text>().color = new Color(200 / 255f, 0 / 255f, 30 / 255f);
         
-        float randomX = Random.Range(-1f, 2f);
+        float randomX = Random.Range(-2f, 2f);
         dText.transform.position = Camera.main.WorldToScreenPoint(dText.transform.position + new Vector3(randomX, 1f, 0));
     }
 }

@@ -47,16 +47,16 @@ public class ClickManager : MonoBehaviour
                 GameObject targetObj = hit.collider.gameObject;//타겟에 클릭한 오브젝트 할당
                 if(targetObj.GetComponent<IEnemyController>().IsDead()) return;
                 
-                if (MonsterHPBar.instance.targetIn)//타겟 범위 내에 기존 타겟이 있던 상태면
+                if (EnemyHUD.instance.IsTargetting)//타겟 범위 내에 기존 타겟이 있던 상태면
                 {
-                    MonsterHPBar.instance.DisappearMonsterInfo();//기존 타겟 정보 안 보이게 하기
+                    EnemyHUD.instance.DisappearMonsterInfo();//기존 타겟 정보 안 보이게 하기
                 }
                 Player.instance.SetTarget(targetObj);//타겟 할당
             }
             if(Physics.Raycast(ray, out hit, 20f) && !(hit.collider.gameObject.tag == "Enemy") && Player.instance.GetTarget() != null)//타겟이 설정된 상태에서 클릭한 게 몬스터가 아니면
             {
                 Player.instance.SetTarget(null);
-                MonsterHPBar.instance.DisappearMonsterInfo();
+                EnemyHUD.instance.DisappearMonsterInfo();
             }
 
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.gameObject.tag == "Treasure" && GameDirector.instance.mainCount == 11)//보물상자 클릭

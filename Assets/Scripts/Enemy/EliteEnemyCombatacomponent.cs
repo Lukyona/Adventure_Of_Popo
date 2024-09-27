@@ -8,7 +8,9 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
     Vector3 initialLocation;
     Quaternion initialRotation;
     bool isReturning = false;
+
     public GameObject Fireball {private get; set;} // 보스의 특별 공격용 오브젝트
+
 
     public override void Start()
     {
@@ -17,51 +19,82 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         initialRotation = EnemyInfo.EnemyObject.transform.rotation;
     }
 
+    public override void Update()
+    {
+        base.Update();
+
+        if(isReturning) RetrunToInitialLocation();
+    }
+
     public override void ChasePlayer()
     {   
-        Vector3 target = new Vector3();
-        if(isReturning)
-        {
-            target = initialLocation;
-        }
-        else
-        {
-            target = playerTransform.position;
-        }
+        if(isReturning) return;
 
-        Vector3 direction = target - EnemyInfo.EnemyObject.transform.position;
-        float distance = Vector3.Distance(target, EnemyInfo.EnemyObject.transform.position);
+        animator.SetBool("See", true);
+
+        Vector3 target = playerTransform.position;
+
+        Vector3 direction = target - owner.transform.position;
+        float distance = Vector3.Distance(target, owner.transform.position);
         direction.y = 0;
 
+        target.y =owner.transform.position.y;
+        owner.transform.LookAt(target);
+        
         if (distance > 1f)
         {
-            EnemyInfo.EnemyObject.transform.rotation = Quaternion.Slerp(EnemyInfo.EnemyObject.transform.rotation, Quaternion.LookRotation(direction), 0.1f);
             if (direction.magnitude > 1f)
             {
                 Vector3 movementVelocity = direction.normalized * EnemyInfo.ChaseSpeed;
-                EnemyInfo.EnemyObject.GetComponent<CharacterController>().Move(movementVelocity * Time.deltaTime);
+                movementVelocity.y = Mathf.Clamp(owner.GetComponent<CharacterController>().velocity.y, -30, -2);
+                owner.GetComponent<CharacterController>().Move(movementVelocity * Time.deltaTime);
             }
         }
-        else if(isReturning) // 초기 위치에 거의 다다랐다면
-        {
-            targetFound = false;
-            animator.SetBool("See", false);
-            currentHealth = EnemyInfo.MaxHealth;
-            MonsterHPBar.instance.ResetHP();
-            
-            EnemyInfo.EnemyObject.transform.rotation = initialRotation;
-            isReturning = false;
-        }
-        if (Vector3.Distance(EnemyInfo.EnemyObject.transform.position, initialLocation) > EnemyInfo.MaxDistance) isReturning = true;
 
         base.ChasePlayer(); // 부모 메서드 호출
+
+        if (Vector3.Distance(owner.transform.position, initialLocation) > EnemyInfo.MaxDistance) 
+            RetrunToInitialLocation();
+    }
+
+    void RetrunToInitialLocation()
+    {
+        isReturning = true;
+
+        targetFound = false;
+        float distance = Vector3.Distance(initialLocation, owner.transform.position);
+        Vector3 direction = initialLocation - owner.transform.position;
+        direction.y = 0;
+        owner.transform.LookAt(initialLocation);
+
+        if (distance > 2f)
+        {
+            if (direction.magnitude > 1f)
+            {
+                Vector3 movementVelocity = direction.normalized * EnemyInfo.ChaseSpeed;
+                movementVelocity.y = Mathf.Clamp(owner.GetComponent<CharacterController>().velocity.y, -30, -2);
+                owner.GetComponent<CharacterController>().Move(movementVelocity * Time.deltaTime);
+            }
+        }
+        else // 초기 위치에 거의 다다랐다면
+        {
+            isReturning = false;
+            animator.SetBool("See", false);
+            currentHealth = EnemyInfo.MaxHealth;
+            EnemyHUD.instance.ResetHP();
+            
+            owner.transform.rotation = initialRotation;
+        }
     }
 
     public override void AttackPlayer()
     {
-        base.AttackPlayer();
+        if(!canAttack) return;
 
-        if (EnemyInfo.EnemyObject.name.Contains("Boss"))
+        base.AttackPlayer();
+        animator.SetBool("See", false);
+
+        if (owner.name.Contains("Boss"))
         {
             // 보스 전용 공격 로직
             int n = Random.Range(1, 12);
@@ -115,14 +148,14 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
     {
         if(IsDead) return;
 
-        if(EnemyInfo.EnemyObject.name.Contains("Boss"))
+        if(owner.name.Contains("Boss"))
         {
             SoundManager.instance.PlayDragonDieSound();
             GameDirector.instance.Invoke(nameof(GameDirector.instance.AfterDragonDead),0.5f); //대화 준비
         }
         else
         {
-            Player.instance.StatusComponent.GetEXP(GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name));
+            Player.instance.StatusComponent.GetEXP(GameDirector.instance.GetObjectName(owner.name));
         }
 
         base.Die();
