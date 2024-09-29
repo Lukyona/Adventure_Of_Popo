@@ -4,18 +4,18 @@ using UnityEngine;
 public class EnemyInfo : ScriptableObject
 {
     public GameObject EnemyObject {get; set;}
-    [SerializeField] float sightRange;
-    [SerializeField] float attackRange;
-    [SerializeField] float maxDistance; // 초기위치로부터 이동할 수 있는 최대 거리
+    [SerializeField] private float sightRange;
+    [SerializeField] private float attackRange;
+    [SerializeField] private float maxDistance; // 초기위치로부터 이동할 수 있는 최대 거리
 
-    [SerializeField] float chaseSpeed;
+    [SerializeField] private float chaseSpeed;
 
-    [SerializeField] int level;
-    [SerializeField] float maxHealth;
+    [SerializeField] private int level;
+    [SerializeField] private float maxHealth;
 
-    [SerializeField] int normalAttackDamage;
-    [SerializeField] int strongAttackDamage;
-    [SerializeField] float timeBetweenAttacks;
+    [SerializeField] private int normalAttackDamage;
+    [SerializeField] private int strongAttackDamage;
+    [SerializeField] private float timeBetweenAttacks;
 
     // getter
     public float SightRange => sightRange;

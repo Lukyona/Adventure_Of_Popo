@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,45 +6,44 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [Header("Health UI")]
-    [SerializeField] Text currnetHealthText;
-    [SerializeField] Text maxHealthText; //생명력 최대치 텍스트
-    [SerializeField] Image healthBar;
+    [SerializeField] private Text currnetHealthText;
+    [SerializeField] private Text maxHealthText; //생명력 최대치 텍스트
+    [SerializeField] private Image healthBar;
 
     [Header("Stamina UI")]
-    [SerializeField] Text currnetStaminaText; //스태미나 텍스트
-    [SerializeField] Text maxStaminaText; //스태미나 최대치 텍스트
-    [SerializeField] Image staminaBar;//스태미나 
+    [SerializeField] private Text currnetStaminaText; //스태미나 텍스트
+    [SerializeField] private Text maxStaminaText; //스태미나 최대치 텍스트
+    [SerializeField] private Image staminaBar;//스태미나 
 
     [Header("Level UI")]
-    [SerializeField] Text currentLevelText;//레벨 텍스트
-    [SerializeField] Animator levelBoardAnimator;//레벨업 보드 애니메이터
-    [SerializeField] Text levelText; //레벨업 보드의 레벨 텍스트
-    [SerializeField] Text levelGuideMessage; //현재 레벨에서 무엇을 새로이 할 수 있는지 안내해주는 메세지
+    [SerializeField] private Text currentLevelText;//레벨 텍스트
+    [SerializeField] private Animator levelBoardAnimator;//레벨업 보드 애니메이터
+    [SerializeField] private Text levelText; //레벨업 보드의 레벨 텍스트
+    [SerializeField] private Text levelGuideMessage; //현재 레벨에서 무엇을 새로이 할 수 있는지 안내해주는 메세지
 
     [Header("Exp UI")]
-    [SerializeField] Text currentExpText;
-    [SerializeField] Text maxExpText; //경험치 최대치 텍스트
-    [SerializeField] Image expBar;
-    [SerializeField] Text middleSlash;//슬래시 텍스트
-    [SerializeField] Text maxText;//5렙일 때 경험치란에 max 표시
+    [SerializeField] private Text currentExpText;
+    [SerializeField] private Text maxExpText; //경험치 최대치 텍스트
+    [SerializeField] private Image expBar;
+    [SerializeField] private Text middleSlash;//슬래시 텍스트
+    [SerializeField] private Text maxText;//5렙일 때 경험치란에 max 표시
 
     [Header("Other UI")]
-    [SerializeField] GameObject damageText = null;//플레이어 데미지 프리팹
-    [SerializeField] Canvas canvas;
-    [SerializeField] GameObject blackScreen;//플레이어 죽음 시 블랙스크린
+    [SerializeField] private GameObject damageText = null;//플레이어 데미지 프리팹
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private GameObject blackScreen;//플레이어 죽음 시 블랙스크린
 
-    public Animator BlackAnimator {get; private set;}
+    public Animator BlackAnimator { get; private set; }
 
-
-    void Awake()
+    private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
             instance = this;
     }
 
-    void Start()
+    private void Start()
     {
-        BlackAnimator = blackScreen.GetComponent<Animator>();       
+        BlackAnimator = blackScreen.GetComponent<Animator>();
     }
 
     public void StartBlackOut()//플레이어 죽음 시 검은 화면 전환
@@ -70,7 +67,7 @@ public class UIManager : MonoBehaviour
         }
         if (GameDirector.instance.mainCount >= 8)
         {
-            GameDirector.instance.friend_mushroom.transform.position = Player.instance.PlayerPos+ new Vector3(-2f, 0, -3f);//슬라임동료 위치 조정
+            GameDirector.instance.friend_mushroom.transform.position = Player.instance.PlayerPos + new Vector3(-2f, 0, -3f);//슬라임동료 위치 조정
         }
 
         Player.instance.StatusComponent.CurrentHealth = 10;
@@ -97,7 +94,7 @@ public class UIManager : MonoBehaviour
         levelBoardAnimator.SetTrigger("Up");
 
         int level = Player.instance.StatusComponent.CurrentLevel;
-        if(level == 3)//3렙, 새로운 기술 안내
+        if (level == 3)//3렙, 새로운 기술 안내
         {
             DialogueManager.instance.SetDialogue(9);
             GameDirector.instance.Start_Talk();
@@ -134,7 +131,7 @@ public class UIManager : MonoBehaviour
     {
         int level = Player.instance.StatusComponent.CurrentLevel;
         currentLevelText.text = level.ToString();
-        if(level == 5)
+        if (level == 5)
         {
             middleSlash.gameObject.SetActive(false);//지금까지 표시된 경험치 텍스트들 모두 비활성화
             currentExpText.gameObject.SetActive(false);
@@ -146,13 +143,13 @@ public class UIManager : MonoBehaviour
         {
             maxExpText.text = Player.instance.StatusComponent.MaxExp.ToString();
         }
-               
+
         maxHealthText.text = Player.instance.StatusComponent.MaxHealth.ToString();
         maxStaminaText.text = Player.instance.StatusComponent.MaxStamina.ToString();
 
-        if(PlayerPrefs.GetInt("Level") == 0 || PlayerPrefs.GetInt("Level") == level) return; // 레벨업 상태가 아님
+        if ((PlayerPrefs.GetInt("Level") == 0 && level == 1) || PlayerPrefs.GetInt("Level") == level) return; // 레벨업 상태가 아님
 
-        switch(level)
+        switch (level)
         {
             case 2:
                 levelGuideMessage.text = "이제 울타리를 부술 수 있습니다.";
@@ -172,14 +169,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowDamageText(GameObject target, float damage)
     {
-        GameObject dText = Instantiate(damageText, target.transform.position , Quaternion.identity, canvas.transform);
+        GameObject dText = Instantiate(damageText, target.transform.position, Quaternion.identity, canvas.transform);
         dText.GetComponent<DamageText>().SetDamage(damage);
 
-        if(target.name.Contains("Fox"))  // 데미지 입은 대상에 따라 색상 변경
-            dText.GetComponent<Text>().color = new Color(255 / 255f, 105 / 255f, 0 / 255f);  
+        if (target.name.Contains("Fox"))  // 데미지 입은 대상에 따라 색상 변경
+            dText.GetComponent<Text>().color = new Color(255 / 255f, 105 / 255f, 0 / 255f);
         else
             dText.GetComponent<Text>().color = new Color(200 / 255f, 0 / 255f, 30 / 255f);
-        
+
         float randomX = Random.Range(-2f, 2f);
         dText.transform.position = Camera.main.WorldToScreenPoint(dText.transform.position + new Vector3(randomX, 1f, 0));
     }

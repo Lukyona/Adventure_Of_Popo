@@ -1,38 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MushroomMon_Ani_Test : MonoBehaviour {
+public class MushroomMon_Ani_Test : MonoBehaviour
+{
 
-	public const string IDLE	= "Idle";
-	public const string RUN		= "Run";
-	public const string ATTACK	= "Attack";
-	public const string DAMAGE	= "Damage";
-	public const string DEATH	= "Death";
+	public const string IDLE = "Idle";
+	public const string RUN = "Run";
+	public const string ATTACK = "Attack";
+	public const string DAMAGE = "Damage";
+	public const string DEATH = "Death";
 
 	Animation anim;
 
-	void Start () {
+	void Start()
+	{
 		anim = GetComponent<Animation>();
 	}
 
-	public void IdleAni (){
-		anim.CrossFade (IDLE);
+	public void IdleAni()
+	{
+		anim.CrossFade(IDLE);
 	}
 
-	public void RunAni (){
-		anim.CrossFade (RUN);
+	public void RunAni()
+	{
+		anim.CrossFade(RUN);
 	}
 
-	public void AttackAni (){
-		anim.CrossFade (ATTACK);
+	public void AttackAni()
+	{
+		anim.CrossFade(ATTACK);
 	}
 
-	public void DamageAni (){
-		anim.CrossFade (DAMAGE);
+	public void DamageAni()
+	{
+		anim.CrossFade(DAMAGE);
 	}
 
-	public void DeathAni (){
-		anim.CrossFade (DEATH);
+	public void DeathAni()
+	{
+		anim.CrossFade(DEATH);
 	}
 }

@@ -56,5 +56,13 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Adventure_Of_Popo.sln"
+
+    "[csharp]": {
+        "editor.formatOnSave": true, 
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+
+    "dotnet.defaultSolution": "Adventure_Of_Popo.sln",    
 }

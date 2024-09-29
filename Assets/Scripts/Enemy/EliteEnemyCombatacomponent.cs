@@ -1,16 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class EliteEnemyCombatacomponent : EnemyCombatComponent
 {
-    Vector3 initialLocation;
-    Quaternion initialRotation;
-    bool isReturning = false;
-
-    public GameObject Fireball {private get; set;} // 보스의 특별 공격용 오브젝트
-
+    private Vector3 initialLocation;
+    private Quaternion initialRotation;
+    private bool isReturning = false;
 
     public override void Start()
     {
@@ -23,12 +18,12 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
     {
         base.Update();
 
-        if(isReturning) RetrunToInitialLocation();
+        if (isReturning) RetrunToInitialLocation();
     }
 
-    public override void ChasePlayer()
-    {   
-        if(isReturning) return;
+    protected override void ChasePlayer()
+    {
+        if (isReturning) return;
 
         animator.SetBool("See", true);
 
@@ -38,9 +33,9 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         float distance = Vector3.Distance(target, owner.transform.position);
         direction.y = 0;
 
-        target.y =owner.transform.position.y;
+        target.y = owner.transform.position.y;
         owner.transform.LookAt(target);
-        
+
         if (distance > 1f)
         {
             if (direction.magnitude > 1f)
@@ -53,11 +48,11 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
 
         base.ChasePlayer(); // 부모 메서드 호출
 
-        if (Vector3.Distance(owner.transform.position, initialLocation) > EnemyInfo.MaxDistance) 
+        if (Vector3.Distance(owner.transform.position, initialLocation) > EnemyInfo.MaxDistance)
             RetrunToInitialLocation();
     }
 
-    void RetrunToInitialLocation()
+    private void RetrunToInitialLocation()
     {
         isReturning = true;
 
@@ -82,14 +77,14 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             animator.SetBool("See", false);
             currentHealth = EnemyInfo.MaxHealth;
             EnemyHUD.instance.ResetHP();
-            
+
             owner.transform.rotation = initialRotation;
         }
     }
 
-    public override void AttackPlayer()
+    protected override void AttackPlayer()
     {
-        if(!canAttack) return;
+        if (!canAttack) return;
 
         base.AttackPlayer();
         animator.SetBool("See", false);
@@ -97,7 +92,7 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         if (owner.name.Contains("Boss"))
         {
             // 보스 전용 공격 로직
-            int n = Random.Range(1, 12);
+            int n = Random.Range(10, 12);
             if (n < 6)
             {
                 animator.SetTrigger("Attack1");
@@ -114,7 +109,6 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
             {
                 animator.SetTrigger("Attack3");
                 SkillDamage = EnemyInfo.StrongAttackDamage;
-                ActivateFireball(); // 보스의 특별 공격
             }
         }
         else
@@ -133,25 +127,14 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         }
     }
 
-    public  void ActivateFireball()
+    protected override void Die()
     {
-        Fireball.SetActive(true);
-        MyTaskManager.instance.ExecuteAfterDelay(DeactivateFireball, 1f);
-    }
+        if (IsDead) return;
 
-    void DeactivateFireball()
-    {
-        Fireball.SetActive(false);
-    }
-
-    public override void Die()
-    {
-        if(IsDead) return;
-
-        if(owner.name.Contains("Boss"))
+        if (owner.name.Contains("Boss"))
         {
             SoundManager.instance.PlayDragonDieSound();
-            GameDirector.instance.Invoke(nameof(GameDirector.instance.AfterDragonDead),0.5f); //대화 준비
+            GameDirector.instance.Invoke(nameof(GameDirector.instance.AfterDragonDead), 0.5f); //대화 준비
         }
         else
         {

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,19 +5,19 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
-    public Dictionary<string, int> AliveMonsters {get; private set;}
+    public Dictionary<string, int> AliveMonsters { get; private set; }
 
     //음식 정보 배열, 1이면 아직 안 먹은 것 0이면 먹은 것
-    int[] foodNum = new int[13] {1,1,1,1,1,1,1,1,1,1,1,1,1}; // 순서 : 0토마토 1오렌지 2,3키위 4,5당근 6레몬 7체리 8사과 9바나나 10,11,12도토리
-    public GameObject[] foods; //음식 오브젝트 배열
+    private int[] foodNum = new int[13] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }; // 순서 : 0토마토 1오렌지 2,3키위 4,5당근 6레몬 7체리 8사과 9바나나 10,11,12도토리
+    [SerializeField] private GameObject[] foods; //음식 오브젝트 배열
 
-    void Awake() 
+    private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
             instance = this;
     }
 
-    void Start()
+    private void Start()
     {
         AliveMonsters = new Dictionary<string, int>();
         LoadPlayerData();
@@ -50,7 +49,7 @@ public class DataManager : MonoBehaviour
         PlayerPrefs.SetInt("Bat", AliveMonsters["Bat"]);
         PlayerPrefs.SetInt("Mushroom", AliveMonsters["Mushroom"]);
 
-        if(GameDirector.instance.mainCount != 10)//보스전에서 보스가 죽기 전에 게임 종료 시 보스를 물리치는 단계에서 먹은 음식은 저장X 
+        if (GameDirector.instance.mainCount != 10)//보스전에서 보스가 죽기 전에 게임 종료 시 보스를 물리치는 단계에서 먹은 음식은 저장X 
         {
             SaveFood();
         }
@@ -58,16 +57,16 @@ public class DataManager : MonoBehaviour
         Application.Quit();
     }
 
-    void LoadPlayerData()
+    private void LoadPlayerData()
     {
         GameDirector.instance.mainCount = PlayerPrefs.GetInt("MainCount");
 
-        if(GameDirector.instance.mainCount == 0)//처음 시작이면
+        if (GameDirector.instance.mainCount == 0)//처음 시작이면
         {
             Player.instance.GetComponent<CharacterController>().enabled = false;//이동을 위해 잠시 캐릭터 컨트롤러 꺼두고
             Player.instance.PlayerPos = new Vector3(280f, 0, 80f);
             Player.instance.PlayerRot = Quaternion.Euler(0, 180f, 0);
-            
+
             GameDirector.instance.Fox_Cant_Move();
             GameDirector.instance.Invoke(nameof(GameDirector.instance.MainProgress), 2.3f);
             AliveMonsters.Add("Slime", 3);
@@ -93,18 +92,18 @@ public class DataManager : MonoBehaviour
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 SoundManager.instance.PlaySecondBgm();//배경음악 변경
             }
-            else if(GameDirector.instance.mainCount <= 5)//펜스 부수기 전
+            else if (GameDirector.instance.mainCount <= 5)//펜스 부수기 전
             {
                 SoundManager.instance.PlayFirstBgm();
             }
-            else if(GameDirector.instance.mainCount == 9)//문지기 발견 후
+            else if (GameDirector.instance.mainCount == 9)//문지기 발견 후
             {
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 SoundManager.instance.PlayThirdBgm();//배경음악 변경
                 Destroy(GameDirector.instance.gkDiscover);//문지기 감지 오브젝트 파괴, 콜라이더가 있어서 통행에 방해될 수 있음
 
             }
-            else if(GameDirector.instance.mainCount > 9 && GameDirector.instance.mainCount <= 10)//문지기 쓰러뜨린 후
+            else if (GameDirector.instance.mainCount > 9 && GameDirector.instance.mainCount <= 10)//문지기 쓰러뜨린 후
             {
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
@@ -113,7 +112,7 @@ public class DataManager : MonoBehaviour
                 GameDirector.instance.bossGate.SetTrigger("Open");
                 SoundManager.instance.PlayBossBgm();//배경음악 변경
             }
-            else if(GameDirector.instance.mainCount >= 13)//모든 게 끝난 뒤
+            else if (GameDirector.instance.mainCount >= 13)//모든 게 끝난 뒤
             {
                 Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
                 MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
@@ -134,7 +133,7 @@ public class DataManager : MonoBehaviour
             AliveMonsters["Mushroom"] = PlayerPrefs.GetInt("Mushroom");
             LoadAliveMonsters();
             LoadFood();
-            
+
             if (GameDirector.instance.mainCount >= 5 && GameDirector.instance.mainCount <= 11)
             {
                 GameDirector.instance.friend_slime.transform.position = playerPos + new Vector3(2f, 0, -3f);//슬라임동료 위치 조정
@@ -163,8 +162,8 @@ public class DataManager : MonoBehaviour
         AliveMonsters[monsterName] += changeValue;
     }
 
-    
-    public void LoadAliveMonsters()//남은 몬스터 수만큼만 활성
+
+    private void LoadAliveMonsters()//남은 몬스터 수만큼만 활성
     {
         for (int i = 3; i > AliveMonsters["Slime"]; i--)//슬라임1
         {
@@ -178,7 +177,7 @@ public class DataManager : MonoBehaviour
             MonsterList.instance.monsterList[2].list[i - 1].GetComponent<IEnemyController>().Disable();
             Destroy(MonsterList.instance.monsterList[2].list[i - 1]);
         }
-        if(AliveMonsters["Slime2"] == 0)//슬라임2
+        if (AliveMonsters["Slime2"] == 0)//슬라임2
         {
             MonsterList.instance.monsterList[1].list[0].tag = "Untagged";
             MonsterList.instance.monsterList[1].list[0].GetComponent<IEnemyController>().Disable();
@@ -208,7 +207,7 @@ public class DataManager : MonoBehaviour
     {
         SoundManager.instance.PlayClickSound();
 
-        foodNum[fNum-1] = 0;
+        foodNum[fNum - 1] = 0;
 
         int hp = 0;
         switch (fNum)
@@ -239,7 +238,7 @@ public class DataManager : MonoBehaviour
     }
 
 
-    public void SaveFood()//음식 정보 저장
+    private void SaveFood()//음식 정보 저장
     {
         string strArr = ""; // 문자열 생성
 
@@ -256,14 +255,14 @@ public class DataManager : MonoBehaviour
         PlayerPrefs.Save(); //세이브
     }
 
-    void LoadFood()
+    private void LoadFood()
     {
         string[] dataArr = PlayerPrefs.GetString("Foods").Split(','); // PlayerPrefs에서 불러온 값을 Split 함수를 통해 문자열의 ,로 구분하여 배열에 저장
 
         for (int i = 0; i < dataArr.Length; i++)
         {
             foodNum[i] = System.Convert.ToInt32(dataArr[i]); // 문자열 형태로 저장된 값을 정수형으로 변환후 저장       
-            if(foodNum[i] == 0)//이미 먹은 음식이면
+            if (foodNum[i] == 0)//이미 먹은 음식이면
             {
                 Destroy(foods[i]);//오브젝트 파괴
             }

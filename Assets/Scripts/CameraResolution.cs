@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraResolution : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Camera camera = GetComponent<Camera>();
         Rect rect = camera.rect;
@@ -23,5 +20,5 @@ public class CameraResolution : MonoBehaviour
         }
         camera.rect = rect;
     }
-    void OnPreCull() => GL.Clear(true, true, Color.black);
+    private void OnPreCull() => GL.Clear(true, true, Color.black);
 }

@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
     public static GameDirector instance;
-    [SerializeField] Texture2D cursorImg;
+    [SerializeField] private Texture2D cursorImg;
 
-    [SerializeField] Animator TextWindowAnimator; //대화창 애니메이터
-    public bool firstStart = false;
+    [SerializeField] private Animator TextWindowAnimator; //대화창 애니메이터
+    private bool firstStart = false;
     public int mainCount = 0;
     public bool talking = false; //대화 중인지 아닌지 판단
     public GameObject fenceObject;//부서질 펜스 오브젝트
@@ -22,7 +20,7 @@ public class GameDirector : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -41,7 +39,7 @@ public class GameDirector : MonoBehaviour
 
     public void MainProgress()//메인 진행 상황
     {
-        switch(mainCount)
+        switch (mainCount)
         {
             case 0://처음 시작, 주인공 소개 부분
                 SoundManager.instance.PlayFirstBgm();
@@ -59,7 +57,7 @@ public class GameDirector : MonoBehaviour
             case 3:// 음식 찾기
             case 5://울타리 부숨
                 Invoke(nameof(Fox_Can_Move), 0.6f); //여우 이동조작 가능
-                if(mainCount == 5)
+                if (mainCount == 5)
                 {
                     SoundManager.instance.PlaySecondBgm();// 음악 변경
                 }
@@ -105,28 +103,28 @@ public class GameDirector : MonoBehaviour
 
     public void Fox_Can_Move()
     {
-        Player.instance.GetComponent<ThirdPlayerMovement>().enabled = true;//플레이어 이동 가능
+        Player.instance.MovementComponent.Enabled = true;//플레이어 이동 가능
         CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
         Player.instance.GetComponent<CharacterController>().enabled = true;//캐릭터 컨트롤러 켜기
     }
 
     public void Fox_Cant_Move()
     {
-        Player.instance.GetComponent<ThirdPlayerMovement>().enabled = false;//플레이어 이동 불가
+        Player.instance.MovementComponent.Enabled = false;//플레이어 이동 불가
         CameraController.instance.SetFixedState(true); //카메라 회전 불가
         Player.instance.GetComponent<CharacterController>().enabled = false;//캐릭터 컨트롤러 끄기
-        ThirdPlayerMovement.instance.DontMove();
+        Player.instance.MovementComponent.DontMove();
     }
 
     void Fox_Sit()
     {
-        ThirdPlayerMovement.instance.foxAnimator.SetTrigger("Sit");//여우 앉기 애니메이션 실행
+        Player.instance.Animator.SetTrigger("Sit");//여우 앉기 애니메이션 실행
         Start_Talk();
     }
 
     void Fox_StandUp()
     {
-        ThirdPlayerMovement.instance.foxAnimator.SetTrigger("StandUp");//여우 일어나기 애니메이션 실행
+        Player.instance.Animator.SetTrigger("StandUp");//여우 일어나기 애니메이션 실행
     }
 
     public void Start_Talk()
@@ -140,11 +138,11 @@ public class GameDirector : MonoBehaviour
     public void End_Talk()
     {
         TextWindowAnimator.SetTrigger("Talk_Off");//대화창 사라지기
-        if(!firstStart && !Player.instance.IsDead())//첫 시작이 아닐 때만
+        if (!firstStart && !Player.instance.IsDead())//첫 시작이 아닐 때만
         {
             Fox_Can_Move();
         }
-        if(fence)
+        if (fence)
         {
             Invoke(nameof(FenceClickOn), 1f); //1초 후 다시 펜스 클릭 시 반응
         }
@@ -192,7 +190,7 @@ public class GameDirector : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))//esc키 누르면
         {
-            if(!closeBoard)
+            if (!closeBoard)
             {
                 closeBoard = true;
                 GameCloseAnimator.SetTrigger("Down");//게임 종료 메세지 보드 다운
@@ -223,16 +221,16 @@ public class GameDirector : MonoBehaviour
     public GameObject right_Fence;
     public void ClickFence()//레벨2 울타리 클릭했을 때
     {
-        if(!fence)
+        if (!fence)
         {
-            ThirdPlayerMovement.instance.DontMove();
+            Player.instance.MovementComponent.DontMove();
             fence = true;
             SoundManager.instance.PlayClickSound();
             if (Player.instance.StatusComponent.CurrentLevel >= 2)//레벨2 이상이면
             {
-                if(can_hit)
-                {    
-                    if(mainCount == 4)
+                if (can_hit)
+                {
+                    if (mainCount == 4)
                     {
                         UIManager.instance.ActiveBlackScreen();
                         Fox_Cant_Move();
@@ -250,7 +248,7 @@ public class GameDirector : MonoBehaviour
                 {
                     DialogueManager.instance.SetDialogue(6);//올바르지 않은 울타리
                     Start_Talk();
-                }               
+                }
             }
             else
             {
@@ -264,7 +262,7 @@ public class GameDirector : MonoBehaviour
     {
         CameraController.instance.SetFixedState(false);
 
-        if(mainCount == 13)//마지막 대화
+        if (mainCount == 13)//마지막 대화
         {
             CameraController.instance.SetFieldOfView(35f);
             CameraController.instance.SetYAxisValue(0.6f);
@@ -311,7 +309,7 @@ public class GameDirector : MonoBehaviour
                 Player.instance.PlayerRot = Quaternion.Euler(1, 308, 0);//플레이어 회전
             }
         }
-       
+
         UIManager.instance.BlackAnimator.SetTrigger("BlackOff");
         Invoke(nameof(InActiveBlackScreen), 2.3f);
         Invoke(nameof(Fox_Cant_Move), 0.5f);
@@ -319,7 +317,7 @@ public class GameDirector : MonoBehaviour
 
     public GameObject friend_mushroom;
     private void InActiveBlackScreen()
-    {      
+    {
         Start_Talk();
         if (mainCount == 4)
         {
@@ -351,7 +349,7 @@ public class GameDirector : MonoBehaviour
     {
         SoundManager.instance.PlayWoodSound();
         DialogueManager.instance.SetDialogue(8);
-        Invoke(nameof(Start_Talk),0.6f);
+        Invoke(nameof(Start_Talk), 0.6f);
         Invoke(nameof(Destroy_Fence), 0.3f);
 
     }
@@ -370,6 +368,6 @@ public class GameDirector : MonoBehaviour
     public string GetObjectName(string name)
     {
         int idx = name.IndexOf("_");
-        return name.Substring(idx+1, name.Length - (idx+1)); // 몬스터 이름만 반환
+        return name.Substring(idx + 1, name.Length - (idx + 1)); // 몬스터 이름만 반환
     }
 }

@@ -1,28 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FriendController : MonoBehaviour
 {
-    Animator animator;
-    bool isSlime;
+    private Animator animator;
+    private bool isSlime;
 
-    Transform player;
-    bool playerInRange;
+    private Transform player;
+    private bool playerInRange;
+    private bool enemyInRange;
 
-    bool enemyInRange;
+    private Vector3 movementVelocity;
 
+    public bool IsInCombat { get; set; }
+    public Transform CombatTarget { get; set; }
 
-    Vector3 movementVelocity;
+    private BoxCollider attackCollider;
 
-    public bool IsInCombat {get; set;} //플레이어가 전투 중이면 true
-    public Transform CombatTarget {get; set;}
+    public float SkillDamage { get; private set; }
 
-    BoxCollider attackCollider;
-
-    public float SkillDamage {get; private set;}
-
-    void Start()
+    private void Start()
     {
         player = Player.instance.transform;
         animator = gameObject.GetComponent<Animator>();
@@ -30,14 +26,14 @@ public class FriendController : MonoBehaviour
         attackCollider = GetComponentInChildren<BoxCollider>();
     }
 
-    void Update()
+    private void Update()
     {
         playerInRange = Physics.CheckSphere(gameObject.transform.position, 6f, LayerMask.GetMask("Player"));
 
-        if(GameDirector.instance.mainCount >= 9)
+        if (GameDirector.instance.mainCount >= 9)
         {
             enemyInRange = Physics.CheckSphere(gameObject.transform.position, 5f, LayerMask.GetMask("Enemy"));
-            if(enemyInRange)
+            if (enemyInRange)
             {
                 IsInCombat = true;
             }
@@ -45,33 +41,33 @@ public class FriendController : MonoBehaviour
 
         if (!IsInCombat || (IsInCombat && !playerInRange && GameDirector.instance.mainCount < 9))//전투 중이 아니거나 전투 중이어도 플레이어가 일정 거리 멀어지면 플레이어에게로 이동, 보스전은 해당X
         {
-            if(IsInCombat) IsInCombat = false;
-            if(CombatTarget) CombatTarget = null;
+            if (IsInCombat) IsInCombat = false;
+            if (CombatTarget) CombatTarget = null;
 
             MoveToPlayer();
         }
         else//전투 상태, 플레이어와 가까움
         {
             MoveToTarget();
-        }  
+        }
     }
 
-    void UpdateSlimeAnimationState(bool isWalking = false, bool isStopped = false, bool isInBattle = false)
+    private void UpdateSlimeAnimationState(bool isWalking = false, bool isStopped = false, bool isInBattle = false)
     {
         animator.SetBool("Walk", isWalking);
         animator.SetBool("Stop", isStopped);
         animator.SetBool("Battle", isInBattle);
     }
-    
-    void MoveToPlayer()
+
+    private void MoveToPlayer()
     {
         float distance = Vector3.Distance(player.position, transform.position);
         Vector3 direction = player.position - transform.position;
-       
+
         direction.y = 0;
         if (isSlime)
         {
-            UpdateSlimeAnimationState(isWalking : true);
+            UpdateSlimeAnimationState(isWalking: true);
         }
 
         if (direction.magnitude > 1)
@@ -85,7 +81,7 @@ public class FriendController : MonoBehaviour
                 MoveTo(player, 3.7f);//비교적 가까울 때
             }
 
-            if(distance > 40) //너무 멀면 근처로 순간이동 
+            if (distance > 40) //너무 멀면 근처로 순간이동 
             {
                 float random = Random.Range(-5.0f, 5.0f);
                 transform.position = new Vector3(player.position.x + random, player.position.y, player.position.z + random);
@@ -93,26 +89,26 @@ public class FriendController : MonoBehaviour
         }
     }
 
-    void MoveToTarget()
+    private void MoveToTarget()
     {
-        if(CombatTarget == null) CombatTarget = Player.instance.GetTarget()?.transform;
+        if (CombatTarget == null) CombatTarget = Player.instance.GetTarget()?.transform;
         if (GameDirector.instance.mainCount == 9)
         {
-            CombatTarget = GameObject.Find("Monster_DogKnight")?.transform; 
+            CombatTarget = GameObject.Find("Monster_DogKnight")?.transform;
         }
         if (GameDirector.instance.mainCount == 10)
         {
             CombatTarget = GameObject.Find("Monster_Dragon_Boss")?.transform; // 보스전일 때
         }
-        
-        if(CombatTarget == null) return;
 
-        if(CombatTarget.GetComponentInParent<IEnemyController>().IsDead()) return;
+        if (CombatTarget == null) return;
+
+        if (CombatTarget.GetComponentInParent<IEnemyController>().IsDead()) return;
 
         MoveTo(CombatTarget, 5f);
     }
 
-    void MoveTo(Transform target, float speed)
+    private void MoveTo(Transform target, float speed)
     {
         Vector3 directionToTarget = target.position - transform.position;
         directionToTarget.y = 0;
@@ -136,27 +132,27 @@ public class FriendController : MonoBehaviour
         {
             if (isSlime)
             {
-                UpdateSlimeAnimationState(isStopped : true);
+                UpdateSlimeAnimationState(isStopped: true);
             }
 
-            if(CombatTarget)
+            if (CombatTarget)
             {
                 IsInCombat = true;
                 if (isSlime)
                 {
-                    UpdateSlimeAnimationState(isInBattle : true);
+                    UpdateSlimeAnimationState(isInBattle: true);
                 }
-                
-                Invoke(nameof(Attack),0.5f);
+
+                Invoke(nameof(Attack), 0.5f);
             }
         }
     }
 
-    void Attack()
+    private void Attack()
     {
         if (IsInCombat && CombatTarget)//타겟이 있거나 없어도 보스전일 때
         {
-            if(Player.instance.IsDead() || CombatTarget.GetComponent<IEnemyController>().IsDead()) 
+            if (Player.instance.IsDead() || CombatTarget.GetComponent<IEnemyController>().IsDead())
             {
                 IsInCombat = false;//동료 전투 상태 해제
                 CombatTarget = null;
@@ -176,8 +172,8 @@ public class FriendController : MonoBehaviour
                     SkillDamage = n < 8 ? 7f : 13f;
                 }
                 Invoke(nameof(Attack), 2f);//2초 후 재공격
-            }            
-        }        
+            }
+        }
     }
 
     public void EnableAttackCollider()

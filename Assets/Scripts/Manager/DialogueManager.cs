@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -8,21 +7,21 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
 
-    [SerializeField] TextMeshProUGUI DialogueText;
-    [SerializeField] Image NameTag;//캐릭터 이름칸, 캐릭터에 따라 색상 달라질 것
-    [SerializeField] Text Name;//캐릭터의 이름
+    [SerializeField] private TextMeshProUGUI DialogueText;
+    [SerializeField] private Image NameTag;//캐릭터 이름칸, 캐릭터에 따라 색상 달라질 것
+    [SerializeField] private Text Name;//캐릭터의 이름
 
-    int dialogueNum = 0;
-    int index = 0;
-    float speed = 0.02f;
+    private int dialogueNum = 0;
+    private int index = 0;
+    private float speed = 0.02f;
 
-    string[] sentences = null;
-    bool isLineComplete = true; // 대사 출력 완료 상태면 true
-    bool wait = false; //대사 넘어가기 방지
-    bool goMainProgress = true; //메인 진행함수로 넘어가야할 때는 true
+    private string[] sentences = null;
+    private bool isLineComplete = true; // 대사 출력 완료 상태면 true
+    private bool wait = false; //대사 넘어가기 방지
+    private bool goMainProgress = true; //메인 진행함수로 넘어가야할 때는 true
 
-    Color slimeColor = new Color(255 / 255f, 50 / 255f, 80 / 255f);
-    Color mushroomColor = new Color(40 / 255f, 200 / 255f, 0 / 255f);
+    private Color slimeColor = new Color(255 / 255f, 50 / 255f, 80 / 255f);
+    private Color mushroomColor = new Color(40 / 255f, 200 / 255f, 0 / 255f);
 
     private void Awake()
     {
@@ -34,9 +33,9 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isLineComplete && GameDirector.instance.talking && !wait)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isLineComplete && GameDirector.instance.talking && !wait)
         {//대화 시작한 상태에서 스페이스키 혹은 마우스 왼쪽 클릭을 했을 때
-            ShowDialogue();       
+            ShowDialogue();
         }
     }
 
@@ -52,24 +51,24 @@ public class DialogueManager : MonoBehaviour
             GameDirector.instance.End_Talk();//대화 종료
             if (dialogueNum == 1)//플레이어 죽음 상태면
             {
-                UIManager.instance.Invoke(nameof(UIManager.instance.EndBlackOut),2f);//화면 밝아지기
+                UIManager.instance.Invoke(nameof(UIManager.instance.EndBlackOut), 2f);//화면 밝아지기
             }
             else
             {
-                if(goMainProgress)//메인 진행 함수로 가야할 때는
+                if (goMainProgress)//메인 진행 함수로 가야할 때는
                 {
                     goMainProgress = false;
                     GameDirector.instance.MainProgress();
-                }               
+                }
             }
         }
     }
 
-    IEnumerator PrintDialogue()
+    private IEnumerator PrintDialogue()
     {
         DialogueText.text = "";
 
-        if(Player.instance.StatusComponent.CurrentLevel >= 2)//레벨이 2이상이면
+        if (Player.instance.StatusComponent.CurrentLevel >= 2)//레벨이 2이상이면
         {
             CheckDialogueEvent();
         }
@@ -79,7 +78,7 @@ public class DialogueManager : MonoBehaviour
             DialogueText.text += Character; //문자 추가
             yield return new WaitForSeconds(speed); // 지정한 속도로 나오기
         }
-        
+
         index++;//대사 하나 끝나면 인덱스 증가
         isLineComplete = true;
     }
@@ -89,7 +88,7 @@ public class DialogueManager : MonoBehaviour
         dialogueNum = dNum;
         index = 0;//인덱스는 대화시작 전 0으로 초기화
         goMainProgress = true;
-        switch(dialogueNum)
+        switch (dialogueNum)
         {
             case 0://주인공 소개
                 sentences = new string[] {
@@ -237,7 +236,7 @@ public class DialogueManager : MonoBehaviour
             case 14://엘릭서 획득
                 NameTag.gameObject.SetActive(false);
                 sentences = new string[] {
-                    "엘릭서를 획득했다!",                  
+                    "엘릭서를 획득했다!",
                 };
                 break;
             case 15://엘릭서 획득 후
@@ -267,15 +266,15 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    void CheckDialogueEvent()
+    private void CheckDialogueEvent()
     {
-        switch(dialogueNum)
+        switch (dialogueNum)
         {
             case 1:
                 NameTag.gameObject.SetActive(false);
                 break;
             case 2://울타리 부술 때
-                switch(index)
+                switch (index)
                 {
                     case 1:
                         wait = true;
@@ -322,9 +321,9 @@ public class DialogueManager : MonoBehaviour
                         NameTag.gameObject.SetActive(true);//슬라임 
                         ChangeToSlimeNameTag();
                         break;
-                    case 3:  
+                    case 3:
                         ChangeToFoxNameTag();
-                        break;         
+                        break;
                 }
                 break;
             case 10://두 번째 동료 영입
@@ -388,7 +387,7 @@ public class DialogueManager : MonoBehaviour
                     case 7:
                         NameTag.gameObject.SetActive(true);//포포 
                         ChangeToFoxNameTag();
-                        if(index == 5)
+                        if (index == 5)
                         {
                             SoundManager.instance.PlayBossBgm();//보스 음악 재생
                         }
@@ -411,7 +410,7 @@ public class DialogueManager : MonoBehaviour
                 {
                     case 0:
                     case 6:
-                        if(index == 0)
+                        if (index == 0)
                         {
                             SoundManager.instance.PlayEndingBgm();//음악 변경
                             NameTag.gameObject.SetActive(true);
@@ -472,25 +471,25 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    void ChangeToFoxNameTag()
+    private void ChangeToFoxNameTag()
     {
         Name.text = "포포";
-        NameTag.color = new Color(255/ 255f, 121 / 255f, 0 / 255f);
+        NameTag.color = new Color(255 / 255f, 121 / 255f, 0 / 255f);
     }
 
-    void ChangeToSlimeNameTag()
+    private void ChangeToSlimeNameTag()
     {
         Name.text = "라임";
         NameTag.color = slimeColor;
     }
 
-    void ChangeToMushroomNameTag()
+    private void ChangeToMushroomNameTag()
     {
         Name.text = "머시";
         NameTag.color = mushroomColor;
     }
 
-    void CanPrintNextDialogue() //다음 대사로 넘어갈 수 있음
+    private void CanPrintNextDialogue() //다음 대사로 넘어갈 수 있음
     {
         wait = false;
     }

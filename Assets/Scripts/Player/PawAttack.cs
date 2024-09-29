@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PawAttack : PlayerAttack
 {
-    int fenceHitCount = 0;//펜스 공격한 횟수
+    private int fenceHitCount = 0;//펜스 공격한 횟수
 
     public override void Execute(GameObject target)
     {
-        if(Physics.CheckSphere(Player.instance.PlayerPos, 5f, LayerMask.GetMask("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
+        if (Physics.CheckSphere(Player.instance.PlayerPos, 5f, LayerMask.GetMask("Fence")) && GameDirector.instance.mainCount == 5)//펜스가 범위내에 있을 때
         {
             fenceHitCount++;
             SoundManager.instance.PlayAttackSound(1);

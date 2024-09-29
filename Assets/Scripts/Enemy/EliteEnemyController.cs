@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EliteEnemyController : MonoBehaviour, IEnemyController
 {
-    public Animator Animator {get; private set;}
+    public Animator Animator { get; private set; }
 
-    BoxCollider AttackCollider {get; set;}
+    private BoxCollider AttackCollider { get; set; }
 
-    [SerializeField] EnemyInfo enemyInfo;
-    EnemyCombatComponent combatComponent;
-    [SerializeField] GameObject fireball;
+    [SerializeField] private EnemyInfo enemyInfo;
+    private EnemyCombatComponent combatComponent;
+    [SerializeField] private GameObject fireball;
 
     public void Start()
     {
@@ -21,23 +19,33 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
         combatComponent = new EliteEnemyCombatacomponent
         {
-            EnemyInfo = enemyInfo,
-            Fireball = fireball
+            EnemyInfo = enemyInfo
         };
- 
+
         combatComponent.Start();
     }
 
-    void Update()
+    private void Update()
     {
         combatComponent.Update();
+    }
+
+    public void ActivateFireball()
+    {
+        fireball.SetActive(true);
+        fireball.GetComponent<BoxCollider>().enabled = true;
+    }
+
+    public void DeactivateFireball()
+    {
+        fireball.SetActive(false);
     }
 
     public float GetMaxHealth()
     {
         return enemyInfo.MaxHealth;
-    }    
-    
+    }
+
     public int GetLevel()
     {
         return enemyInfo.Level;
@@ -50,16 +58,16 @@ public class EliteEnemyController : MonoBehaviour, IEnemyController
 
     public void OnTriggerEnter(Collider other)
     {
-        if(IsDead()) return;
+        if (IsDead()) return;
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
         {
             PlayerCombatComponent pComp = Player.instance.CombatComponent;
             SoundManager.instance.PlayAttackSound(pComp.AttackNum);
             TakeDamage(pComp.SkillDamage);
         }
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("NpcAttack"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("NpcAttack"))
         {
             float damage = other.GetComponentInParent<FriendController>().SkillDamage;
             TakeDamage(damage);

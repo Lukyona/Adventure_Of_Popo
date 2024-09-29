@@ -1,36 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStatusComponent
 {
-    public float CurrentHealth {get; set;} = 100;
-    public float MaxHealth {get; private set;} = 100;
-    public bool IsHealthRecovering {get; private set;} = false;
-    float healthRecoveryInterval = 1f;
+    public float CurrentHealth { get; set; } = 100;
+    public float MaxHealth { get; private set; } = 100;
+    public bool IsHealthRecovering { get; private set; } = false;
+    private float healthRecoveryInterval = 1f;
 
 
-    public float CurrentStamina {get; private set;} = 12;
-    public float MaxStamina {get; private set;} = 12;
-    bool IsStaminaRecovering = false;
-    float staminaRecoveryInterval = 1f;
-    bool isStaminConsuming = false;
-    
-    public int CurrentLevel {get; private set;} = 1;
+    public float CurrentStamina { get; private set; } = 12;
+    public float MaxStamina { get; private set; } = 12;
+    private bool IsStaminaRecovering = false;
+    private float staminaRecoveryInterval = 1f;
+    private bool isStaminConsuming = false;
 
-    public float CurrentExp {get; private set;} = 0;
-    public float MaxExp {get; private set;} = 50;
+    public int CurrentLevel { get; private set; } = 1;
+
+    public float CurrentExp { get; private set; } = 0;
+    public float MaxExp { get; private set; } = 50;
 
     public void Update()
     {
-        if(CurrentHealth > 0)
+        if (CurrentHealth > 0)
         {
-            if(CurrentStamina < MaxStamina && !IsStaminaRecovering && !ThirdPlayerMovement.instance.running)
+            if (CurrentStamina < MaxStamina && !IsStaminaRecovering && !Player.instance.MovementComponent.IsRunning)
             {//현재 스태미나가 스태미나 최대치 미만이고 스태미나 회복 중이 아니고 달리지 않을 때
                 MyTaskManager.instance.StartMyCoroutine(RecoverStamina());
             }
-            
-            if(CurrentHealth < MaxHealth && !IsHealthRecovering)
+
+            if (CurrentHealth < MaxHealth && !IsHealthRecovering)
             {
                 MyTaskManager.instance.StartMyCoroutine(RecoverHealth());
             }
@@ -43,21 +42,21 @@ public class PlayerStatusComponent
     }
 
     #region Health 관련
-    IEnumerator RecoverHealth()//스태미나 회복
+    private IEnumerator RecoverHealth()//스태미나 회복
     {
-        if(IsHealthRecovering) yield break;
+        if (IsHealthRecovering) yield break;
 
         IsHealthRecovering = true;
 
-        switch(CurrentLevel)//렙마다 회복속도 차이남
+        switch (CurrentLevel)//렙마다 회복속도 차이남
         {
             case 1:
                 healthRecoveryInterval = 2f;
-                if (!ThirdPlayerMovement.instance.monsterInTargetRange && GameDirector.instance.mainCount == 3 && !GameDirector.instance.talking)//생명력 깎인 뒤 과일에 대한 설명
+                if (!Player.instance.CombatComponent.EnemyInTargetRange && GameDirector.instance.mainCount == 3 && !GameDirector.instance.talking)//생명력 깎인 뒤 과일에 대한 설명
                 {
                     DialogueManager.instance.SetDialogue(5);
                     GameDirector.instance.Fox_Cant_Move(); //플레이어 이동, 카메라 회전 금지
-                    ThirdPlayerMovement.instance.DontMove();
+                    Player.instance.MovementComponent.DontMove();
                     GameDirector.instance.Start_Talk();
                 }
                 break;
@@ -87,22 +86,22 @@ public class PlayerStatusComponent
     {
         CurrentHealth += value;
         CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
-        UIManager.instance.UpdatePlayerHealthUI(); 
+        UIManager.instance.UpdatePlayerHealthUI();
 
         if (CurrentHealth <= 0)//생명력이 0이하일 땐
         {
-           Player.instance.Die();
-        }       
+            Player.instance.Die();
+        }
     }
     #endregion
 
-    IEnumerator RecoverStamina()//스태미나 회복
+    private IEnumerator RecoverStamina()//스태미나 회복
     {
-        if(IsStaminaRecovering) yield break;
+        if (IsStaminaRecovering) yield break;
 
         IsStaminaRecovering = true;
 
-        switch(CurrentLevel)
+        switch (CurrentLevel)
         {
             case 1:
                 staminaRecoveryInterval = 1f;
@@ -128,9 +127,10 @@ public class PlayerStatusComponent
         yield return new WaitForSeconds(staminaRecoveryInterval);
         IsStaminaRecovering = false;
     }
+
     public IEnumerator ConsumeStamina()
     {
-        if(isStaminConsuming) yield break;
+        if (isStaminConsuming) yield break;
 
         isStaminConsuming = true;
 
@@ -144,7 +144,7 @@ public class PlayerStatusComponent
 
     public void GetEXP(string enemyName)//경험치 얻는 함수
     {
-        switch(enemyName)
+        switch (enemyName)
         {
             case "Slime":
             case "Slime2":
@@ -167,7 +167,7 @@ public class PlayerStatusComponent
                 break;
         }
 
-        if(GameDirector.instance.mainCount == 7)
+        if (GameDirector.instance.mainCount == 7)
         {
             if (DataManager.instance.AliveMonsters["Log"] == 0 && DataManager.instance.AliveMonsters["Bat"] == 0 && DataManager.instance.AliveMonsters["Mushroom"] == 0)
             {
@@ -186,15 +186,15 @@ public class PlayerStatusComponent
         UIManager.instance.UpdatePlayerExpUI();
     }
 
-    void LevelUp()
+    private void LevelUp()
     {
         SoundManager.instance.PlayLevelUpSound();
-        
+
         CurrentExp -= MaxExp; //현재 경험치 
         CurrentLevel++;
 
         SetMaxStatus();
-        
+
         CurrentHealth = MaxHealth;
         CurrentStamina = MaxStamina;
 
@@ -202,8 +202,8 @@ public class PlayerStatusComponent
         UIManager.instance.UpdatePlayerStaminaUI();
         UIManager.instance.UpdatePlayerLevelUI();
     }
-    
-    void SetMaxStatus()
+
+    private void SetMaxStatus()
     {
         switch (CurrentLevel)
         {

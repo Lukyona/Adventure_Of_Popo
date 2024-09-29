@@ -1,35 +1,80 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Threading.Tasks;
 
 
 public class PlayerCombatComponent
 {
-    public GameObject Target { get; set;}
-    public int AttackNum {get; private set;}
+    private Transform playerTransform;
+
+    LayerMask whatIsEnemy;
+    float sightRange = 13f;
+    float attackRange = 2.5f;
+    float targetRange = 10f; // 타겟팅 가능 범위
+    bool enemyInSightRange, enemyInAttackRange;
+    public bool EnemyInTargetRange { get; private set; }
+
+    public GameObject Target { get; set; }
+    public int AttackNum { get; private set; }
     private PlayerAttack[] attacks;
     private float[] lastAttackTimes; // 공격을 마지막으로 수행한 시간
 
-    public float SkillDamage { get; private set;}
+    public float SkillDamage { get; private set; }
 
-    public void Start() 
+    public void Start()
     {
+        playerTransform = Player.instance.transform;
+        whatIsEnemy = LayerMask.GetMask("Enemy");
         attacks = new PlayerAttack[] { new PawAttack(), new TailWhipAttack(), new RollAttack() };
-        lastAttackTimes = new float[attacks.Length];    
+        lastAttackTimes = new float[attacks.Length];
     }
 
     public void Update()
     {
-        if (ThirdPlayerMovement.instance.foxAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fox_Idle"))
+        HandleAttackInput();
+
+        enemyInSightRange = Physics.CheckSphere(playerTransform.position, sightRange, whatIsEnemy);
+        enemyInAttackRange = Physics.CheckSphere(playerTransform.position, attackRange, whatIsEnemy);
+        EnemyInTargetRange = Physics.CheckSphere(playerTransform.position, targetRange, whatIsEnemy);
+
+        if (enemyInSightRange)
+        {
+            if (GameDirector.instance.mainCount == 2 && !GameDirector.instance.talking)//소개 후 첫 몬스터 발견
+            {
+                DialogueManager.instance.SetDialogue(4);//몬스터 첫 발견
+                Player.instance.MovementComponent.DontMove();
+                GameDirector.instance.Start_Talk();
+            }
+        }
+
+        if (!EnemyInTargetRange && Player.instance.GetTarget())//타겟 몬스터가 타겟팅 범위 벗어나면
+        {
+            Player.instance.SetTarget(null); //타겟 해제
+            EnemyHUD.instance.DisappearEnemyInfo();
+        }
+
+        if (GameDirector.instance.mainCount == 8 && enemyInSightRange)
+        {
+            if (!GameDirector.instance.talking)
+            {
+                DialogueManager.instance.SetDialogue(11);
+                GameDirector.instance.Start_Talk();
+                CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
+            }
+        }
+
+    }
+
+    private void HandleAttackInput()
+    {
+        if (Player.instance.Animator.GetCurrentAnimatorStateInfo(0).IsName("Fox_Idle"))
         {
             for (int i = 0; i < attacks.Length; i++)
             {
                 if (Input.GetKeyDown(KeyCode.Keypad1 + i) || Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
                     int level = Player.instance.StatusComponent.CurrentLevel;
-                    if((i == 1 && level < 3) || (i == 2 && level < 5)) break;
-                    
+                    if ((i == 1 && level < 3) || (i == 2 && level < 5)) break;
+
                     if (Time.time - lastAttackTimes[i] >= attacks[i].Cooldown)
                     {
                         ExecuteAttack(i);
@@ -41,7 +86,7 @@ public class PlayerCombatComponent
         }
     }
 
-    async void ExecuteAttack(int attackIndex)
+    private async void ExecuteAttack(int attackIndex)
     {
         if (Target != null)
         {
@@ -54,24 +99,24 @@ public class PlayerCombatComponent
             UpdateNPCState();
         }
         SkillDamage = attacks[attackIndex].Damage;
-        ThirdPlayerMovement.instance.foxAnimator.SetTrigger($"Attack{attackIndex + 1}");
+        Player.instance.Animator.SetTrigger($"Attack{attackIndex + 1}");
         attacks[attackIndex].Execute(Target);
     }
 
-    void UpdateNPCState()//타겟에게 데미지 입히는 함수
+    private void UpdateNPCState()
     {
         if (Target.GetComponent<IEnemyController>().IsDead())//타겟 죽었을 때, 문지기/보스 제외
         {
             Player.instance.SetFriendCombatState(false);
         }
-      
-        if (ThirdPlayerMovement.instance.monsterInAttackRange)//타겟이 있어야하며 공격범위 안에 있을 때
+
+        if (enemyInAttackRange)//타겟이 있어야하며 공격범위 안에 있을 때
         {
-            if(GameDirector.instance.mainCount >= 5)
+            if (GameDirector.instance.mainCount >= 5)
             {
                 Player.instance.SetFriendCombatState(true);
             }
-        } 
+        }
     }
 
     public void TakeDamage(float damage, GameObject attacker)//플레이어가 입는 데미지

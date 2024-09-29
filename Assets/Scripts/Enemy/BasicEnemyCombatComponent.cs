@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEditor.Build.Content;
 
 
 public class BasicEnemyCombatComponent : EnemyCombatComponent
 {
-    public NavMeshAgent Agent { get; set;}
+    public NavMeshAgent Agent { get; set; }
 
-    public override void ChasePlayer()
-    {   
+    protected override void ChasePlayer()
+    {
         base.ChasePlayer(); // 부모 메서드 호출
 
         Agent.speed = EnemyInfo.ChaseSpeed;
@@ -19,7 +16,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         if (EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle") | EnemyInfo.EnemyObject.name.Contains("Mushroom"))
         {
             animator.SetBool("See", true);
-            if(EnemyInfo.EnemyObject.name.Contains("Mushroom")) return;
+            if (EnemyInfo.EnemyObject.name.Contains("Mushroom")) return;
 
             animator.SetBool("Walk", false);
             animator.SetBool("Stop", false);
@@ -27,18 +24,18 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         }
     }
 
-    public override void AttackPlayer()
+    protected override void AttackPlayer()
     {
-        if(!canAttack) return;
+        if (!canAttack) return;
 
-        if(EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle") || EnemyInfo.EnemyObject.name.Contains("Mushroom"))
+        if (EnemyInfo.EnemyObject.name.Contains("Slime") || EnemyInfo.EnemyObject.name.Contains("Turtle") || EnemyInfo.EnemyObject.name.Contains("Mushroom"))
         {
             animator.SetBool("See", false);
 
-            if(!EnemyInfo.EnemyObject.name.Contains("Mushroom"))
+            if (!EnemyInfo.EnemyObject.name.Contains("Mushroom"))
             {
                 animator.SetBool("Battle", true);
-                if(Player.instance.IsDead())
+                if (Player.instance.IsDead())
                 {
                     animator.SetTrigger("Victory");
                 }
@@ -48,7 +45,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         base.AttackPlayer();
 
         Agent.SetDestination(EnemyInfo.EnemyObject.transform.position); // 정지
-        
+
         int n = Random.Range(1, 10);
         if (n < 8)
         {
@@ -57,7 +54,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         }
         else
         {
-            if(EnemyInfo.EnemyObject.name.Contains("Bat") || EnemyInfo.EnemyObject.name.Contains("Mushroom"))
+            if (EnemyInfo.EnemyObject.name.Contains("Bat") || EnemyInfo.EnemyObject.name.Contains("Mushroom"))
                 animator.SetTrigger("Attack");
             else
                 animator.SetTrigger("StrongAttack");
@@ -66,10 +63,10 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         }
     }
 
-    public override void Die()
+    protected override void Die()
     {
-        if(IsDead) return;
-        
+        if (IsDead) return;
+
         base.Die();
         Agent.enabled = false;
 

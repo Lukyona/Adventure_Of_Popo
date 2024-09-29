@@ -1,25 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 
 public class BasicEnemyController : MonoBehaviour, IEnemyController
 {
-    [SerializeField] EnemyInfo enemyInfo;
-    EnemyCombatComponent combatComponent;
+    [SerializeField] private EnemyInfo enemyInfo;
+    private EnemyCombatComponent combatComponent;
 
-    public Animator Animator {get; private set;}
-    BoxCollider AttackCollider {get; set;}
+    public Animator Animator { get; private set; }
+    private BoxCollider AttackCollider { get; set; }
 
     private NavMeshAgent agent;
-    Vector3 initialLocation;
-    Vector3 lastLocation;
-    [SerializeField] float walkPointRange;
+    private Vector3 initialLocation;
+    private Vector3 lastLocation;
+    [SerializeField] private float walkPointRange;
     private Vector3 walkPoint;
     private bool walkPointSet = false;
 
-    [SerializeField] float patrolSpeed;
+    [SerializeField] private float patrolSpeed;
 
     public void Start()
     {
@@ -42,22 +40,22 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
         InvokeRepeating(nameof(IsMoving), 3f, 3f);
     }
 
-    void Update()
+    private void Update()
     {
-        if(IsDead()) return;
+        if (IsDead()) return;
 
-        if(combatComponent.EnemyInfo.EnemyObject == null)
+        if (combatComponent.EnemyInfo.EnemyObject == null)
         {
             combatComponent.EnemyInfo.EnemyObject = gameObject;
         }
 
-        if (!combatComponent.PlayerInSightRange && !combatComponent.PlayerInAttackRange) 
+        if (!combatComponent.PlayerInSightRange && !combatComponent.PlayerInAttackRange)
             Patrolling();
 
         combatComponent.Update();
     }
 
-    void Patrolling()
+    private void Patrolling()
     {
         if (!walkPointSet)
             SearchWalkPoint();
@@ -80,7 +78,7 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
                 Animator.SetBool("See", false);
             }
 
-            if(name.Contains("Mushroom")) return;
+            if (name.Contains("Mushroom")) return;
 
             Animator.SetBool("Walk", walkPointSet); // 슬라임/거북만 해당
 
@@ -96,7 +94,7 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
         }
     }
 
-    void SearchWalkPoint()
+    private void SearchWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
@@ -113,11 +111,11 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
         lastLocation = transform.position;
     }
 
-    void IsMoving()
+    private void IsMoving()
     {
         if (combatComponent.PlayerInSightRange || combatComponent.PlayerInAttackRange) return;
 
-        if(Vector3.Distance(lastLocation, transform.position) < 1f) // 이동하지 않았음
+        if (Vector3.Distance(lastLocation, transform.position) < 1f) // 이동하지 않았음
         {
             walkPointSet = false;
         }
@@ -140,16 +138,16 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
 
     public void OnTriggerEnter(Collider other)
     {
-        if(IsDead()) return;
-        
-        if(other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
+        if (IsDead()) return;
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
         {
             PlayerCombatComponent pComp = Player.instance.CombatComponent;
             SoundManager.instance.PlayAttackSound(pComp.AttackNum);
             TakeDamage(pComp.SkillDamage);
         }
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("NpcAttack"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("NpcAttack"))
         {
             float damage = other.GetComponentInParent<FriendController>().SkillDamage;
             TakeDamage(damage);
@@ -176,7 +174,7 @@ public class BasicEnemyController : MonoBehaviour, IEnemyController
     {
         return combatComponent.IsDead;
     }
-    
+
     public void Disable()
     {
         enabled = false;

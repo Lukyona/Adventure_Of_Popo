@@ -1,31 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class EnemyCombatComponent
 {
-    public EnemyInfo EnemyInfo {get; set;}
+    public EnemyInfo EnemyInfo { get; set; }
     protected Animator animator;
 
     protected GameObject owner;
 
     protected Transform playerTransform;
-    LayerMask whatIsPlayer;
+    private LayerMask whatIsPlayer;
 
-    public bool targetFound {get; set;}
+    public bool targetFound { get; set; }
     protected bool isInCombat = false;
-    public bool PlayerInSightRange { get; private set;}
-    public bool PlayerInAttackRange { get; private set;}
+    public bool PlayerInSightRange { get; private set; }
+    public bool PlayerInAttackRange { get; private set; }
 
     [Header("Health Settings")]
     protected float currentHealth;
-    public bool IsDead { get; protected set;}
+    public bool IsDead { get; protected set; }
 
 
     [Header("Attack Settings")]
     protected bool canAttack = true;
-    public float SkillDamage { get; protected set;}
+    public float SkillDamage { get; protected set; }
 
 
     public virtual void Start()
@@ -51,43 +48,43 @@ public class EnemyCombatComponent
         }
     }
 
-    public virtual void ChasePlayer()
+    protected virtual void ChasePlayer()
     {
-        if(isInCombat) isInCombat = false;
-       // Debug.Log("ChasePlayer")   ;
+        if (isInCombat) isInCombat = false;
+        // Debug.Log("ChasePlayer")   ;
         targetFound = true;
     }
 
-    public virtual void AttackPlayer()
+    protected virtual void AttackPlayer()
     {
         canAttack = false;
-       // Debug.Log("AttackPlayer")   ;
+        // Debug.Log("AttackPlayer")   ;
 
-        if(targetFound)
+        if (targetFound)
         {
             targetFound = false;
         }
-        
-        
+
+
         isInCombat = true;
 
         owner.transform.LookAt(playerTransform);
 
-        if(Player.instance.IsDead())
+        if (Player.instance.IsDead())
         {
             isInCombat = false;
 
-            if(owner.name.Contains("Slime") || owner.name.Contains("Turtle"))
+            if (owner.name.Contains("Slime") || owner.name.Contains("Turtle"))
                 animator.SetBool("Battle", false);
         }
 
         MyTaskManager.instance.ExecuteAfterDelay(ResetAttack, EnemyInfo.TimeBetweenAttacks);
     }
 
-    public void ResetAttack()
+    private void ResetAttack()
     {
         canAttack = true;
-        if(owner.name.Contains("Boss"))
+        if (owner.name.Contains("Boss"))
         {
             animator.ResetTrigger("Attack1");
             animator.ResetTrigger("Attack2");
@@ -96,7 +93,7 @@ public class EnemyCombatComponent
         else
         {
             animator.ResetTrigger("Attack");
-            if(!owner.name.Contains("Bat") && !owner.name.Contains("Mushroom"))
+            if (!owner.name.Contains("Bat") && !owner.name.Contains("Mushroom"))
                 animator.ResetTrigger("StrongAttack");
         }
     }
@@ -104,8 +101,8 @@ public class EnemyCombatComponent
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        
-        if(!owner.name.Contains("Bat") && !owner.name.Contains("Log") && !owner.name.Contains("Boss"))
+
+        if (!owner.name.Contains("Bat") && !owner.name.Contains("Log") && !owner.name.Contains("Boss"))
             animator.SetTrigger("GetHit");
 
         UIManager.instance.ShowDamageText(owner, damage);
@@ -120,7 +117,7 @@ public class EnemyCombatComponent
         }
     }
 
-    public virtual void Die()
+    protected virtual void Die()
     {
         IsDead = true;
         animator.SetTrigger("Die");
@@ -128,7 +125,7 @@ public class EnemyCombatComponent
         MyTaskManager.instance.ExecuteAfterDelay(DestroyOwner, 2f);
     }
 
-    void DestroyOwner()
+    private void DestroyOwner()
     {
         owner.GetComponent<IEnemyController>().DestroyMyself();
     }

@@ -1,36 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-    [SerializeField] AudioSource myBgmAudio;
-    [SerializeField] AudioSource mySEAudio;
-    [SerializeField] AudioSource birdSound;
+    [SerializeField] private AudioSource myBgmAudio;
+    [SerializeField] private AudioSource mySEAudio;
+    [SerializeField] private AudioSource birdSound;
 
     #region 배경음악
-    [SerializeField] AudioClip bgm1;
-    [SerializeField] AudioClip bgm2;
-    [SerializeField] AudioClip bgm3;
-    [SerializeField] AudioClip bossBgm;
-    [SerializeField] AudioClip endingBgm;
+    [SerializeField] private AudioClip bgm1;
+    [SerializeField] private AudioClip bgm2;
+    [SerializeField] private AudioClip bgm3;
+    [SerializeField] private AudioClip bossBgm;
+    [SerializeField] private AudioClip endingBgm;
     #endregion
 
     #region 효과음
-    [SerializeField] AudioClip click;
-    [SerializeField] AudioClip levelUp;
-    [SerializeField] AudioClip wood;
-    [SerializeField] AudioClip dragonRoar;
-    [SerializeField] AudioClip dragonDie;
-    [SerializeField] AudioClip attack1;
-    [SerializeField] AudioClip attack2;
-    [SerializeField] AudioClip attack3;
+    [SerializeField] private AudioClip click;
+    [SerializeField] private AudioClip levelUp;
+    [SerializeField] private AudioClip wood;
+    [SerializeField] private AudioClip dragonRoar;
+    [SerializeField] private AudioClip dragonDie;
+    [SerializeField] private AudioClip attack1;
+    [SerializeField] private AudioClip attack2;
+    [SerializeField] private AudioClip attack3;
     #endregion
-    
+
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -45,7 +43,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySecondBgm()
     {
-        if(myBgmAudio.isPlaying) myBgmAudio.Stop();
+        if (myBgmAudio.isPlaying) myBgmAudio.Stop();
 
         myBgmAudio.clip = bgm2;
         myBgmAudio.volume = 0.2f;
@@ -54,7 +52,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayThirdBgm()
     {
-        if(myBgmAudio.isPlaying) myBgmAudio.Stop();
+        if (myBgmAudio.isPlaying) myBgmAudio.Stop();
 
         myBgmAudio.clip = bgm3;
         myBgmAudio.volume = 0.4f;
@@ -64,7 +62,7 @@ public class SoundManager : MonoBehaviour
     public void PlayBossBgm()
     {
         birdSound.Stop();
-        if(myBgmAudio.isPlaying) myBgmAudio.Stop();
+        if (myBgmAudio.isPlaying) myBgmAudio.Stop();
 
         myBgmAudio.clip = bossBgm;
         myBgmAudio.volume = 0.2f;
@@ -73,7 +71,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayEndingBgm()
     {
-        if(myBgmAudio.isPlaying) myBgmAudio.Stop();
+        if (myBgmAudio.isPlaying) myBgmAudio.Stop();
 
         myBgmAudio.clip = endingBgm;
         myBgmAudio.volume = 0.7f;
@@ -115,7 +113,7 @@ public class SoundManager : MonoBehaviour
     public void PlayAttackSound(int attackNum)
     {
         mySEAudio.volume = 0.2f;
-        switch(attackNum)
+        switch (attackNum)
         {
             case 1:
                 mySEAudio.PlayOneShot(attack1);

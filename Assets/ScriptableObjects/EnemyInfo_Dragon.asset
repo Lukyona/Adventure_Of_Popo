@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyInfo_Dragon
   m_EditorClassIdentifier: 
   sightRange: 20
-  attackRange: 5
+  attackRange: 4
   maxDistance: 35
   chaseSpeed: 3.5
   level: 5

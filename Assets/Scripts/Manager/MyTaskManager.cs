@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -22,7 +21,7 @@ public class MyTaskManager : MonoBehaviour
 
     private void Awake()
     {
-        if(_instance == null)
+        if (_instance == null)
         {
             _instance = this;
         }
@@ -33,7 +32,7 @@ public class MyTaskManager : MonoBehaviour
         return StartCoroutine(coroutine);
     }
 
-    public void StopMyCoroutine(Coroutine coroutine)
+    public void StopMyCoroutine(IEnumerator coroutine)
     {
         StopCoroutine(coroutine);
     }
