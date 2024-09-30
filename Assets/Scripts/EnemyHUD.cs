@@ -45,7 +45,7 @@ public class EnemyHUD : MonoBehaviour //Canvas에 추가되어있음
             levelDict[enemyTransform] = level;
         }
 
-        if (!(player.StatusComponent.CurrentLevel == 2 && GameDirector.instance.mainCount == 4))//아직 울타리 부수기 전(슬라임 등장 전)이면
+        if (!(player.StatusComponent.CurrentLevel == 2 && GameManager.instance.MainCount == 4))//아직 울타리 부수기 전(슬라임 등장 전)이면
         {
             arrow = Instantiate(arrowPrefeb, new Vector3(), Quaternion.identity, transform); //몬스터 위치에 화살표 프리팹 생성
             arrow.SetActive(false);
@@ -66,17 +66,17 @@ public class EnemyHUD : MonoBehaviour //Canvas에 추가되어있음
             RemoveTargetHUD();
         }
 
-        if (player.StatusComponent.CurrentLevel == 2 && GameDirector.instance.mainCount == 4)//2렙, 울타리 부수기 전
+        if (player.StatusComponent.CurrentLevel == 2 && GameManager.instance.MainCount == 4)//2렙, 울타리 부수기 전
         {
             if (arrow == null)
             {
-                arrow = Instantiate(arrowPrefeb, GameDirector.instance.right_Fence.transform.position, Quaternion.identity, transform);
+                arrow = Instantiate(arrowPrefeb, GameManager.instance.right_Fence.transform.position, Quaternion.identity, transform);
             }
 
             if (arrow.transform.position.z < 0) arrow.SetActive(false);
             else arrow.SetActive(true);
 
-            Vector3 fencePos = GameDirector.instance.right_Fence.transform.position;
+            Vector3 fencePos = GameManager.instance.right_Fence.transform.position;
             arrow.transform.position = cam.WorldToScreenPoint(fencePos + new Vector3(-1.5f, 2.5f, -1.5f));
         }
     }
@@ -130,7 +130,7 @@ public class EnemyHUD : MonoBehaviour //Canvas에 추가되어있음
 
     public void DecreaseHealthUI(Transform enemy, float dam)//공격받았을 때 체력바 감소
     {
-        if (GameDirector.instance.mainCount == 10 && targetTransform == null)//타겟 없지만 보스전일 때
+        if (GameManager.instance.MainCount == 10 && targetTransform == null)//타겟 없지만 보스전일 때
         {
             hpBarDict[enemy].GetComponent<Image>().fillAmount -= dam / GameObject.Find("Monster_Dragon_Boss").GetComponent<IEnemyController>().GetMaxHealth();
         }
@@ -142,14 +142,14 @@ public class EnemyHUD : MonoBehaviour //Canvas에 추가되어있음
 
     public void ResetHP()//보스나 문지기 체력 회복 함수
     {
-        if (GameDirector.instance.mainCount == 9)//문지기와 전투
+        if (GameManager.instance.MainCount == 9)//문지기와 전투
         {
             if (hpBarDict.TryGetValue(GameObject.Find("Monster_DogKnight")?.transform, out GameObject hpBar))
             {
                 hpBar.GetComponent<Image>().fillAmount = 1f;
             }
         }
-        else if (GameDirector.instance.mainCount > 9)//보스와 전투
+        else if (GameManager.instance.MainCount > 9)//보스와 전투
         {
             if (hpBarDict.TryGetValue(GameObject.Find("Monster_Dragon_Boss")?.transform, out GameObject hpBar))
             {

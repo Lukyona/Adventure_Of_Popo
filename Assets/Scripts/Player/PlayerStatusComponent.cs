@@ -52,12 +52,12 @@ public class PlayerStatusComponent
         {
             case 1:
                 healthRecoveryInterval = 2f;
-                if (!Player.instance.CombatComponent.EnemyInTargetRange && GameDirector.instance.mainCount == 3 && !GameDirector.instance.talking)//생명력 깎인 뒤 과일에 대한 설명
+                if (!Player.instance.CombatComponent.EnemyInTargetRange && GameManager.instance.MainCount == 3 && !GameManager.instance.IsTalking)//생명력 깎인 뒤 과일에 대한 설명
                 {
                     DialogueManager.instance.SetDialogue(5);
-                    GameDirector.instance.Fox_Cant_Move(); //플레이어 이동, 카메라 회전 금지
+                    Player.instance.DisableMovement(); //플레이어 이동, 카메라 회전 금지
                     Player.instance.MovementComponent.DontMove();
-                    GameDirector.instance.Start_Talk();
+                    GameManager.instance.Start_Talk();
                 }
                 break;
             case 2:
@@ -167,13 +167,13 @@ public class PlayerStatusComponent
                 break;
         }
 
-        if (GameDirector.instance.mainCount == 7)
+        if (GameManager.instance.MainCount == 7)
         {
             if (DataManager.instance.AliveMonsters["Log"] == 0 && DataManager.instance.AliveMonsters["Bat"] == 0 && DataManager.instance.AliveMonsters["Mushroom"] == 0)
             {
                 UIManager.instance.ActiveBlackScreen();
-                GameDirector.instance.Fox_Cant_Move();
-                GameDirector.instance.Invoke(nameof(GameDirector.instance.Ready_To_Talk), 2.2f);
+                Player.instance.DisableMovement();
+                GameManager.instance.Invoke(nameof(GameManager.instance.Ready_To_Talk), 2.2f);
                 DialogueManager.instance.SetDialogue(10);
             }
         }

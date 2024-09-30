@@ -38,11 +38,11 @@ public class PlayerCombatComponent
 
         if (enemyInSightRange)
         {
-            if (GameDirector.instance.mainCount == 2 && !GameDirector.instance.talking)//소개 후 첫 몬스터 발견
+            if (GameManager.instance.MainCount == 2 && !GameManager.instance.IsTalking)//소개 후 첫 몬스터 발견
             {
                 DialogueManager.instance.SetDialogue(4);//몬스터 첫 발견
                 Player.instance.MovementComponent.DontMove();
-                GameDirector.instance.Start_Talk();
+                GameManager.instance.Start_Talk();
             }
         }
 
@@ -52,12 +52,12 @@ public class PlayerCombatComponent
             EnemyHUD.instance.DisappearEnemyInfo();
         }
 
-        if (GameDirector.instance.mainCount == 8 && enemyInSightRange)
+        if (GameManager.instance.MainCount == 8 && enemyInSightRange)
         {
-            if (!GameDirector.instance.talking)
+            if (!GameManager.instance.IsTalking)
             {
                 DialogueManager.instance.SetDialogue(11);
-                GameDirector.instance.Start_Talk();
+                GameManager.instance.Start_Talk();
                 CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
             }
         }
@@ -112,7 +112,7 @@ public class PlayerCombatComponent
 
         if (enemyInAttackRange)//타겟이 있어야하며 공격범위 안에 있을 때
         {
-            if (GameDirector.instance.mainCount >= 5)
+            if (GameManager.instance.MainCount >= 5)
             {
                 Player.instance.SetFriendCombatState(true);
             }

@@ -28,8 +28,8 @@ public class ClickManager : MonoBehaviour
                 string objectName = hit.transform.gameObject.name;
                 if (objectName == "Fence_Destroyable")//펜스를 클릭하면
                 {
-                    GameDirector.instance.can_hit = true;
-                    GameDirector.instance.ClickFence();
+                    GameManager.instance.can_hit = true;
+                    GameManager.instance.ClickFence();
                 }
                 if (objectName.Contains("food"))//음식을 클릭하면
                 {
@@ -57,19 +57,19 @@ public class ClickManager : MonoBehaviour
                 EnemyHUD.instance.DisappearEnemyInfo();
             }
 
-            if (Physics.Raycast(ray, out hit, 10f) && hit.collider.gameObject.tag == "Treasure" && GameDirector.instance.mainCount == 11)//보물상자 클릭
+            if (Physics.Raycast(ray, out hit, 10f) && hit.collider.gameObject.tag == "Treasure" && GameManager.instance.MainCount == 11)//보물상자 클릭
             {
-                GameDirector.instance.treasureBox.tag = "Untagged";//태그 변경
-                GameDirector.instance.treasureBox.GetComponent<Animator>().SetTrigger("Open");
-                GameDirector.instance.Invoke("CanGetElixir", 2f);//2초 후 엘리서 획득 가능
+                GameManager.instance.treasureBox.tag = "Untagged";//태그 변경
+                GameManager.instance.treasureBox.GetComponent<Animator>().SetTrigger("Open");
+                GameManager.instance.Invoke("CanGetElixir", 2f);//2초 후 엘리서 획득 가능
             }
             if (Physics.Raycast(ray, out hit, 10f) && hit.collider.gameObject.tag == "Elixir")//엘릭서 클릭
             {
-                GameDirector.instance.treasureBox.tag = "Untagged";//태그 변경
+                GameManager.instance.treasureBox.tag = "Untagged";//태그 변경
                 SoundManager.instance.PlayClickSound();
-                Destroy(GameDirector.instance.elixir);//오브젝트 파괴
+                Destroy(GameManager.instance.elixir);//오브젝트 파괴
                 DialogueManager.instance.SetDialogue(14);
-                GameDirector.instance.Start_Talk();
+                GameManager.instance.Start_Talk();
             }
         }
     }

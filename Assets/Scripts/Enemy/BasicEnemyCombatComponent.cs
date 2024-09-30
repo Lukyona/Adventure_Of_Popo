@@ -70,7 +70,7 @@ public class BasicEnemyCombatComponent : EnemyCombatComponent
         base.Die();
         Agent.enabled = false;
 
-        string name = GameDirector.instance.GetObjectName(EnemyInfo.EnemyObject.name);
+        string name = GameManager.instance.GetObjectName(EnemyInfo.EnemyObject.name);
         DataManager.instance.UpdateMonsterCount(name, -1);
         Player.instance.StatusComponent.GetEXP(name);
     }

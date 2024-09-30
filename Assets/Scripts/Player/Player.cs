@@ -60,9 +60,24 @@ public class Player : MonoBehaviour
         return CombatComponent.Target;
     }
 
+    public void EnableMovement()
+    {
+        MovementComponent.Enabled = true;//플레이어 이동 가능
+        CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
+        GetComponent<CharacterController>().enabled = true;//캐릭터 컨트롤러 켜기
+    }
+
+    public void DisableMovement()
+    {
+        MovementComponent.Enabled = false;//플레이어 이동 불가
+        CameraController.instance.SetFixedState(true); //카메라 회전 불가
+        GetComponent<CharacterController>().enabled = false;//캐릭터 컨트롤러 끄기
+        MovementComponent.DontMove();
+    }
+
     public void EnableAttackCollider()
     {
-        if (GameDirector.instance.mainCount >= 9)
+        if (GameManager.instance.MainCount >= 9)
         {
             attackCollider.center = new Vector3(0, 0.7f, 2);
             attackCollider.size = new Vector3(1, 1.2f, 2);
@@ -105,7 +120,7 @@ public class Player : MonoBehaviour
     public void Die()
     {
         DisableAttackCollider();
-        GameDirector.instance.Fox_Cant_Move();//플레이어 이동 금지
+        DisableMovement();//플레이어 이동 금지
         Animator.SetTrigger("Die");//쓰러짐 애니메이션
 
         if (GetTarget() != null)
@@ -126,7 +141,7 @@ public class Player : MonoBehaviour
     public void Revive()
     {
         Animator.SetTrigger("StandUp");//여우 일어나기
-        GameDirector.instance.Invoke(nameof(GameDirector.instance.Fox_Can_Move), 1f);//이동 가능
+        GameManager.instance.Invoke(nameof(EnableMovement), 1f);//이동 가능
         UIManager.instance.DeactiveBlackScreen();
         CameraController.instance.SetFixedState(false); //카메라가 플레이어 위치로 이동
     }

@@ -35,7 +35,7 @@ public class DataManager : MonoBehaviour
 
         Player.instance.StatusComponent.SavePlayerStatus();
 
-        PlayerPrefs.SetInt("MainCount", GameDirector.instance.mainCount);
+        PlayerPrefs.SetInt("MainCount", GameManager.instance.MainCount);
 
         PlayerPrefs.SetFloat("PosX", Player.instance.PlayerPos.x); //플레이어의 위치 정보 저장
         PlayerPrefs.SetFloat("PosY", Player.instance.PlayerPos.y);
@@ -49,7 +49,7 @@ public class DataManager : MonoBehaviour
         PlayerPrefs.SetInt("Bat", AliveMonsters["Bat"]);
         PlayerPrefs.SetInt("Mushroom", AliveMonsters["Mushroom"]);
 
-        if (GameDirector.instance.mainCount != 10)//보스전에서 보스가 죽기 전에 게임 종료 시 보스를 물리치는 단계에서 먹은 음식은 저장X 
+        if (GameManager.instance.MainCount != 10)//보스전에서 보스가 죽기 전에 게임 종료 시 보스를 물리치는 단계에서 먹은 음식은 저장X 
         {
             SaveFood();
         }
@@ -59,16 +59,16 @@ public class DataManager : MonoBehaviour
 
     private void LoadPlayerData()
     {
-        GameDirector.instance.mainCount = PlayerPrefs.GetInt("MainCount");
+        GameManager.instance.MainCount = PlayerPrefs.GetInt("MainCount");
 
-        if (GameDirector.instance.mainCount == 0)//처음 시작이면
+        if (GameManager.instance.MainCount == 0)//처음 시작이면
         {
             Player.instance.GetComponent<CharacterController>().enabled = false;//이동을 위해 잠시 캐릭터 컨트롤러 꺼두고
             Player.instance.PlayerPos = new Vector3(280f, 0, 80f);
             Player.instance.PlayerRot = Quaternion.Euler(0, 180f, 0);
 
-            GameDirector.instance.Fox_Cant_Move();
-            GameDirector.instance.Invoke(nameof(GameDirector.instance.MainProgress), 2.3f);
+            Player.instance.DisableMovement();
+            GameManager.instance.Invoke(nameof(GameManager.instance.MainProgress), 2.3f);
             AliveMonsters.Add("Slime", 3);
             AliveMonsters.Add("Slime2", 1);
             AliveMonsters.Add("Turtle", 3);
@@ -87,42 +87,7 @@ public class DataManager : MonoBehaviour
 
             Player.instance.StatusComponent.LoadPlayerStatus();
 
-            if (GameDirector.instance.mainCount >= 6 && GameDirector.instance.mainCount <= 8)//펜스 부수고 난 이후, 문지기 발견 전
-            {
-                Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
-                SoundManager.instance.PlaySecondBgm();//배경음악 변경
-            }
-            else if (GameDirector.instance.mainCount <= 5)//펜스 부수기 전
-            {
-                SoundManager.instance.PlayFirstBgm();
-            }
-            else if (GameDirector.instance.mainCount == 9)//문지기 발견 후
-            {
-                Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
-                SoundManager.instance.PlayThirdBgm();//배경음악 변경
-                Destroy(GameDirector.instance.gkDiscover);//문지기 감지 오브젝트 파괴, 콜라이더가 있어서 통행에 방해될 수 있음
-
-            }
-            else if (GameDirector.instance.mainCount > 9 && GameDirector.instance.mainCount <= 10)//문지기 쓰러뜨린 후
-            {
-                Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
-                MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
-                Destroy(GameObject.Find("Monster_DogKnight"));//문지기 파괴
-                Destroy(GameDirector.instance.gkDiscover);
-                GameDirector.instance.bossGate.SetTrigger("Open");
-                SoundManager.instance.PlayBossBgm();//배경음악 변경
-            }
-            else if (GameDirector.instance.mainCount >= 13)//모든 게 끝난 뒤
-            {
-                Destroy(GameDirector.instance.fenceObject);//펜스 오브젝트 파괴
-                MonsterList.instance.monsterList[6].list[0].tag = "Untagged";//태그 수정
-                Destroy(GameObject.Find("Monster_DogKnight"));//문지기 파괴
-                Destroy(GameDirector.instance.gkDiscover);
-                GameDirector.instance.bossGate.SetTrigger("Open");
-                Destroy(GameObject.Find("Monster_Dragon_Boss"));//보스 파괴
-                SoundManager.instance.PlayEndingBgm();//배경음악 변경
-                GameDirector.instance.resetButton.SetActive(true);//리셋버튼 활성화
-            }
+            GameManager.instance.UpdateWorldState();
 
             CameraController.instance.SetFixedState(false);
             AliveMonsters["Slime"] = PlayerPrefs.GetInt("Slime");
@@ -134,19 +99,6 @@ public class DataManager : MonoBehaviour
             LoadAliveMonsters();
             LoadFood();
 
-            if (GameDirector.instance.mainCount >= 5 && GameDirector.instance.mainCount <= 11)
-            {
-                GameDirector.instance.friend_slime.transform.position = playerPos + new Vector3(2f, 0, -3f);//슬라임동료 위치 조정
-                GameDirector.instance.friend_slime.transform.rotation = Quaternion.Euler(0, PlayerPrefs.GetFloat("RotY"), 0);
-                GameDirector.instance.friend_slime.SetActive(true);
-            }
-            if (GameDirector.instance.mainCount >= 8 && GameDirector.instance.mainCount <= 11)
-            {
-                GameDirector.instance.friend_mushroom.transform.position = playerPos + new Vector3(-2f, 0, -3f);//버섯동료 위치 조정
-                GameDirector.instance.friend_mushroom.transform.rotation = Quaternion.Euler(0, PlayerPrefs.GetFloat("RotY"), 0);
-                GameDirector.instance.friend_mushroom.SetActive(true);
-                Destroy(GameDirector.instance.wall);
-            }
         }
 
         UIManager.instance.UpdatePlayerLevelUI();

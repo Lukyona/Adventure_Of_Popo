@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isLineComplete && GameDirector.instance.talking && !wait)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isLineComplete && GameManager.instance.IsTalking && !wait)
         {//대화 시작한 상태에서 스페이스키 혹은 마우스 왼쪽 클릭을 했을 때
             ShowDialogue();
         }
@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            GameDirector.instance.End_Talk();//대화 종료
+            GameManager.instance.End_Talk();//대화 종료
             if (dialogueNum == 1)//플레이어 죽음 상태면
             {
                 UIManager.instance.Invoke(nameof(UIManager.instance.EndBlackOut), 2f);//화면 밝아지기
@@ -58,7 +58,7 @@ public class DialogueManager : MonoBehaviour
                 if (goMainProgress)//메인 진행 함수로 가야할 때는
                 {
                     goMainProgress = false;
-                    GameDirector.instance.MainProgress();
+                    GameManager.instance.MainProgress();
                 }
             }
         }
@@ -288,7 +288,7 @@ public class DialogueManager : MonoBehaviour
                         CameraController.instance.SetFixedState(false);
                         CameraController.instance.SetYAxisValue(0.6f);
                         CameraController.instance.SetXAxisValue(-15f);
-                        Player.instance.transform.LookAt(GameDirector.instance.friend_slime.transform);//슬라임 쳐다보기
+                        Player.instance.transform.LookAt(GameManager.instance.friend_slime.transform);//슬라임 쳐다보기
                         ChangeToFoxNameTag();
                         Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
@@ -341,8 +341,8 @@ public class DialogueManager : MonoBehaviour
                         CameraController.instance.SetFixedState(false);
                         CameraController.instance.SetYAxisValue(0.6f);
                         CameraController.instance.SetXAxisValue(-15f);
-                        Player.instance.transform.LookAt(GameDirector.instance.friend_mushroom.transform);//버섯 쳐다보기
-                        GameDirector.instance.friend_slime.transform.LookAt(GameDirector.instance.friend_mushroom.transform);
+                        Player.instance.transform.LookAt(GameManager.instance.friend_mushroom.transform);//버섯 쳐다보기
+                        GameManager.instance.friend_slime.transform.LookAt(GameManager.instance.friend_mushroom.transform);
                         ChangeToFoxNameTag();
                         Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
@@ -380,7 +380,7 @@ public class DialogueManager : MonoBehaviour
                 switch (index)
                 {
                     case 0:
-                        //GameDirector.instance.gkBgm.wait();//문지기 bgm 중지
+                        //GameManager.instance.gkBgm.wait();//문지기 bgm 중지
                         break;
                     case 3:
                     case 5:
@@ -397,7 +397,7 @@ public class DialogueManager : MonoBehaviour
                         CameraController.instance.SetFixedState(false);
                         CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
                         ChangeToSlimeNameTag();
-                        GameDirector.instance.bossGate.SetTrigger("Open");//문 열리는 애니메이션
+                        GameManager.instance.bossGate.SetTrigger("Open");//문 열리는 애니메이션
                         Invoke(nameof(CanPrintNextDialogue), 0.8f);
                         break;
                     case 6:
@@ -425,15 +425,15 @@ public class DialogueManager : MonoBehaviour
                     case 3:
                         wait = true;
                         ChangeToFoxNameTag();
-                        GameDirector.instance.treasureBox.SetActive(true);
-                        GameDirector.instance.treasureBox.GetComponent<Animator>().SetTrigger("Down");//보물상자 떨어짐
-                        GameDirector.instance.treasureBox.GetComponent<BoxCollider>().enabled = true; //(동료 캐릭터 움직임에 방해될까봐)꺼둔 콜라이더 활성화
+                        GameManager.instance.treasureBox.SetActive(true);
+                        GameManager.instance.treasureBox.GetComponent<Animator>().SetTrigger("Down");//보물상자 떨어짐
+                        GameManager.instance.treasureBox.GetComponent<BoxCollider>().enabled = true; //(동료 캐릭터 움직임에 방해될까봐)꺼둔 콜라이더 활성화
                         Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
                     case 4:
-                        Player.instance.transform.LookAt(GameDirector.instance.treasureBox.transform);//보물상자 쳐다보기
-                        GameDirector.instance.friend_mushroom.transform.LookAt(GameDirector.instance.treasureBox.transform);
-                        GameDirector.instance.friend_slime.transform.LookAt(GameDirector.instance.treasureBox.transform);
+                        Player.instance.transform.LookAt(GameManager.instance.treasureBox.transform);//보물상자 쳐다보기
+                        GameManager.instance.friend_mushroom.transform.LookAt(GameManager.instance.treasureBox.transform);
+                        GameManager.instance.friend_slime.transform.LookAt(GameManager.instance.treasureBox.transform);
                         break;
                 }
                 break;
@@ -464,7 +464,7 @@ public class DialogueManager : MonoBehaviour
                         break;
                     case 5:
                         NameTag.gameObject.SetActive(false);
-                        GameDirector.instance.resetButton.SetActive(true);//리셋버튼 활성화
+                        GameManager.instance.resetButton.SetActive(true);//리셋버튼 활성화
                         break;
                 }
                 break;

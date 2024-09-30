@@ -134,11 +134,11 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         if (owner.name.Contains("Boss"))
         {
             SoundManager.instance.PlayDragonDieSound();
-            GameDirector.instance.Invoke(nameof(GameDirector.instance.AfterDragonDead), 0.5f); //대화 준비
+            GameManager.instance.Invoke(nameof(GameManager.instance.AfterDragonDead), 0.5f); //대화 준비
         }
         else
         {
-            Player.instance.StatusComponent.GetEXP(GameDirector.instance.GetObjectName(owner.name));
+            Player.instance.StatusComponent.GetEXP(GameManager.instance.GetObjectName(owner.name));
         }
 
         base.Die();

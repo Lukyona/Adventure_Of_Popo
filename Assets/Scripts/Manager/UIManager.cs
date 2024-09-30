@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
     {
         ActiveBlackScreen();
         DialogueManager.instance.SetDialogue(1);
-        GameDirector.instance.Invoke(nameof(GameDirector.instance.Start_Talk), 3.5f);
+        GameManager.instance.Invoke(nameof(GameManager.instance.Start_Talk), 3.5f);
     }
 
     public void EndBlackOut() // 부활, 화면 다시 밝아지고 플레이어 처음 위치로 이동, 능력치 변화
@@ -61,13 +61,13 @@ public class UIManager : MonoBehaviour
 
         Player.instance.PlayerPos = new Vector3(280, 0, 80);//플레이어 위치 처음으로
         Player.instance.PlayerRot = Quaternion.Euler(0, 180, 0);//플레이어 회전, 앞을 보도록
-        if (GameDirector.instance.mainCount >= 5)
+        if (GameManager.instance.MainCount >= 5)
         {
-            GameDirector.instance.friend_slime.transform.position = Player.instance.PlayerPos + new Vector3(2f, 0, -3f);//슬라임동료 위치 조정
+            GameManager.instance.friend_slime.transform.position = Player.instance.PlayerPos + new Vector3(2f, 0, -3f);//슬라임동료 위치 조정
         }
-        if (GameDirector.instance.mainCount >= 8)
+        if (GameManager.instance.MainCount >= 8)
         {
-            GameDirector.instance.friend_mushroom.transform.position = Player.instance.PlayerPos + new Vector3(-2f, 0, -3f);//슬라임동료 위치 조정
+            GameManager.instance.friend_mushroom.transform.position = Player.instance.PlayerPos + new Vector3(-2f, 0, -3f);//슬라임동료 위치 조정
         }
 
         Player.instance.StatusComponent.CurrentHealth = 10;
@@ -97,12 +97,12 @@ public class UIManager : MonoBehaviour
         if (level == 3)//3렙, 새로운 기술 안내
         {
             DialogueManager.instance.SetDialogue(9);
-            GameDirector.instance.Start_Talk();
+            GameManager.instance.Start_Talk();
         }
         if (level == 5)//5렙, 새로운 기술 안내
         {
             DialogueManager.instance.SetDialogue(12);
-            GameDirector.instance.Start_Talk();
+            GameManager.instance.Start_Talk();
         }
     }
 

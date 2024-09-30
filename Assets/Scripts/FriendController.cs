@@ -30,7 +30,7 @@ public class FriendController : MonoBehaviour
     {
         playerInRange = Physics.CheckSphere(gameObject.transform.position, 6f, LayerMask.GetMask("Player"));
 
-        if (GameDirector.instance.mainCount >= 9)
+        if (GameManager.instance.MainCount >= 9)
         {
             enemyInRange = Physics.CheckSphere(gameObject.transform.position, 5f, LayerMask.GetMask("Enemy"));
             if (enemyInRange)
@@ -39,7 +39,7 @@ public class FriendController : MonoBehaviour
             }
         }
 
-        if (!IsInCombat || (IsInCombat && !playerInRange && GameDirector.instance.mainCount < 9))//전투 중이 아니거나 전투 중이어도 플레이어가 일정 거리 멀어지면 플레이어에게로 이동, 보스전은 해당X
+        if (!IsInCombat || (IsInCombat && !playerInRange && GameManager.instance.MainCount < 9))//전투 중이 아니거나 전투 중이어도 플레이어가 일정 거리 멀어지면 플레이어에게로 이동, 보스전은 해당X
         {
             if (IsInCombat) IsInCombat = false;
             if (CombatTarget) CombatTarget = null;
@@ -92,11 +92,11 @@ public class FriendController : MonoBehaviour
     private void MoveToTarget()
     {
         if (CombatTarget == null) CombatTarget = Player.instance.GetTarget()?.transform;
-        if (GameDirector.instance.mainCount == 9)
+        if (GameManager.instance.MainCount == 9)
         {
             CombatTarget = GameObject.Find("Monster_DogKnight")?.transform;
         }
-        if (GameDirector.instance.mainCount == 10)
+        if (GameManager.instance.MainCount == 10)
         {
             CombatTarget = GameObject.Find("Monster_Dragon_Boss")?.transform; // 보스전일 때
         }
