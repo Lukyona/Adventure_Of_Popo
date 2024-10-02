@@ -92,7 +92,7 @@ public class EliteEnemyCombatacomponent : EnemyCombatComponent
         if (owner.name.Contains("Boss"))
         {
             // 보스 전용 공격 로직
-            int n = Random.Range(10, 12);
+            int n = Random.Range(1, 12);
             if (n < 6)
             {
                 animator.SetTrigger("Attack1");

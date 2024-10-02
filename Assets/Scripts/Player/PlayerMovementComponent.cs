@@ -190,6 +190,8 @@ public class PlayerMovementComponent
 
     private void StartJump()
     {
+        ResetAnimatorStates();
+
         isJumping = true;
         animator.SetTrigger("Jump");
         MyTaskManager.instance.ExecuteAfterDelay(Jump, 0.3f);

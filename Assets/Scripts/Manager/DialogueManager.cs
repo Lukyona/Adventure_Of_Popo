@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            GameManager.instance.End_Talk();//대화 종료
+            GameManager.instance.EndTalk();//대화 종료
             if (dialogueNum == 1)//플레이어 죽음 상태면
             {
                 UIManager.instance.Invoke(nameof(UIManager.instance.EndBlackOut), 2f);//화면 밝아지기
@@ -397,7 +397,7 @@ public class DialogueManager : MonoBehaviour
                         CameraController.instance.SetFixedState(false);
                         CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
                         ChangeToSlimeNameTag();
-                        GameManager.instance.bossGate.SetTrigger("Open");//문 열리는 애니메이션
+                        GameManager.instance.BossGateAnimator.SetTrigger("Open");//문 열리는 애니메이션
                         Invoke(nameof(CanPrintNextDialogue), 0.8f);
                         break;
                     case 6:
@@ -425,15 +425,15 @@ public class DialogueManager : MonoBehaviour
                     case 3:
                         wait = true;
                         ChangeToFoxNameTag();
-                        GameManager.instance.treasureBox.SetActive(true);
-                        GameManager.instance.treasureBox.GetComponent<Animator>().SetTrigger("Down");//보물상자 떨어짐
-                        GameManager.instance.treasureBox.GetComponent<BoxCollider>().enabled = true; //(동료 캐릭터 움직임에 방해될까봐)꺼둔 콜라이더 활성화
+                        GameManager.instance.TreasureBox.SetActive(true);
+                        GameManager.instance.TreasureBox.GetComponent<Animator>().SetTrigger("Down");//보물상자 떨어짐
+                        GameManager.instance.TreasureBox.GetComponent<BoxCollider>().enabled = true; //(동료 캐릭터 움직임에 방해될까봐)꺼둔 콜라이더 활성화
                         Invoke(nameof(CanPrintNextDialogue), 1f);
                         break;
                     case 4:
-                        Player.instance.transform.LookAt(GameManager.instance.treasureBox.transform);//보물상자 쳐다보기
-                        GameManager.instance.friend_mushroom.transform.LookAt(GameManager.instance.treasureBox.transform);
-                        GameManager.instance.friend_slime.transform.LookAt(GameManager.instance.treasureBox.transform);
+                        Player.instance.transform.LookAt(GameManager.instance.TreasureBox.transform);//보물상자 쳐다보기
+                        GameManager.instance.friend_mushroom.transform.LookAt(GameManager.instance.TreasureBox.transform);
+                        GameManager.instance.friend_slime.transform.LookAt(GameManager.instance.TreasureBox.transform);
                         break;
                 }
                 break;
@@ -464,7 +464,6 @@ public class DialogueManager : MonoBehaviour
                         break;
                     case 5:
                         NameTag.gameObject.SetActive(false);
-                        GameManager.instance.resetButton.SetActive(true);//리셋버튼 활성화
                         break;
                 }
                 break;

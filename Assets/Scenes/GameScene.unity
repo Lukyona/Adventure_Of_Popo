@@ -7509,7 +7509,7 @@ GameObject:
   - component: {fileID: 243151207}
   - component: {fileID: 243151206}
   m_Layer: 5
-  m_Name: GameClose
+  m_Name: GameExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8377,8 +8377,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1711551199}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: CancelGameClose
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: CancelGameExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11445,7 +11445,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646344181}
-  m_LocalRotation: {x: 0.0757415, y: 0.00056181976, z: -0.000042675645, w: 0.9971274}
+  m_LocalRotation: {x: 0.075741604, y: 0.0005618304, z: -0.00004267652, w: 0.9971274}
   m_LocalPosition: {x: 280.02512, y: 2.1965716, z: 72.98348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -20579,7 +20579,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190772476}
-  m_LocalRotation: {x: 0.028489152, y: -0.8642403, z: 0.049257647, w: 0.49985075}
+  m_LocalRotation: {x: 0.028489217, y: -0.8642403, z: 0.049257763, w: 0.49985075}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -25205,25 +25205,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorImg: {fileID: 2800000, guid: da86a99f50fe1f34985bddb5225ce8df, type: 3}
-  TextWindowAnimator: {fileID: 1908762147}
-  mainCount: 0
-  talking: 0
-  fenceObject: {fileID: 1540404613}
-  gkDiscover: {fileID: 0}
-  wall: {fileID: 537005924}
-  bossGate: {fileID: 879176505}
-  treasureBox: {fileID: 1907257498892872}
-  elixir: {fileID: 7125272765312737469}
-  resetButton: {fileID: 757664434}
+  dialogueAnimator: {fileID: 1908762147}
+  bossGateAnimator: {fileID: 879176505}
+  gameExitAnimator: {fileID: 243151206}
   GuideButton: {fileID: 546547255}
   GuideContent: {fileID: 699704495}
   GuideButtonRemove: {fileID: 1532139312}
-  GameCloseAnimator: {fileID: 243151206}
-  fence: 0
-  friend_slime: {fileID: 1919010938444362}
-  can_hit: 0
-  right_Fence: {fileID: 1540404613}
+  fence: {fileID: 1540404613}
+  invisibleWall: {fileID: 537005924}
+  treasureBox: {fileID: 1907257498892872}
+  elixir: {fileID: 7125272765312737469}
+  resetButton: {fileID: 757664434}
   friend_mushroom: {fileID: 1193650880}
+  friend_slime: {fileID: 1919010938444362}
 --- !u!4 &1711551200
 Transform:
   m_ObjectHideFlags: 0
@@ -26197,7 +26191,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903070921}
-  m_LocalRotation: {x: 0.044211943, y: -0.8622611, z: 0.076442316, w: 0.498706}
+  m_LocalRotation: {x: 0.044212207, y: -0.86226106, z: 0.07644276, w: 0.498706}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

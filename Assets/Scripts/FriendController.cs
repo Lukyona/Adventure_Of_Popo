@@ -28,6 +28,13 @@ public class FriendController : MonoBehaviour
 
     private void Update()
     {
+        if (Player.instance.IsDead())
+        {
+            IsInCombat = false;
+            CombatTarget = null;
+            return;
+        }
+
         playerInRange = Physics.CheckSphere(gameObject.transform.position, 6f, LayerMask.GetMask("Player"));
 
         if (GameManager.instance.MainCount >= 9)
@@ -102,7 +109,6 @@ public class FriendController : MonoBehaviour
         }
 
         if (CombatTarget == null) return;
-
         if (CombatTarget.GetComponentInParent<IEnemyController>().IsDead()) return;
 
         MoveTo(CombatTarget, 5f);
@@ -114,8 +120,8 @@ public class FriendController : MonoBehaviour
         directionToTarget.y = 0;
 
         float distanceToTarget = Vector3.Distance(target.position, transform.position);
-
-        if (distanceToTarget > 2)
+        int dist = GameManager.instance.MainCount == 10 ? 4 : 2;
+        if (distanceToTarget > dist)
         {
             Vector3 targetPos = target.transform.position;
             targetPos.y = transform.position.y;
@@ -152,32 +158,34 @@ public class FriendController : MonoBehaviour
     {
         if (IsInCombat && CombatTarget)//타겟이 있거나 없어도 보스전일 때
         {
-            if (Player.instance.IsDead() || CombatTarget.GetComponent<IEnemyController>().IsDead())
+            if (CombatTarget.GetComponent<IEnemyController>().IsDead())
             {
-                IsInCombat = false;//동료 전투 상태 해제
+                IsInCombat = false;
                 CombatTarget = null;
+            }
+
+            int n = Random.Range(1, 10);
+
+            if (isSlime)
+            {
+                animator.SetTrigger(n < 8 ? "Attack" : "StrongAttack");
+                SkillDamage = n < 8 ? 5f : 10f;
             }
             else
             {
-                int n = Random.Range(1, 10);
-
-                if (isSlime)
-                {
-                    animator.SetTrigger(n < 8 ? "Attack" : "StrongAttack");
-                    SkillDamage = n < 8 ? 5f : 10f;
-                }
-                else
-                {
-                    animator.SetTrigger("Attack");
-                    SkillDamage = n < 8 ? 7f : 13f;
-                }
-                Invoke(nameof(Attack), 2f);//2초 후 재공격
+                animator.SetTrigger("Attack");
+                SkillDamage = n < 8 ? 7f : 13f;
             }
+            Invoke(nameof(Attack), 2f);//2초 후 재공격
         }
     }
 
     public void EnableAttackCollider()
     {
+        if (GameManager.instance.MainCount == 10)
+        {
+            attackCollider.size *= 2;
+        }
         attackCollider.enabled = true;
     }
 

@@ -70,13 +70,13 @@ public class EnemyHUD : MonoBehaviour //Canvas에 추가되어있음
         {
             if (arrow == null)
             {
-                arrow = Instantiate(arrowPrefeb, GameManager.instance.right_Fence.transform.position, Quaternion.identity, transform);
+                arrow = Instantiate(arrowPrefeb, GameManager.instance.Fence.transform.position, Quaternion.identity, transform);
             }
 
             if (arrow.transform.position.z < 0) arrow.SetActive(false);
             else arrow.SetActive(true);
 
-            Vector3 fencePos = GameManager.instance.right_Fence.transform.position;
+            Vector3 fencePos = GameManager.instance.Fence.transform.position;
             arrow.transform.position = cam.WorldToScreenPoint(fencePos + new Vector3(-1.5f, 2.5f, -1.5f));
         }
     }

@@ -42,7 +42,7 @@ public class PlayerCombatComponent
             {
                 DialogueManager.instance.SetDialogue(4);//몬스터 첫 발견
                 Player.instance.MovementComponent.DontMove();
-                GameManager.instance.Start_Talk();
+                GameManager.instance.StartTalk();
             }
         }
 
@@ -52,16 +52,16 @@ public class PlayerCombatComponent
             EnemyHUD.instance.DisappearEnemyInfo();
         }
 
-        if (GameManager.instance.MainCount == 8 && enemyInSightRange)
+        if (GameManager.instance.MainCount == 8)
         {
-            if (!GameManager.instance.IsTalking)
+            sightRange = 30f;
+            if (enemyInSightRange && !GameManager.instance.IsTalking)
             {
                 DialogueManager.instance.SetDialogue(11);
-                GameManager.instance.Start_Talk();
+                GameManager.instance.StartTalk();
                 CameraController.instance.SetFixedState(false);//카메라 확대축소 가능
             }
         }
-
     }
 
     private void HandleAttackInput()

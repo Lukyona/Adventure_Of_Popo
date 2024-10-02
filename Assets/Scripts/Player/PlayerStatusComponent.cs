@@ -57,7 +57,7 @@ public class PlayerStatusComponent
                     DialogueManager.instance.SetDialogue(5);
                     Player.instance.DisableMovement(); //플레이어 이동, 카메라 회전 금지
                     Player.instance.MovementComponent.DontMove();
-                    GameManager.instance.Start_Talk();
+                    GameManager.instance.StartTalk();
                 }
                 break;
             case 2:
@@ -173,7 +173,7 @@ public class PlayerStatusComponent
             {
                 UIManager.instance.ActiveBlackScreen();
                 Player.instance.DisableMovement();
-                GameManager.instance.Invoke(nameof(GameManager.instance.Ready_To_Talk), 2.2f);
+                GameManager.instance.Invoke(nameof(GameManager.instance.ReadyToTalk), 2.2f);
                 DialogueManager.instance.SetDialogue(10);
             }
         }

@@ -141,8 +141,10 @@ public class Player : MonoBehaviour
     public void Revive()
     {
         Animator.SetTrigger("StandUp");//여우 일어나기
-        GameManager.instance.Invoke(nameof(EnableMovement), 1f);//이동 가능
+        Invoke(nameof(EnableMovement), 1f);//이동 가능
         UIManager.instance.DeactiveBlackScreen();
         CameraController.instance.SetFixedState(false); //카메라가 플레이어 위치로 이동
+        StatusComponent.CurrentHealth = 10;
+        UIManager.instance.UpdatePlayerHealthUI();
     }
 }
