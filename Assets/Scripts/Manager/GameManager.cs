@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
+
     void Start()
     {
         Cursor.SetCursor(cursorImg, Vector2.zero, CursorMode.ForceSoftware);
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour
             case 9://문지기 쓰러뜨림
                 EnablePlayerMovement();
                 GameObject.Find("Monster_Dragon_Boss").GetComponent<IEnemyController>().Animator.SetTrigger("Scream");//드래곤 포효
-                SoundManager.instance.Invoke("PlayDragonRoarSound", 0.5f);
+                MyTaskManager.instance.ExecuteAfterDelay(SoundManager.instance.PlayDragonRoarSound, 0.5f);
                 break;
             case 11://엘릭서 획득 후
                 UIManager.instance.ActiveBlackScreen();
@@ -379,17 +380,9 @@ public class GameManager : MonoBehaviour
         Destroy(fence);
     }
 
-    void CanGetElixir()
-    {
-        treasureBox.tag = "Elixir";//태그 변경
-    }
-
     public string GetObjectName(string name)
     {
         int idx = name.IndexOf("_");
         return name.Substring(idx + 1, name.Length - (idx + 1)); // 몬스터 이름만 반환
     }
-
-
-
 }

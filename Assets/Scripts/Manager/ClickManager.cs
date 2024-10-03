@@ -87,7 +87,7 @@ public class ClickManager : MonoBehaviour
         {
             GameManager.instance.TreasureBox.tag = "Untagged";//태그 변경
             GameManager.instance.TreasureBox.GetComponent<Animator>().SetTrigger("Open");
-            GameManager.instance.Invoke("CanGetElixir", 2f);//2초 후 엘리서 획득 가능
+            MyTaskManager.instance.ExecuteAfterDelay(() => GameManager.instance.TreasureBox.tag = "Elixir", 2f);
         }
         if (objectTag == "Elixir")//엘릭서 클릭
         {

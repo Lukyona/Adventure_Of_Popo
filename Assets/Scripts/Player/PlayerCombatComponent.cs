@@ -6,11 +6,11 @@ public class PlayerCombatComponent
 {
     private Transform playerTransform;
 
-    LayerMask whatIsEnemy;
-    float sightRange = 13f;
-    float attackRange = 2.5f;
-    float targetRange = 10f; // 타겟팅 가능 범위
-    bool enemyInSightRange, enemyInAttackRange;
+    private LayerMask whatIsEnemy;
+    private float sightRange = 13f;
+    private float attackRange = 2.5f;
+    private float targetRange = 10f; // 타겟팅 가능 범위
+    private bool enemyInSightRange, enemyInAttackRange;
     public bool EnemyInTargetRange { get; private set; }
 
     public GameObject Target { get; set; }
