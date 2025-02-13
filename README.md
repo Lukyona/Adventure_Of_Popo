@@ -15,5 +15,26 @@
 
 (Ctrl+클릭 or Cmd+클릭으로 새 창으로 열기 가능)
 
-## 📍 로딩 화면
-![Image](https://github.com/user-attachments/assets/cae9b93c-15ba-401c-aa95-50492f2281f4)
+## 📍 타겟팅
+![Image](https://github.com/user-attachments/assets/81e3ec19-c6a0-4e7a-bd5b-52d0bf854c60)
+
+
+적을 클릭해 타겟으로 설정할 수 있으며 지정된 타겟의 위에는 화살표, 레벨 그리고 바 형태의 생명력이 표시된다.
+
+
+## 📍 데미지 텍스트
+![Image](https://github.com/user-attachments/assets/546cc7dd-e7d6-43cd-a3b1-614b687e5604)
+
+
+적에게 입힌 데미지는 빨간색으로 플레이어 캐릭터가 받은 데미지는 주황색으로 화면에 나타난다.
+
+
+## 📍 동료 캐릭터
+![Image](https://github.com/user-attachments/assets/e4cea748-e8d8-4adf-a378-8ff05e7b6ee5)
+![Image](https://github.com/user-attachments/assets/afca67fc-8df5-4543-9005-43a40c7a4f29)
+![Image](https://github.com/user-attachments/assets/6f841adf-7047-4a71-83c0-8da7477a1fe3)
+
+
+게임 진행 중 동료를 얻을 수 있으며 동료들은 주인공은 자동으로 따라다니고 전투에 함께 참여한다.
+
+
