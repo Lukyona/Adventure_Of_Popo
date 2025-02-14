@@ -11,7 +11,7 @@
 약 2개월
 
 ## 🎞️ 게임 영상
-[아기 여우 포포의 모험(YUTUBE)](https://youtu.be/ul5njIXg5xk)
+[아기 여우 포포의 모험(YUTUBE)](https://youtu.be/pzczR0mOGr0)
 
 (Ctrl+클릭 or Cmd+클릭으로 새 창으로 열기 가능)
 
